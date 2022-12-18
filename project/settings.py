@@ -257,7 +257,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+            'ENGINE': 'django.db.backends.postgresql', # django.db.backends.mysql'
             'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
             'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
             'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
