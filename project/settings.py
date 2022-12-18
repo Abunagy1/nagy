@@ -218,8 +218,8 @@ POSTMAN_AUTOCOMPLETER_APP = {'name': 'ajax_select', 'field': 'AutoCompleteField'
 #SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', get_random_secret_key())
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key()) # get_random_secret_key() supplied as default value
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True" # causing problem not found for scripts and css
+#DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True" # causing problem not found for scripts and css
 #DEBUG = os.environ.get('DJANGO_DEBUG', 'True') != 'False'
 #ALLOWED_HOSTS = ['nagies.digitalocean.com', 'localhost', '127.0.0.1'] # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
