@@ -37,9 +37,9 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'home.apps.HomeConfig', 
     'contact.apps.ContactConfig',
     'job.apps.JobConfig',
+    #'pinax.notifications', # it causing ugettext problem in heroku becauseof requirements.txt(removed from both)
     'postman.apps.PostmanConfig', # either this or post man not both
     'ajax_select',
-    #'pinax.notifications', # it causing ugettext problem in heroku becauseof requirements.txt(removed from both)
     #"messages", # it will clashes with postman.Message, so don't activate both, but just one and postman is the best ever
     'django_private_chat2.apps.DjangoPrivateChat2Config',
     'debug_toolbar', # after install pip3 install django-debug-toolbar
@@ -206,7 +206,7 @@ POSTMAN_AUTO_MODERATE_AS = True  # default is None
 POSTMAN_SHOW_USER_AS = 'get_full_name' # lambda u: u.get_profile().nickname. like => progile.get_absolute_url()
 POSTMAN_NAME_USER_AS = 'last_name'
 POSTMAN_QUICKREPLY_QUOTE_BODY = True
-POSTMAN_NOTIFIER_APP = 'pinax_notifications' 
+#POSTMAN_NOTIFIER_APP = 'pinax_notifications' # must be activated but pinqx deprecated, so take it from site_packages to be an app
 POSTMAN_MAILER_APP = 'mailer'
 POSTMAN_AUTOCOMPLETER_APP = {'name': 'ajax_select', 'field': 'AutoCompleteField', 'arg_name': 'channel', 'arg_default': {}}
 
@@ -220,8 +220,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key()) # get_random_secre
 #DEBUG = True
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True" # causing problem not found for scripts and css
 #DEBUG = os.environ.get('DJANGO_DEBUG', 'True') != 'False'
-#ALLOWED_HOSTS = ['nagies.digitalocean.com', 'localhost', '127.0.0.1'] # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
+ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1'] # ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -244,7 +244,7 @@ if DEVELOPMENT_MODE is True:
         'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
         'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
         'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
-        'HOST': os.environ.get('PG_HOST'), # dj_database_url.parse(os.environ.get("DATABASE_URL")), 
+        'HOST': os.environ.get('PG_HOST'), # remotely => dj_database_url.parse(os.environ.get("DATABASE_URL")), 
         'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
     },
     "test": {
@@ -256,7 +256,10 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DB_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
-        "default": dj_database_url.parse(os.environ.get("DB_URL")),
+        "default": {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': dj_database_url.parse(os.environ.get("DB_URL")),
+        },
     }
 # Update database configuration from $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=500)
