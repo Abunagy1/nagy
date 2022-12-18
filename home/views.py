@@ -28,7 +28,7 @@ class HomeView(generic.ListView): # path('', HomeView.as_view(), name='home'),
 def index(request):
     """View function for home page of site."""
     # Generate counts of some of the main objects
-    home = Home.objects.all().count()
+    #home = Home.objects.all().count()
     num_posts = Post.objects.all().count() # get all post instances counts
     num_instances = PostInstance.objects.all().count() # get all commented Post instances count
     # Available posts
