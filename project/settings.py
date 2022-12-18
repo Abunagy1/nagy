@@ -31,7 +31,6 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'django_filters',
     # CORS
     'corsheaders',
-    'bootstrap4',
     "django_bootstrap5",
     'chat',
     'blog.apps.BlogConfig', 
@@ -223,7 +222,7 @@ DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True" # causing problem not found
 #DEBUG = os.environ.get('DJANGO_DEBUG', 'True') != 'False'
 #ALLOWED_HOSTS = ['nagies.digitalocean.com', 'localhost', '127.0.0.1'] # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
-#ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost")
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -300,7 +299,7 @@ TEMPLATE_DIRS = (
 STATIC_URL = '/static/' # then you can reach to all static from this url
 #STATIC_ROOT = BASE_DIR / 'staticfiles'
 #STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # for production use "/var/www/example.com/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, '_static') # for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
