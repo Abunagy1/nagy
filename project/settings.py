@@ -244,7 +244,7 @@ if DEVELOPMENT_MODE is True:
         'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
         'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
         'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
-        'HOST': os.environ.get('PG_HOST'), # remotely => dj_database_url.parse(os.environ.get("DATABASE_URL")), 
+        'HOST': os.environ.get('PG_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")), 
         'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
     },
     "test": {
@@ -256,9 +256,13 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DB_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
-        "default": {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': dj_database_url.parse(os.environ.get("DB_URL")),
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+            'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+            'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+            'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
+            'HOST': os.environ.get('DB_URL'), # remotely => dj_database_url.parse(os.environ.get("DB_URL")), 
+            'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
         },
     }
 # Update database configuration from $DATABASE_URL.
