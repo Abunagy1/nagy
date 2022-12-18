@@ -220,8 +220,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key()) # get_random_secre
 #DEBUG = True
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True" # causing problem not found for scripts and css
 #DEBUG = os.environ.get('DJANGO_DEBUG', 'True') != 'False'
-ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1'] # ALLOWED_HOSTS = ['*']
-#ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
+#ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1'] # ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
