@@ -1,0 +1,41 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %} Maintainer Details{% endblock head_title %}</h2>
+    </div>
+</div>
+
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h1>Maintainer: {{ maintainer }} </h1>
+                <p>
+                    <a href="{% url 'accounts:user_profile' maintainer.user.username %}">
+                        <h3>{{maintainer.user.username}}</h3>
+                    </a> - {% if maintainer.date_of_death %}{{maintainer.date_of_death}}{% endif %}</p>
+            </div>
+            <div style="margin-left:20px;margin-top:20px">
+                <h4>Posts</h4>
+                <dl>
+                    <!--  using related_name referral-->
+                    {% for post in maintainer.post_maintainers.all %}
+                    <!-- if no related_name use ==> maintainer.post_set.all -->
+                    <dt><a href="{% url 'blog:details' post.pk %}">{{post}}</a> </dt>
+                    <dd>Created At : {{post.created_at}}</dd>
+                    Post Instances : ({{post.postinstance_set.all.count}}) {% endfor %}
+                </dl>
+                <!--  using context object-->
+                {% for post in posts %}
+                <li>
+                    <a href="{{ post.get_absolute_url }}">
+        {{ post }}
+    </a>
+                </li>{% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}

@@ -1,0 +1,44 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% load crispy_forms_tags %} {% block body %}
+<!-- bradcam_area  -->
+<div class="bradcam_area bradcam_dark_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_title">
+                    <h3><i class="fa fa-clock-o"></i>{% block head_title %} {{ post.title }} {% endblock head_title %}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area  -->
+<div class="post_details_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="add_post_form bg-dark">
+                    <h4>Edit Post</h4>
+                    <form method='POST' id="form-container" class="form" enctype='multipart/form-data'>
+                        {{ formset.non_field_errors }} {% csrf_token %} {% for field in form %}
+                        <div class="post-form ">
+                            {% if field.errors %}
+                            <ol>
+                                {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ol>
+                            {% endif %} {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %} {% endfor %}
+                            <div class="form1">{% bootstrap_form post %}</div>
+                            {% if snpt %}
+                            <div class="form2">{% bootstrap_form snpt %}</div>{% endif %}
+                        </div>
+                        <button class="boxed-btn3 w-100" type="submit">Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

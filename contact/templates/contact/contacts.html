@@ -1,0 +1,45 @@
+{% extends 'layout.html' %} {% load django_bootstrap5 %} {% block body %}
+<!-- Contact Section Start -->
+<section id="contact-form" class="contact-area bg-dark section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-title">
+                <h2>Get In Touch</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 col-md-12">
+                <p class="form-message"></p>
+                <br>
+                <form class="contact-form form" id="contact-form" action="" method="POST" onsubmit="sendemail()" enctype="multipart/form-data">
+                    <div class="controls">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group has-error has-danger">
+                                    <input id="form_name" type="text" name="user_name" placeholder="Name" required="required"> </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group has-error has-danger">
+                                    <input id="form_subject" type="text" name="subject" placeholder="Subject" required="required"> </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-group has-error has-danger">
+                                    <input id="form_email" type="email" name="user_email" placeholder="Email" required="required"> </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <textarea id="form_message" name="message" placeholder="Message" rows="4" required="required"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="after-btn" data-text="Send Message">Send Message</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+{% endblock body %}

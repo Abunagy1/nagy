@@ -1,0 +1,29 @@
+ {% extends 'layout.html' %} {% load django_bootstrap5 %} {% block body %}
+<!-- About Section Start -->
+<section id="" class="about-area bg-dark section-padding">
+    <div class="container">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>{% block head_title %}Signing UP{% endblock %}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section End -->
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="my-5">Sign up</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>{% bootstrap_form form %}</p>
+                <button type="submit" class="btn btn-primary">Sign up</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

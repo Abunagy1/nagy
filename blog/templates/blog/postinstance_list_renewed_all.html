@@ -1,0 +1,27 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %}All Renewed Posts{% endblock head_title %} </h2>
+    </div>
+</div>
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <h1>All Commented Posts</h1>
+            {% if postinstance_list %}
+            <ul>
+                {% for postinst in postinstance_list %}
+                <li class="{% if postinst.is_overdue %}text-danger{% endif %}">
+                    <a href="{% url 'post-detail' postinst.post.pk %}">{{postinst.post.title}}</a> ({{ postinst.due_back }}) {% if user.is_staff %}- {{ postinst.commenter }}{% endif %} {% if perms.catalog.can_mark_returned %}- <a href="{% url 'renew-post-admin' postinst.id %}">Renew</a>                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>There are no posts commented.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock body %}

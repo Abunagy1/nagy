@@ -1,0 +1,45 @@
+{% extends 'layout.html' %} {% load django_bootstrap5 %} {% block body %}
+<!-- bradcam_area  -->
+<div class="bradcam_area bradcam_dark_bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>Chat Rooms</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area  -->
+<!-- ================ contact section start ================= -->
+<section class="contact-section section_padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="contact-title">Choose A Room Name</h2>
+            </div>
+            <!-- chat/templates/chat/index.html -->
+            <div>
+                What chat room would you like to enter?<br>
+                <input id="room-name-input" type="text" size="100"><br>
+                <input id="room-name-submit" type="button" value="Enter">
+                <script>
+                    document.querySelector('#room-name-input').focus();
+                    document.querySelector('#room-name-input').onkeyup = function(e) {
+                        if (e.keyCode === 13) { // enter, return
+                            document.querySelector('#room-name-submit').click();
+                        }
+                    };
+                    document.querySelector('#room-name-submit').onclick = function(e) {
+                        var roomName = document.querySelector('#room-name-input').value;
+                        window.location.pathname = '/chat/' + roomName + '/';
+                    };
+                </script>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ contact section end ================= -->
+<!-- footer start -->
+{% endblock body %}

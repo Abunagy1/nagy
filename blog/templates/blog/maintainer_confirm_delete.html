@@ -1,0 +1,21 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %} Delete Maintainer{% endblock head_title %}</h2>
+    </div>
+</div>
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <h1>Delete Maintainer</h1>
+            <p>Are you sure you want to delete the maintainer: {{ maintainer }}?</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" action="" value="Yes, delete." />
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock body %}

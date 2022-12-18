@@ -1,0 +1,100 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %}
+<section id="about" class="about-area bg-dark section-padding">
+    <div class="contain">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <!-- Adding the message in the template -->
+                        {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        </div>
+                        {% endfor %}
+                        <br>
+                        <br>
+                        <h2>{% block head_title %}Number of Users: {{ users_num }}{% endblock %}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ bradcam_area  -->
+        <div class="col-lg-12">
+            <div class="user_filter white-bg">
+                <div class="form_inner bg-dark">
+                    <h3>Filter</h3>
+                    <form method='GET'>
+                        {{ form.non_field_errors }} {% csrf_token %} {% for field in filter.form %}
+                        <div class="apply">
+                            {% if field.errors %}
+                            <ol>
+                                {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ol>
+                            {% endif %} {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %} {% bootstrap_form filter.form %}
+                        <input value='find' class="boxed-btn3 w-10 mt-2" type="submit">
+                    </form>
+                    <div class="reset_btn">
+                        {% if has_filter %}<button class="boxed-btn3 w-100" type="submit"><a href="{%  url 'accounts:index' %}">Reset</a> </button> {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mainbody">
+            <div class="container">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="user_lists m-0">
+                                <div class="row">
+                                    {% for user in users %}
+                                    <ul>
+                                        <li>
+                                            <a href="{% url 'accounts:user_profile' user.username %}">
+                                                <h3>{{user.username}}</h3>
+                                            </a>
+                                            <h6>Email: {{user.email}}</h6>
+                                            <h6>First Name: {{user.first_name}}</h6>
+                                            <h6>Last Name: {{user.last_name}}</h6>
+                                            <p> <i class="fa fa-clock-o"></i> User Type : {{user.user_type}}</p>
+                                            <!-- <p>Birth Date : {{ user.date_of_birth|date:"d M o" }}</p> -->
+                                        </li>
+                                    </ul>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% if users.has_other_pages %}
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="pagination_wrap">
+                                        <ul>
+                                            {% if users.has_previous %}
+                                            <li>
+                                                <a href="?page={{ users.previous_page_number }}"> <i class="ti-angle-left"></i> </a>
+                                            </li>
+                                            {% endif %} {% for i in users.paginator.page_range %}
+                                            <li><a href="?page={{i}}"><span>{{i}}</span></a></li>
+                                            {% endfor %} {% if users.has_next %}
+                                            <li>
+                                                <a href="?page={{ users.next_page_number }}"> <i class="ti-angle-right"></i> </a>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}

@@ -1,0 +1,28 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %}My Posts{% endblock head_title %}</h2>
+    </div>
+</div>
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <h1>Commented posts</h1>
+            {% if postinstance_list %}
+            <ul>
+                {% for postinst in postinstance_list %}
+                <!-- next check the method we added in the model (postinst.is_overdue) and use it to change the color of overdue items -->
+                <li class="{% if postinst.is_overdue %}text-danger{% endif %}">
+                    <a href="{% url 'post-detail' postinst.post.pk %}">{{postinst.post.title}}</a> ({{ postinst.due_back }})
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>There are no posts commented.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock body %}

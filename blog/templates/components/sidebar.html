@@ -1,0 +1,19 @@
+<p><strong>Maintainer:</strong> <a href="{{ post.maintainer.get_absolute_url }}">{{ post.maintainer }}</a></p>
+<!-- or  -->
+<p><strong>Summary:</strong> {{ post.summary }}</p>
+<p><strong>ISBN:</strong> {{ post.isbn }}</p>
+<p><strong>Language:</strong> {{ post.language }}</p>
+<p><strong>Genre:</strong> {{ post.genre.all|join:", " }}</p>
+<div style="margin-left:20px;margin-top:20px">
+    {% for copy in post.postinstance_set.all %}
+    <!-- code to iterate across each copy/instance of a post -->
+    <hr>
+    <!-- postinstance_set constructed by Django in order to return the set of PostInstance records associated with a particular Post-->
+    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+    <!-- get_status_display method to render text color to reader acc. to status -->
+    {% if copy.status != 'a' %}
+    <p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}
+    <p><strong>Imprint:</strong> {{copy.imprint}}</p>
+    <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+    {% endfor %}
+</div>

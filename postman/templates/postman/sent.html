@@ -1,0 +1,26 @@
+{% extends "postman/base_folder.html" %} {% load django_bootstrap5 %} {% load i18n %} {% block body %}{% include "components/header.html" %}
+<section id="" class="about-area bg-dark section-padding">
+    <div class="container">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>{% block pm_folder_title %}{% trans "Sent Messages" %}{% endblock %}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div>
+                {% block pm_undelete_button %}{% endblock %} {% block pm_read_button %}{% endblock %} {% block pm_unread_button %}{% endblock %} {% block pm_sender_header %}{% endblock %}
+                <h5>{% block pm_date %}{% trans "Sent" %}{% endblock %} </h5>
+                {% block pm_recipient_cell %}{% endblock %}{% block pm_sender_cell %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>{% endblock %}

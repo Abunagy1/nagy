@@ -1,0 +1,21 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %}Delete post{% endblock head_title %}</h2>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h2 class=" my-5">Delete post</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <p>Are you sure you want to delete the post: {{ post }}?</p>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

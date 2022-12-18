@@ -1,0 +1,122 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h2>Blog &amp; Articles</h2>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 blog-item">
+                {% if posts %} {% for post in posts %}
+                <div class="single-blog">
+                    <div class="post-img">
+                        <div>
+                            {% for tag in post.tags.all %}
+                            <span class="badge badge-dark">{{ post.tag }}</span> {% endfor %}
+                        </div>
+                        {% if post.post_img %}
+                        <img class="card-img-top mt-3" src="{{ post.post_img.url }}" alt="/{{ img_list }}/{{ post.title }}"> {% endif %}
+                        <li><span> {% if img_list %} {% for list in img_list %}
+                                    <a href="{% url 'blog:details' post.id %}">
+                                        <img src="{{ list.post_img.url }}" alt="/{{ img_list }}/">
+                                    </a>{% endfor %} {% else %}
+                                    <p>No image available.</p></span>{% endif %}</li>
+                    </div>
+                    <div class="blog-content">
+                        <div class="card-body">
+                            <a href="{{ post.get_absolute_url }}">
+                                <h2 class="card-title my-3">{{ forloop.counter }}) {{ post.title }}</h2>
+                            </a>
+                            <div class="text-muted mb-3">
+                                <div>
+                                    <span>created: {{ post.created_at|date:"N j Y" }} |</span>
+                                    <span>updated: {{ post.updated_at|timesince }} ago |</span>
+                                    <span>author: {{ post.creator }}</span>
+                                </div>
+                                <div>
+                                    {% for tag in post.tags.all %}
+                                    <span class="badge badge-dark">{{ tag }}</span> {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-date">
+                            <!-- was post_list & this block was in post_list.html-->
+                            <!-- code here to list the posts -->
+                            <span><i>Created</i> {{ post.created_at }}</span>
+                            <p>{{ post.created_at|date:"d M o" }}</p>
+                            Maintainer: ({{post.maintainer}})
+
+                        </div>
+                        <div class="blog-body-title">
+                            <h5><a href="{% url 'blog:details' post.id %}">Details</a></h5>
+                        </div>
+                        <div class="blog-body-text">
+                            <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+
+                        </div>
+                        <div class="blog-bottom-text-link">
+                            <a class="after-btn" href="{% url 'blog:details' post.id %}">Read More...</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}{% else %}
+            <h3>There are no posts in the Blog Yet.</h3><br><br> {% endif %}
+
+        </div>
+        {% if posts.has_other_pages %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pagination_wrap">
+                    <ul>
+                        {% if posts.has_previous %}
+                        <li>
+                            <a href="{{ request.path }}?page={{ posts.previous_page_number }}"> <i class="ti-angle-left"></i> </a>
+                        </li>
+                        {% endif %} {% for i in posts.paginator.page_range %}
+                        <li><a href="?page={{i}}"><span>{{i}}</span></a></li>
+                        {% endfor %} {% if posts.has_next %}
+                        <li>
+                            <a href="{{ request.path }}?page={{ posts.next_page_number }}"> <i class="ti-angle-right"></i> </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-lg-3">
+        <div class="blog_filter white-bg">
+            <div class="form_inner bg-dark">
+                <h3>Filter</h3>
+                <form method='GET'>
+                    {{ form.non_field_errors }} {% csrf_token %} {% for field in filter.form %}
+                    <div class="apply">
+                        {% if field.errors %}
+                        <ol>
+                            {% for error in field.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                        </ol>
+                        {% endif %} {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %} {% bootstrap_form filter.form %}
+                    <input value='find' class="boxed-btn3 btn-danger w-10 mt-2" type="submit">
+                </form>
+                <div class="reset_btn">
+                    {% if has_filter %}<button class="boxed-btn3 w-100" type="submit"><a href="{%  url 'blog:index' %}">Reset</a> </button> {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->
+{% endblock body %}
+<!-- <a href="{% url 'blog:snippet-create' %}" class="nav-item nav-link">ADD Snippet</a> -->

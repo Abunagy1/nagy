@@ -1,0 +1,36 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %} Create Maintainer{% endblock head_title %}</h2>
+    </div>
+</div>
+<div class="post_details_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="add_post_form bg-dark">
+                    <h4></h4>
+                    <form method='POST' id="form-container" class="form" enctype='multipart/form-data'>
+                        {{ formset.non_field_errors }} {% csrf_token %} {% for field in form %}
+                        <div class="post-form ">
+                            {% if field.errors %}
+                            <ol>
+                                {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ol>
+                            {% endif %} {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %} {% endfor %}
+                            <div class="Maintainer">{% bootstrap_form form %}</div>
+                        </div>
+                        <button class="boxed-btn3 w-100" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

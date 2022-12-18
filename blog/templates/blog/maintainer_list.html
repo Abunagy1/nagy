@@ -1,0 +1,61 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %} All Maintainers{% endblock head_title %}</h2>
+    </div>
+</div>
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <h1>Maintainer List</h1>
+            {% if maintainers %}
+            <ul>
+                {% for maintainer in maintainers %}
+                <li>
+                    <a href="{{ maintainer.get_absolute_url }}">
+                    {{ maintainer }} () - {% if maintainer.date_of_death %}{{maintainer.date_of_death}}{% endif %})
+                </a>
+                </li>
+                <li>
+                    <a href="{{ post.get_absolute_url }}">
+                    {{ maintainer.post }} () - {% if maintainer.date_of_death %}{{maintainer.date_of_death}}{% endif %})
+                </a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>There are no maintainers available.</p>
+            {% endif %}
+        </div>
+        <div class="col-lg-12">
+            <div class="user_filter white-bg">
+                <div class="form_inner bg-dark">
+                    <h3>Filter</h3>
+                    <form method='GET'>
+                        {{ form.non_field_errors }} {% csrf_token %} {% for field in filter.form %}
+                        <div class="apply">
+                            {% if field.errors %}
+                            <ol>
+                                {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ol>
+                            {% endif %} {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %} {% bootstrap_form filter.form %}
+                        <input value='find' class="boxed-btn3 w-10 mt-2" type="submit">
+                    </form>
+                    <div class="reset_btn">
+                        <button class="boxed-btn3 w-100" type="submit">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock body %}

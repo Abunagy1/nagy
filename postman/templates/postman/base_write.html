@@ -1,0 +1,33 @@
+{% extends "postman/base_postman.html" %}{% load django_bootstrap5 %} {% block body %}{% include "components/header.html" %}
+<section id="" class="about-area bg-dark section-padding">
+    <div class="container">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>{% block head_title %}Inbox{% endblock %}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% load i18n static %} {% block extrahead %}{{ block.super }} {% if autocompleter_app.is_active %}{# using the available admin jQuery is enough #} {# should not be necessary since AS v1.3 with AJAX_SELECT_BOOTSTRAP set #} {#
+<script type="text/javascript" src="{% static 'js/jquery-3.6.1.min.js' %}"></script>#} {% endif %} {{ form.media }}{# for ajax_selects (v1.3.6 at least) #} {% endblock %} {% block content %} {% endblock %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div id="postman">
+                <h1>{% block pm_write_title %}{% endblock %}</h1>
+                <form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
+                    <table>
+                        {% block pm_write_recipient %}{% endblock %} {{ form.as_table }}
+                    </table>
+                    <button type="submit" class="pm_btn pm_btn-send">{% trans "Send" %}</button>
+                </form>
+                <h5></h5>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

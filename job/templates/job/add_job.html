@@ -1,0 +1,92 @@
+{% extends 'layout.html' %} {% load django_bootstrap5 %} {% block body %}
+<!-- bradcam_area  -->
+<div class="bradcam_area bradcam_dark_bg">
+    <div class="header">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <!-- Adding the message in the template -->
+                    <br>
+                    <br>
+                    <h2>{% block head_title %} {% endblock %}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bradcam_area bradcam_bg_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>Add New Job</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area  -->
+<div class="job_details_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="job_details_header">
+                    <div class="single_jobs bg-dark d-flex justify-content-between">
+                        <div class="jobs_left d-flex align-items-center">
+                            <div class="thumb">
+                                <img src="img/svg_icon/1.svg" alt="">
+                            </div>
+                            <div class="jobs_conetent">
+                                <a href="#">
+                                    <h4></h4>
+                                </a>
+                                <div class="links_locat d-flex align-items-center">
+                                    <div class="location">
+                                        <p> <i class="fa fa-map-marker"></i> </p>
+                                    </div>
+                                    <div class="location">
+                                        <p> <i class="fa fa-clock-o"></i> {{ job.job_type }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="jobs_right">
+                            <div class="apply_now">
+                                <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="apply_job_form bg-dark">
+                    <h4>Post A Job</h4>
+                    <form method='POST' class="form" enctype='multipart/form-data'>
+                        {{ form.non_field_errors }} {% csrf_token %} {% for field in form %}
+                        <div class="apply">
+                            {% if field.errors %}
+                            <ol>
+                                {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ol>
+                            {% endif %} {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %} {% bootstrap_form form %}
+                        <button class="boxed-btn3 w-100" type="submit">Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

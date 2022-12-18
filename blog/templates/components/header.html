@@ -1,0 +1,45 @@
+<section id="" class="about-area bg-dark section-padding">
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="container">
+            {% if request.user.is_authenticated and request.path != '/blog/posts/' %}
+            <a href="{% url 'blog:search' %}" class="navbar-brand">Search Our Posts</a>{% endif %}
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="{% url 'blog:maintainers' %}" class="nav-item nav-link  {% if request.path == '/' %}active{% endif %}">Blog maintainers</a>
+                </div>
+                {% if request.user.is_authenticated and request.path != '/blog/posts/add/' %}
+                <div class="navbar-nav ml-auto">
+                    <a href="{% url 'blog:add' %}" class="nav-item nav-link {% if request.path == '/posts/add/' %}active{% endif %}">
+                            Create a post
+                            </a>
+                </div>
+                {% elif request.path == '/accounts/login/' %}
+                <div class="navbar-nav ml-auto">
+                    <a href="{% url 'accounts:signup' %}" class="nav-item nav-link {% if request.path == '/accounts/signup/' %}active{% endif %}">Sign up</a>
+                </div>
+                {% endif %} {% if request.user.is_authenticated and request.path != '/blog/posts/myposts/' %}
+                <div class="navbar-nav ml-auto">
+                    <a href="{% url 'blog:my-posts' %}" class="nav-item nav-link {% if request.user.username in request.path %}active{% endif %}">
+                    My Posts
+                 </a>
+                </div>{% endif %} {% if request.user.is_authenticated and request.path == '/blog/posts/myposts/' %}
+                <div class="navbar-nav ml-auto">
+                    <a href="{% url 'blog:all-renewed' %}" class="nav-item nav-link {% if request.path == '/blog/renewed/' %}active{% endif %}">All Renewed</a>
+                </div>{% endif %} {% if request.user.is_authenticated and request.path != '/blog/maintainers/create/' and perms.user.can_publish and perms.blog.can_edit %}
+                <div class="navbar-nav ml-auto">
+                    <a href="{% url 'blog:maintainer-create' %}" class="nav-item nav-link">Create Maintainer</a>
+                </div>{% endif %}
+            </div>
+        </div>
+        <!-- Adding the message in the template -->
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endfor %}
+    </nav>
+</section>

@@ -1,0 +1,29 @@
+{% extends "postman/base_folder.html" %}{% load django_bootstrap5 %} {% load i18n %} {% block body %}{% include "components/header.html" %}
+<section id="" class="about-area bg-dark section-padding">
+    <div class="container">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>{% block head_title %}Trash{% endblock %}</h2>
+                        <h3>{% block pm_folder_title %}{% trans "Deleted Messages" %}{% endblock %}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div>
+                {% block pm_delete_button %}{% endblock %} {% block pm_archive_button %}{% endblock %}
+                <h5>{% block pm_subject %}{# no link #} {% include "postman/inc_subject_ex.html" %} {% endblock %}</h5> {% block pm_footer_info %}
+                <p>{% trans "Messages in this folder can be removed from time to time. For long term storage, use instead the archive folder." %}</p>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'layout.html' %} {% load static %} {% block body %} {% include "components/header.html" %}
+<!-- About Section Start -->
+<section id="" class="about-area bg-dark section-padding">
+    <div class="container">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <br><br>
+                        <h2>{% block head_title %}{{ profile.user.username }} | Profile details{% endblock head_title %}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-lg-12 mb-3 bg-dark">
+                <!-- offset-lg-3 -->
+                {% if profile.photo %}
+                <!-- use {{ profile.photo.url }} Not {% static profile.photo.url %} -->
+                <img class="card-img-top col-sm-3  my-3" src="{{ profile.photo.url }}" alt="{{ user.username }}" width="250" height="250"> {% else %}
+                <img class="card-img-top col-sm-3  my-3" src="{% static 'img/user.png' %}" alt="{{ user.username }}" width="250" height="250"> {% endif %}
+                <div class="card-body col-9">
+                    <h2 class="card-title my-3">{{ profile.user.username }}</h2>
+                    <p>Last login on: {{ profile.user.last_login }}</p>
+                    <p>Date Joined on: {{ profile.user.date_joined }}</p>
+                    <p class="card-text">{{ profile.about_me }}</p>
+                </div>
+                <div class="media-body">
+                    <h2 class="account-heading">{{ profile.user.email }}</h2>
+                    <p class="text-primary">{{ profile.user.get_full_name }}</p>
+                    <p class="text-primary">Superuser : {{ profile.user.is_superuser }}</p>
+                    <p class="text-primary">Has Permission : {{ profile.user.has_perm }}</p>
+                    <p class="text-primary">Active : {{ profile.user.is_active }}</p>
+                    <p class="text-primary">staff : {{ profile.user.is_staff }}</p>
+                    <p class="text-primary">User Type :{{ profile.user.user_type }}</p>
+                </div>
+                <div class="user_content">
+                    <ul>
+                        <li>Phone: <span>{{profile.phone}}</span></li>
+                        <li>Location: <span> {{profile.city}} </span></li>
+                        <li>Birth Date: <span> {{ profile.date_of_birth|date:"d M o" }}</span></li>
+                        <!-- 
+                    <li>ALL Photos: <span> {% if img_list %} {% for image in img_list %}
+                    <img src="/{{ img_list }}/" alt="{{image}}"> {% endfor %} {% else %}
+                    <p>No image available.</p></span>{% endif %}</li> upload directory must be edited to get only it's photos
+                    -->
+                    </ul>
+
+
+                </div>
+                <div class='p-5'>
+                    {% if request.user.username == profile.user.username %}
+                    <a href="{% url 'accounts:edit_profile' user.username %}" class="boxed-btn3 w-20"> Edit Profile</a> {% else %}
+                    <div class='p-5'>
+                        <a href="{% url 'postman:write' recipients=profile.user.email %}" class="boxed-btn3 w-20">Message Me</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}

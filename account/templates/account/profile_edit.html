@@ -1,0 +1,45 @@
+{% extends 'layout.html' %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!-- About Section Start -->
+<section id="" class="about-area bg-dark section-padding">
+    <div class="container">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <br>
+                        <br>
+                        <h2>{% block head_title %}Edit profile{% endblock %}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ bradcam_area  -->
+<div class="user_details_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="edit_user_form dark-bg">
+                    <form method='POST' class="form" enctype='multipart/form-data'>
+                        {{ form.non_field_errors }} {% csrf_token %} {% for field in form %}
+                        <div class="apply">
+                            {% if field.errors %}
+                            <ol>
+                                {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                            </ol>
+                            {% endif %} {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %} {% bootstrap_form prof1 %} {% bootstrap_form prof2 %}
+                        <button class="boxed-btn3 w-100" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,558 @@
+{% extends 'base.html' %} {% load static %} {% block body %}
+<!-- Home Section Start -->
+<header id="home" class="home-area hero-equal-height section-padding" style="background-image: url('/static/a_data/header.JPG');">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2">
+                <div class="text-center home-content z-index position-relative  ">
+                    <h3>Welcome To My Website</h3>
+                    <h1 class="cd-headline clip">
+                        <span class="blc"> </span>
+                        <span class="cd-words-wrapper" style="width: 392.333px;">
+                              <b style="color:white;" class="is-visible">I'm M. Nagy</b>
+                              <b style="color:rgb(66, 241, 60);" class="is-hidden">Web Designer</b>
+                              <b style="color:rgb(212, 240, 110);" class="is-hidden">AI Researcher</b>
+                              <b style="color:rgb(227, 189, 214);" class="is-hidden">Tech. Instructor</b>
+                              <b style="color:rgb(177, 246, 251);" class="is-hidden">Elec. Pow. Eng.</b>
+                              <b style="color:rgb(244, 254, 102);" class="is-hidden">Mech. Pow. Eng.</b>
+                            </span>
+                    </h1>
+                    <div class="social-media">
+                        <a href="https://www.facebook.com/mohamed.nagy.378199"><i class="fa fa-facebook" aria-hidden="true"></i> face </a>
+                        <a href="https://twitter.com/gabernagy"><i class="fa fa-twitter" aria-hidden="true"></i> Twt </a>
+                        <a href="https://github.com/Abunagy1"><i class="fa fa-github" aria-hidden="true"></i> Git </a>
+                        <a href="https://www.linkedin.com/in/mohamed-nagy-18a30414a/"><i class="fa fa-linkedin" aria-hidden="true"></i> Linkd </a>
+                        <a href="#"><i class="fa fa-youtube" aria-hidden="true"></i> Ytube </a>
+                    </div>
+                    <a href="{% url 'accounts:signup' %}" class="button home-btn-1 js-scroll">Join Me</a>
+                    <a href="{% url 'contacts:contact_me' %}" class="button home-btn-2 js-scroll">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="arrow">
+        <a href="#about" class="js-scroll">
+            <i class="fa fa-chevron-down"></i>
+        </a>
+    </div>
+</header>
+<!-- Home Section End -->
+<!-- About Section Start -->
+<section id="about" class="about-area bg-dark section-padding">
+    <div class="contain">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>About Me</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <!-- block  sidebar will be converted into a sidebar -->
+            <ul class="sidebar-nav">
+                <li><a href="{% url 'home:index' %}">Home</a></li>
+                <li><a href="{% url 'blog:index' %}">All posts</a></li>
+                <li><a href="{% url 'blog:maintainers' %}">All maintainers</a></li>
+                <li><strong>Home:</strong> {{ home }}</li>
+                <li><strong>Posts:</strong> {{ num_posts }}</li>
+                <li><strong>Copies:</strong> {{ num_instances }}</li>
+                <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
+                <li><strong>Maintainers:</strong> {{ num_maintainers }}</li>
+                <!-- {{ user }} template variable is added to the template context by default when you set up the project as we did -->
+                <!--request.user.is_authenticated/@login_required in views fn = user.is_authenticated in template-->
+                {% if user.is_authenticated %}
+                <!--determine whether the user is eligible to see specific content(logged&authorized)-->
+                <li>User: {{ user.get_username }}</li>
+                <li><a href="{% url 'blog:my-posts' %}">My Posts</a></li>
+                <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                {% else %}
+                <!-- ?next={{request.path}} To add a URL parameter next containing address (URL) of current page, -->
+                <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                {% endif %} {% if user.is_staff %} {% if perms.catalog.can_mark_returned %}
+                <li><a href="{% url 'blog:all-renewed' %}">All Commented</a></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="mainbody">
+            <div class="container">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="about-img-wrapper">
+                            <img class="img-fluid" src="{% static 'a_data/about.jpg' %}" alt="about image">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="about-content">
+                            <h3>I am <span class="color-text">Nagy</span></h3>
+                            <h5>Web Developer &amp; Researcher</h5>
+                            <p style="align-content: center; color: rgb(159, 157, 157);"><b>Long time ago, I started to learn about back-end web developing, frameworks like django & Express, but couldn't believe that i'll be among those who have grasp most of required knowledge about web-developing.</b></p>
+                            <p style="color: rgb(159, 157, 157);"><b>Anyway here is my web site, that has some features by which I've tried to merge some experiences about the field. Please Explore my site to see all parts </b></p>
+                            <a href="https://www.dropbox.com/s/jxn8geliji5pjxu/M-Nagy.pdf?dl=0" class="after-btn js-scroll"><b>Download my CV</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Section End -->
+<!-- Service Section Start -->
+<section id="service" class="service-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>My Service</h2>
+                </div>
+            </div>
+        </div>
+        <div class="service-content">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div id="service-slide" class="owl-carousel owl-theme owl-loaded owl-drag">
+                        <!-- Service Single Item -->
+                        <!-- Service Single Item -->
+                        <!-- Service Single Item -->
+                        <!-- Service Single Item -->
+                        <!-- Service Single Item -->
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(-3040px, 0px, 0px); transition: all 1s ease 0s; width: 4560px;">
+                                <div class="owl-item active" style="width: 350px; margin-right: 30px;">
+                                    <div class="single-services-box">
+                                        <div class="single-services">
+                                            <div class="services-icon"> <i class="pe-7s-tools"></i> </div>
+                                            <div class="services-text">
+                                                <h3>Web Developing</h3>
+                                                <p>scince I have been certified from Udacity as a profissional web developer, I continued to gain more experience by merging more complex tools and data driven framworks</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item" style="width: 350px; margin-right: 30px;">
+                                    <div class="single-services-box">
+                                        <div class="single-services">
+                                            <div class="services-icon"> <i class="pe-7s-share"></i> </div>
+                                            <div class="services-text">
+                                                <h3>Fast Communication</h3>
+                                                <p>You Can reach me any time along the day 24/7</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item " style="width: 350px; margin-right: 30px;">
+                                    <div class="single-services-box">
+                                        <div class="single-services">
+                                            <div class="services-icon"> <i class="pe-7s-edit"></i> </div>
+                                            <div class="services-text">
+                                                <h3>Responsive Design</h3>
+                                                <p>This is the most important feature which I include in any design.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 350px; margin-right: 30px;">
+                                    <div class="single-services-box">
+                                        <div class="single-services">
+                                            <div class="services-icon"> <i class="pe-7s-display1"></i> </div>
+                                            <div class="services-text">
+                                                <h3>Researcher</h3>
+                                                <p>I'm currently a MSc. Student in AI Vision Control Sys.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item" style="width: 350px; margin-right: 30px;">
+                                    <div class="single-services-box">
+                                        <div class="single-services">
+                                            <div class="services-icon"> <i class="pe-7s-target"></i> </div>
+                                            <div class="services-text">
+                                                <h3>Tech. Support</h3>
+                                                <p>After Launching and post consultation</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item" style="width: 350px; margin-right: 30px;">
+                                    <div class="single-services-box">
+                                        <div class="single-services">
+                                            <div class="services-icon"> <i class="pe-7s-graph1"></i> </div>
+                                            <div class="services-text">
+                                                <h3>Tech. Instructor & Electrical / Mechanical Pow. Engineer</h3>
+                                                <p>I am teaching Python & C & JS.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                        <div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Service Section End -->
+<!-- Work & Eduction & Skills Section Start -->
+<section id="resume" class="work-eduction-skills-area bg-dark section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Work &amp; Eduction</h2>
+                </div>
+            </div>
+        </div>
+        <div class="work-eduction-wrapper">
+            <div class="row">
+                <div class="col-md-6 wow customFadeInUp  delay-0-2s slow" style="visibility: visible; animation-name: customFadeInUp;">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="icon"></div>
+                            <div class="box">
+                                <h5>Full stack Web Developer </h5>
+                                <small class="bg-base-color"> 2021 - 2022</small>
+                                <p>Started to work as a free lancer in web developing services</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="icon"></div>
+                            <div class="box">
+                                <h5>Back-End Developer</h5>
+                                <small class="bg-base-color"> 2020 - 2021</small>
+                                <p>Used Django framework a lot to design data driven web applications</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="icon"></div>
+                            <div class="box ">
+                                <h5>Tech. Support & Instructor </h5>
+                                <small class="bg-base-color"> 2010 - 2015</small>
+                                <p>Teaching Python and JavaScript</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 wow customFadeInUp delay-0-4s slow" style="visibility: visible; animation-name: customFadeInUp;">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="icon"></div>
+                            <div class="box ">
+                                <h5>Academic Degree</h5>
+                                <small class="bg-base-color"> 2018 - 2020</small>
+                                <p>Preparing for my research on Robotics Vision control & currently</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="icon"> </div>
+                            <div class="box ">
+                                <h5>Bachelor’s Degree, Diploma, MSc.</h5>
+                                <small class="bg-base-color"> 2008 - 2020</small>
+                                <p>Download my Cv to Know more opn my acqdemic career</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="icon"></div>
+                            <div class="box">
+                                <h5>Specialization Course </h5>
+                                <small class="bg-base-color"> 2010 - 2015</small>
+                                <p>Any Tech Subject</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>My Skills</h2>
+                </div>
+            </div>
+        </div>
+        <div class="skills-wrapper">
+            <div class="row">
+                <div class="col-md-6">
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>Python</h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
+                                <span>90%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>C</h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                                <span>80%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>Express </h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                                <span>90%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>Django</h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
+                                <span>95%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>HTML5 CSS3</h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
+                                <span>90%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>Javascript</h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                                <span>90%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>React</h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                                <span>30%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--skill-item-->
+                    <div class="skill-item">
+                        <h6>Jquery</h6>
+                        <div class="skill-progress">
+                            <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+                                <span>70%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Work & Eduction & Skills Section End -->
+<!-- Project Section Start -->
+<section id="project" class="project-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Recent Portfolio</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="project-list">
+                    <ul class="nav" id="project-flters">
+                        <li class="filter filter-active" data-filter=".all">all</li>
+                        <li class="filter" data-filter=".branding">Websites</li>
+                        <li class="filter" data-filter=".webdesign">design</li>
+                        <li class="filter" data-filter=".photography">Consultancy</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="project-container" style="position: relative; height: 813.834px;">
+                <!-- project-item -->
+                <div class="col-lg-4 col-md-6 project-grid-item all branding webdesign" style="position: absolute; left: 0px; top: 0px;">
+                    <a class="popup-img project-item " href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-1.jpg"> <img src="{% static 'a_data/work-1.jpg' %}" alt="img">
+                        <div class="project-img-overlay">
+                            <div class="project-content">
+                                <h4>Web Development</h4>
+                                <h6>View Project</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- project-item -->
+                <div class="col-lg-4 col-md-6 project-grid-item all photography" style="position: absolute; left: 380px; top: 0px;">
+                    <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-2.jpg"> <img src="{% static 'a_data/work-2.png' %}" alt="img">
+                        <div class="project-img-overlay">
+                            <div class="project-content">
+                                <h4>Responsive design</h4>
+                                <h6>View Project</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- project-item -->
+                <div class="col-lg-4 col-md-6 project-grid-item all branding webdesign" style="position: absolute; left: 760px; top: 0px;">
+                    <a class="popup-img project-item " href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-3.jpg"> <img src="{% static 'a_data/work-3.png' %}" alt="img">
+                        <div class="project-img-overlay">
+                            <div class="project-content">
+                                <h4>Ui ux Design</h4>
+                                <h6>View Project</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- project-item -->
+                <div class="col-lg-4 col-md-6 project-grid-item all branding webdesig photographyn" style="position: absolute; left: 0px; top: 406.917px;">
+                    <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-4.jpg"> <img src="{% static 'a_data/work-4.jpg' %}" alt="img">
+                        <div class="project-img-overlay">
+                            <div class="project-content">
+                                <h4>Construction</h4>
+                                <h6>View Project</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- project-item -->
+                <div class="col-lg-4 col-md-6 project-grid-item all webdesign photography" style="position: absolute; left: 380px; top: 406.917px;">
+                    <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-5.jpg"> <img src="{% static 'a_data/work-5.png' %}" alt="img">
+                        <div class="project-img-overlay">
+                            <div class="project-content">
+                                <h4>Instructor</h4>
+                                <h6>View Project</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- project-item -->
+                <div class="col-lg-4 col-md-6 project-grid-item all webdesign photography" style="position: absolute; left: 760px; top: 406.917px;">
+                    <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-6.jpg"> <img src="{% static 'a_data/work-6.jpg' %}" alt="img">
+                        <div class="project-img-overlay">
+                            <div class="project-content">
+                                <h4>Platform</h4>
+                                <h6>View Project</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- project more button -->
+            <div class="col-md-12">
+                <div class="project-more-btn text-center">
+                    <a href="#" class="after-btn">Previous Project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Project Section End -->
+<!-- Testimonials Section Start -->
+<section id="review" class="testimonial-area bg-dark section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="section-title">
+                    <h2>Testimonials</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1 col-md-12">
+                <div id="testimonial-slide" class="owl-carousel owl-theme owl-loaded owl-drag">
+                    <!-- testimonials item -->
+                    <!-- testimonials item -->
+                    <!-- testimonials item -->
+                    <!-- testimonials item -->
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage" style="transform: translate3d(-2805px, 0px, 0px); transition: all 1s ease 0s; width: 7480px;">
+                            <div class="owl-item cloned" style="width: 920px; margin-right: 15px;">
+                                <div class="single-testimonial">
+                                    <div class="testi-content-inner">
+                                        <div class="avatar">
+                                            <img src="{% static 'a_data/testimonial-3.jpg' %}" alt="testimonial">
+                                        </div>
+                                        <div class="testimonial-content">
+                                            <p>It's been great experience to know someone like M. Nagy, he is so talented and an active person. </p>
+                                        </div>
+                                        <div class="bio-info">
+                                            <h3>Ruben Houston</h3>
+                                            <h6>Ceo of Google</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item cloned" style="width: 920px; margin-right: 15px;">
+                                <div class="single-testimonial">
+                                    <div class="testi-content-inner">
+                                        <div class="avatar">
+                                            <img src="{% static 'a_data/testimonial-4.jpg' %}" alt="testimonial">
+                                        </div>
+                                        <div class="testimonial-content">
+                                            <p>I knew Mohamed after working with him in a project, he was a great person and really pationate about knowledge and work hard</p>
+                                        </div>
+                                        <div class="bio-info">
+                                            <h3>Monica Frazier</h3>
+                                            <h6>Coo of Facebook</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item" style="width: 920px; margin-right: 15px;">
+                                <div class="single-testimonial">
+                                    <div class="testi-content-inner">
+                                        <div class="avatar">
+                                            <img src="{% static 'a_data/testimonial-1.jpg' %}" alt="testimonial">
+                                        </div>
+                                        <div class="testimonial-content">
+                                            <p>Personally, Mohamed Nagy is a great and succesful person that can affect and change you and make your life better.</p>
+                                        </div>
+                                        <div class="bio-info">
+                                            <h3>Saabir al-Obeid</h3>
+                                            <h6>Business Man</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item active" style="width: 920px; margin-right: 15px;">
+                                <div class="single-testimonial">
+                                    <div class="testi-content-inner">
+                                        <div class="avatar">
+                                            <img src="{% static 'a_data/testimonial-2.jpg' %}" alt="testimonial">
+                                        </div>
+                                        <div class="testimonial-content">
+                                            <p>Thank you Mohamed for the cooperation and great understanding, wish you the best.</p>
+                                        </div>
+                                        <div class="bio-info">
+                                            <h3>Rose Hopkins</h3>
+                                            <h6>Founder of Apple</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                    <div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Testimonials Section End -->
+{% endblock body %}

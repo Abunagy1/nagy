@@ -1,0 +1,27 @@
+{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %} {% include "components/header.html" %}
+<!--/ bradcam_area  -->
+<!-- Blog Section Start -->
+<div class="col-md-12">
+    <div class="section-title">
+        <h2><i class="fa fa-clock-o"></i> {% block head_title %}Delete post{% endblock head_title %} {% block content %}</h2>
+    </div>
+</div>
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <h1>Renew: {{post_instance.post.title}}</h1>
+            <p>Commenter: {{post_instance.commenter}}</p>
+            <p{% if post_instance.is_overdue %} class="text-danger" {% endif %}>Due date: {{post_instance.due_back}}</p>
+                <form action="" method="post">
+                    <!--(action) specifying where the form is to be submitted "" mean same crt page URL-->
+                    {% csrf_token %}
+                    <!-- part of Django's cross-site forgery protection add it to every template use POST-->
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                    <input type="submit" value="Submit" />
+                </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
