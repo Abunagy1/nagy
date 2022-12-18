@@ -39,7 +39,7 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'job.apps.JobConfig',
     'postman.apps.PostmanConfig', # either this or post man not both
     'ajax_select',
-    'pinax.notifications',
+    #'pinax.notifications', # it causing ugettext problem in heroku becauseof requirements.txt(removed from both)
     #"messages", # it will clashes with postman.Message, so don't activate both, but just one and postman is the best ever
     'django_private_chat2.apps.DjangoPrivateChat2Config',
     'debug_toolbar', # after install pip3 install django-debug-toolbar
