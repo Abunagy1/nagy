@@ -16,7 +16,8 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
+from django.core.management.commands.runserver import Command as runserver
+runserver.default_port = "8080"
 
 if __name__ == '__main__':
     main()
