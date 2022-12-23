@@ -89,6 +89,7 @@ Twisted==22.10.0
 txaio==22.2.1
 typing_extensions==4.4.0
 urllib3==1.26.9
+uWSGI==2.0.21
 whitenoise==6.2.0
 wrapt==1.14.1
 wsproto==1.2.0
