@@ -16,8 +16,9 @@ load_dotenv()
 INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'rest_framework',
     'account.apps.AccountConfig',
-    'django.contrib.admin',
     "daphne",
+    'chat',
+    'django.contrib.admin',
     'django.contrib.auth', # Core authentication framework and its default models
     'django.contrib.contenttypes', # Django content type system (allows permissions to be associated with models).
     'django.contrib.sessions',
@@ -32,7 +33,7 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     # CORS
     'corsheaders',
     "django_bootstrap5",
-    'chat',
+
     'blog.apps.BlogConfig', 
     'home.apps.HomeConfig', 
     'contact.apps.ContactConfig',
@@ -64,17 +65,27 @@ MIDDLEWARE = [
     'django.middleware.locale.LocaleMiddleware',
 ]
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8080',
-)
-#CACHE_MIDDLEWARE_ALIAS = '' # The cache alias to use for storage
-CACHE_MIDDLEWARE_SECONDS = 600 # The number of seconds each page should be cached
-CSRF_COOKIE_AGE = 31449600 
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8080',
+#     'https://localhost:8080',
+#     "http://127.0.0.1:8080",
+#     "https://127.0.0.1:8080",
+#     'http://localhost:8000',
+#     'https://localhost:8000',
+#     "http://127.0.0.1:8000",
+#     "https://127.0.0.1:8000",
+#     "https://starfish-app-xgsam.ondigitalocean.app"
+# )
+#CORS_ALLOWED_ORIGIN_REGEXES= # useful if you have many domains
+CACHE_MIDDLEWARE_ALIAS = 'default' # The cache alias to use for storage
+CACHE_MIDDLEWARE_SECONDS = 600 # The number of seconds each page should be cached for (TTL)
+
+
 # The reason for setting a long-lived expiration time is to avoid problems
 # in the case of a user closing a browser or bookmarking a page and then loading that page from a browser cache
 # If the cache is shared across multiple sites using the same Django installation, set this to the name of the site
 # or some other string that is unique to this Django instance, to prevent key collisions. Use an empty string if you don’t care
-CACHE_MIDDLEWARE_KEY_PREFIX = ''
+CACHE_MIDDLEWARE_KEY_PREFIX = ''  # name of site if multiple sites are used, should be used if the cache is shared across multiple sites that use the same Django instance
 CRISPY_TEMPLATE_PACK = 'django-bootstrap5'
 ROOT_URLCONF = 'project.urls'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -96,7 +107,7 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         'LOCATION': ['redis://127.0.0.1:6379', os.getenv("REDIS_URL"),],
         'OPTIONS': {
-            'db': '10',
+            'db': '0',
             'parser_class': 'redis.connection.PythonParser',
             'pool_class': 'redis.BlockingConnectionPool',
             # "CLIENT_CLASS": "django_redis.client.DefaultClient", # if you are using django-redis client rather than redis-py
@@ -126,7 +137,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
-CSRF_COOKIE_SECURE = True
+
 
 # In REST framework are all namespaced into a single dictionary setting, named REST_FRAMEWORK
 # which helps keep them well separated from your other project settings
@@ -217,27 +228,37 @@ POSTMAN_AUTOCOMPLETER_APP = {'name': 'ajax_select', 'field': 'AutoCompleteField'
 #SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', get_random_secret_key())
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key()) # get_random_secret_key() supplied as default value
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+#DEBUG = False
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True" # causing problem not found for scripts and css
 #DEBUG = os.environ.get('DJANGO_DEBUG', 'True') != 'False'
-#ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1'] # ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1', '[::1]'] # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
-
+# ::1 is the compressed format IPV6 loopback address 0:0:0:0:0:0:0:1. It is the equivalent of the IPV4 address 127.0.0.1
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 # using next methods w/o dotenv like os.getenv('PG_PASSWORD'), gives no password supplied or os.environ['PG_PASSWORD'], gives key error
-from django.core.exceptions import ImproperlyConfigured
-def get_env_value(env_variable):
-    try:
-        return os.environ[env_variable]
-    except KeyError:
-        error_msg = 'Set the {} environment variable'.format(env_variable)
-        raise ImproperlyConfigured(error_msg)
+# from django.core.exceptions import ImproperlyConfigured
+# def get_env_value(env_variable):
+#     try:
+#         return os.environ[env_variable]
+#     except KeyError:
+#         error_msg = 'Set the {} environment variable'.format(env_variable)
+#         raise ImproperlyConfigured(error_msg)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+#         'NAME': get_env_value('PG_NAME'), # DB Name os.environ['DATABASE_NAME'],
+#         'USER': get_env_value('PG_USER'),  # from server register => connection tab change the name of server and username
+#         'PASSWORD': get_env_value('PG_PASSWORD'),
+#         'HOST': get_env_value('PG_HOST'),    # os.environ['DATABASE_HOST'],
+#         'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
+#     }
+# }
 
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
 # productions Settings
-if DEVELOPMENT_MODE is True:
+if DEVELOPMENT_MODE == 'True':
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
@@ -265,29 +286,44 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
             'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
         },
     }
-# Update database configuration from $DATABASE_URL.
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
-# or
-if "DB_URL" in os.environ:
-    # Configure Django for DATABASE_URL environment variable.
-    DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+    if "DB_URL" in os.environ:
+        # Configure Django for DATABASE_URL environment variable.
+        DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
 
     # Enable test database if found in CI environment.
     if "CI" in os.environ:
         DATABASES["default"]["TEST"] = DATABASES["default"]
 
+    # # Update database configuration from $DATABASE_URL.
+    # db_from_env = dj_database_url.config(conn_max_age=500)
+    # DATABASES['default'].update(db_from_env)
+    # # or
+    # if "DB_URL" in os.environ:
+    #     # Configure Django for DATABASE_URL environment variable.
+    #     DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+
+    #     # Enable test database if found in CI environment.
+    #     if "CI" in os.environ:
+    #         DATABASES["default"]["TEST"] = DATABASES["default"]
+
+
+# see Deployment checklist in how to deploy with wsgi file
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development') # development is the default valuew
 if ENVIRONMENT == 'production':
-    DEBUG = True
+    DEBUG = False
     SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
+    CSRF_COOKIE_AGE = 31449600 
+    CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_SECONDS = 60    # 31536000
+    SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+    SECURE_HSTS_SECONDS = 10    # 31536000 it would break the site forlong time if you improperly set it, set it if everything is okay
+    #SECURE_HSTS_PRELOAD=True
     SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = True
+    USE_X_FORWARDED_HOST=True
+    SECURE_SSL_REDIRECT = True # requests over HTTP will be redirected to HTTPS
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Static files (CSS, JavaScript, Images)
@@ -321,11 +357,15 @@ MEDIAFILES_DIRS = (BASE_DIR / 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # for using channels and websocket you need to have puip3 -m pip install channel_redis and then
 ASGI_APPLICATION = "project.asgi.application"
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",  #   "channels_redis.core.RedisChannelLayer"
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("127.0.0.1", 6379),  os.environ.get('REDIS_URL'),],
+            # ['redis://127.0.0.1:6379', os.getenv("REDIS_URL"),],
+            "on_disconnect": "redis.disconnect",
         },
     }, # you can add more channel layers here
 }
+
