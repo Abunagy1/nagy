@@ -236,7 +236,8 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# using next methods w/o dotenv like os.getenv('PG_PASSWORD'), gives no password supplied or os.environ['PG_PASSWORD'], gives key error
+# using next methodsto test production db conection
+
 # from django.core.exceptions import ImproperlyConfigured
 # def get_env_value(env_variable):
 #     try:
@@ -247,11 +248,11 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-#         'NAME': get_env_value('PG_NAME'), # DB Name os.environ['DATABASE_NAME'],
-#         'USER': get_env_value('PG_USER'),  # from server register => connection tab change the name of server and username
-#         'PASSWORD': get_env_value('PG_PASSWORD'),
-#         'HOST': get_env_value('PG_HOST'),    # os.environ['DATABASE_HOST'],
-#         'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
+#         'NAME': get_env_value('DB_NAME'), # DB Name os.environ['DATABASE_NAME'],
+#         'USER': get_env_value('DB_USER'),  # from server register => connection tab change the name of server and username
+#         'PASSWORD': get_env_value('DB_PASSWORD'),
+#         'HOST': get_env_value('DB_URL'),    # os.environ['DATABASE_HOST'],
+#         'PORT': get_env_value('DB_PORT'),  # int(os.environ['DATABASE_PORT']),
 #     }
 # }
 
@@ -277,7 +278,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql', # django.db.backends.mysql'
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
             'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
             'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
             'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
@@ -293,17 +294,17 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if "CI" in os.environ:
         DATABASES["default"]["TEST"] = DATABASES["default"]
 
-    # # Update database configuration from $DATABASE_URL.
-    # db_from_env = dj_database_url.config(conn_max_age=500)
-    # DATABASES['default'].update(db_from_env)
-    # # or
-    # if "DB_URL" in os.environ:
-    #     # Configure Django for DATABASE_URL environment variable.
-    #     DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+    # Update database configuration from $DATABASE_URL.
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES['default'].update(db_from_env)
+    # or
+    if "DB_URL" in os.environ:
+        # Configure Django for DATABASE_URL environment variable.
+        DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
 
-    #     # Enable test database if found in CI environment.
-    #     if "CI" in os.environ:
-    #         DATABASES["default"]["TEST"] = DATABASES["default"]
+        # Enable test database if found in CI environment.
+        if "CI" in os.environ:
+            DATABASES["default"]["TEST"] = DATABASES["default"]
 
 
 # see Deployment checklist in how to deploy with wsgi file

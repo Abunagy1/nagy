@@ -16,6 +16,8 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
+
+# i added these next two lines to change the default port no
 from django.core.management.commands.runserver import Command as runserver
 runserver.default_port = "8080"
 
