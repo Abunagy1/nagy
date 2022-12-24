@@ -299,25 +299,25 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
             'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
         },
     }
-    if "DB_URL" in os.environ:
-        # Configure Django for DATABASE_URL environment variable.
-        DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+    # if "DB_URL" in os.environ:
+    #     # Configure Django for DATABASE_URL environment variable.
+    #     DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
 
-    # Enable test database if found in CI environment.
-    if "CI" in os.environ:
-        DATABASES["default"]["TEST"] = DATABASES["default"]
+    # # Enable test database if found in CI environment.
+    # if "CI" in os.environ:
+    #     DATABASES["default"]["TEST"] = DATABASES["default"]
 
-    # Update database configuration from $DATABASE_URL.
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES['default'].update(db_from_env)
-    # or
-    if "DB_URL" in os.environ:
-        # Configure Django for DATABASE_URL environment variable.
-        DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+    # # Update database configuration from $DATABASE_URL.
+    # db_from_env = dj_database_url.config(conn_max_age=500)
+    # DATABASES['default'].update(db_from_env)
+    # # or
+    # if "DB_URL" in os.environ:
+    #     # Configure Django for DATABASE_URL environment variable.
+    #     DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
 
-        # Enable test database if found in CI environment.
-        if "CI" in os.environ:
-            DATABASES["default"]["TEST"] = DATABASES["default"]
+    #     # Enable test database if found in CI environment.
+    #     if "CI" in os.environ:
+    #         DATABASES["default"]["TEST"] = DATABASES["default"]
 
 
 # see Deployment checklist in how to deploy with wsgi file
