@@ -235,9 +235,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 # ::1 is the compressed format IPV6 loopback address 0:0:0:0:0:0:0:1. It is the equivalent of the IPV4 address 127.0.0.1
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# using next methodsto test production db conection
-
+# using next methods to test production db conection
 # from django.core.exceptions import ImproperlyConfigured
 # def get_env_value(env_variable):
 #     try:
@@ -251,66 +249,57 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 #         'NAME': get_env_value('DB_NAME'), # DB Name os.environ['DATABASE_NAME'],
 #         'USER': get_env_value('DB_USER'),  # from server register => connection tab change the name of server and username
 #         'PASSWORD': get_env_value('DB_PASSWORD'),
-#         'HOST': get_env_value('DB_URL'),    # os.environ['DATABASE_HOST'],
+#         'HOST': get_env_value('DB_HOST'),    # os.environ['DATABASE_HOST'],
 #         'PORT': get_env_value('DB_PORT'),  # int(os.environ['DATABASE_PORT']),
 #     }
 # }
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-        'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
-        'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-        'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
-        'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")), 
-        'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-    },
-}
-
-# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
-# # productions Settings
-# if DEVELOPMENT_MODE is True:
-#     DATABASES = {
+# w/o the above method
+# DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-#         'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
-#         'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-#         'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
-#         'HOST': os.environ.get('PG_HOST'), # dj_database_url.parse(os.environ.get("DATABASE_URL")), 
-#         'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+#         'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+#         'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+#         'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
+#         'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
+#         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
 #     },
-#     "test": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#     }
 # }
-# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if os.getenv("DB_URL", None) is None:
-#         raise Exception("DATABASE_URL environment variable not defined")
-#     DATABASES = {
-#         "default": dj_database_url.parse(os.environ.get("DB_URL")),
-#     }
-#     # or
-#     if "DB_URL" in os.environ:
-#         # Configure Django for DATABASE_URL environment variable.
-#         DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+# DATABASES['default'] = dj_database_url.config()
 
-#     # Enable test database if found in CI environment.
-#     if "CI" in os.environ:
-#         DATABASES["default"]["TEST"] = DATABASES["default"]
-    # # Update database configuration from $DATABASE_URL.
-    # db_from_env = dj_database_url.config(conn_max_age=500)
-    # DATABASES['default'].update(db_from_env)
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+# productions Settings
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+        'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
+        'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+        'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
+        'HOST': os.environ.get('PG_HOST'), # dj_database_url.parse(os.environ.get("DATABASE_URL")), 
+        'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+    },
+    "test": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
+}
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DB_URL", None) is None:  # if "DB_URL" in os.environ:
+        raise Exception("DATABASE_URL environment variable not defined")
+    # Configure Django for DATABASE_URL environment variable.
+    DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
+    #DATABASES = {"default": {dj_database_url.parse(os.environ.get("DB_URL")),}}
 
-# connection = psycopg2.connect(
-#     host = 'your_RDB_AWS_instance_Endpoint',
-#     port = 5432,
-#     user = 'YOUR_USER_NAME',
-#     password = 'YOUR_PASSWORD',
-#     database='YOUR_DATABASE_NAME'
-#     )
-# cursor=connection.cursor()
+    if "DB_URL" in os.environ:
+        # Update database configuration from $DATABASE_URL.
+        # db_from_env = dj_database_url.config(conn_max_age=500)
+        # DATABASES['default'].update(db_from_env)
+        # in just one line
+        DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+        # Enable test database if found in CI environment.
+        if "CI" in os.environ:
+            DATABASES["default"]["TEST"] = DATABASES["default"]
 
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
@@ -344,16 +333,15 @@ DATABASES = {
 #         },
 #     }
 #     if "DB_URL" in os.environ:
-#         # Configure Django for DATABASE_URL environment variable.
+#         # Update database configuration from $DATABASE_URL.
+#         # db_from_env = dj_database_url.config(conn_max_age=500)
+#         # DATABASES['default'].update(db_from_env)
+#         # in just one line
 #         DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+#         # Enable test database if found in CI environment.
+#         if "CI" in os.environ:
+#             DATABASES["default"]["TEST"] = DATABASES["default"]
 
-#     # Enable test database if found in CI environment.
-#     if "CI" in os.environ:
-#         DATABASES["default"]["TEST"] = DATABASES["default"]
-
-    # # Update database configuration from $DATABASE_URL.
-    # db_from_env = dj_database_url.config(conn_max_age=500)
-    # DATABASES['default'].update(db_from_env)
 
 # see Deployment checklist in how to deploy with wsgi file
 ENVIRONMENT = os.getenv('ENVIRONMENT', 'development') # development is the default valuew
