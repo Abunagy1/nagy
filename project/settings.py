@@ -265,7 +265,7 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
     },
 }
-DATABASES['default'] = dj_database_url.config()
+
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 # # productions Settings
