@@ -35,7 +35,7 @@
     </div>
 </div>
 <!--/ bradcam_area  -->
-<div class="job_details_area">
+<div class="job_details_area bg-dark">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -47,7 +47,7 @@
                             </div>
                             <div class="jobs_conetent">
                                 <a href="{% url 'jobs:details' job.slug %}">
-                                    <h4>{{job}}</h4>
+                                    <h4>{{job.title}}</h4>
                                 </a>
                                 <div class="links_locat d-flex align-items-center">
                                     <div class="location">
@@ -74,27 +74,18 @@
                     <div class="single_wrap">
                         <h4>Responsibility</h4>
                         <ul>
-                            <li>The applicants should have experience in the following areas.
+                            <li>
                             </li>
-                            <li>Have sound knowledge of commercial activities.</li>
-                            <li>Leadership, analytical, and problem-solving abilities.</li>
-                            <li>Should have vast knowledge in IAS/ IFRS, Company Act, Income Tax, VAT.</li>
                         </ul>
                     </div>
                     <div class="single_wrap">
                         <h4>Qualifications</h4>
                         <ul>
-                            <li>The applicants should have experience in the following areas.
+                            <li>
                             </li>
-                            <li>Have sound knowledge of commercial activities.</li>
-                            <li>Leadership, analytical, and problem-solving abilities.</li>
-                            <li>Should have vast knowledge in IAS/ IFRS, Company Act, Income Tax, VAT.</li>
                         </ul>
                     </div>
                     <div class="single_wrap">
-                        <h4>Benefits</h4>
-                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use
-                            a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing.</p>
                     </div>
                 </div>
                 <div class="apply_job_form bg-dark">
@@ -118,11 +109,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="job_sumary">
-                    <div class="summery_header">
-                        <h3>Job Summery</h3>
-                    </div>
-                    <div class="job_content">
+                <div class="job_sumary bg-dark">
+                    <h3>Job Summery</h3>
+                    <br><br>
+                    <div class="">
                         <ul>
                             <li>Published on: <span>{{ job.published_at|date:"d M o" }}</span></li>
                             <li>Vacancy: <span>{{job.Vacancy}} Position</span></li>
