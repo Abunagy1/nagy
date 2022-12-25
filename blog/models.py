@@ -117,7 +117,7 @@ class Genre(models.Model):
     POST_GENRE = ( # we define a tuple containing tuples of key-value pairs
         ('AI', 'Arteficial Intelligence'),
         ('WEB', 'Web Developing'),
-        ('ELEC', 'Electrcsl Engineering'),
+        ('ELEC', 'Electrical Engineering'),
         ('MECH', 'Mechanical Engineering'),)
     """Model representing a post genre (e.g. Science Fiction, Non Fiction).""" 
     genre = models.CharField(max_length=10, choices=POST_GENRE, blank=True, default='A', help_text='Enter a Post genre (A(AI), W(WEB), E(Electrical), M(Mechanical))')
