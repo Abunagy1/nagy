@@ -33,7 +33,6 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     # CORS
     'corsheaders',
     "django_bootstrap5",
-
     'blog.apps.BlogConfig', 
     'home.apps.HomeConfig', 
     'contact.apps.ContactConfig',
