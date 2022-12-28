@@ -227,7 +227,7 @@ POSTMAN_AUTOCOMPLETER_APP = {'name': 'ajax_select', 'field': 'AutoCompleteField'
 #SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', get_random_secret_key())
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key()) # get_random_secret_key() supplied as default value
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
+#DEBUG = True
 DEBUG = os.getenv("DJANGO_DEBUG", "False") # causing problem not found for scripts and css
 #ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1', '[::1]'] # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
@@ -235,35 +235,36 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # using next methods to test production db conection
-# from django.core.exceptions import ImproperlyConfigured
-# def get_env_value(env_variable):
-#     try:
-#         return os.environ[env_variable]
-#     except KeyError:
-#         error_msg = 'Set the {} environment variable'.format(env_variable)
-#         raise ImproperlyConfigured(error_msg)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-#         'NAME': get_env_value('DB_NAME'), # DB Name os.environ['DATABASE_NAME'],
-#         'USER': get_env_value('DB_USER'),  # from server register => connection tab change the name of server and username
-#         'PASSWORD': get_env_value('DB_PASSWORD'),
-#         'HOST': get_env_value('DB_HOST'),    # os.environ['DATABASE_HOST'],
-#         'PORT': get_env_value('DB_PORT'),  # int(os.environ['DATABASE_PORT']),
-#     }
-# }
-
-# # w/o the above method
+from django.core.exceptions import ImproperlyConfigured
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(env_variable)
+        raise ImproperlyConfigured(error_msg)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-        'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
-        'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-        'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
-        'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
-        'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-    },
+        'NAME': get_env_value('PG_NAME'), # DB Name os.environ['DATABASE_NAME'],
+        'USER': get_env_value('PG_USER'),  # from server register => connection tab change the name of server and username
+        'PASSWORD': get_env_value('PG_PASSWORD'),
+        'HOST': get_env_value('PG_HOST'),    # os.environ['DATABASE_HOST'],
+        'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
+    }
 }
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
+# # w/o the above method
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+#         'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+#         'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+#         'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
+#         'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
+#         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+#     },
+# }
 
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"

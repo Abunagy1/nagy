@@ -19,7 +19,7 @@ def main():
 
 # i added these next two lines to change the default port no
 from django.core.management.commands.runserver import Command as runserver
-runserver.default_port = "8080"
+runserver.default_port = "5000"
 
 if __name__ == '__main__':
     main()
