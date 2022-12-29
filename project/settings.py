@@ -235,36 +235,36 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # using next methods to test production db conection
-from django.core.exceptions import ImproperlyConfigured
-def get_env_value(env_variable):
-    try:
-        return os.environ[env_variable]
-    except KeyError:
-        error_msg = 'Set the {} environment variable'.format(env_variable)
-        raise ImproperlyConfigured(error_msg)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-        'NAME': get_env_value('PG_NAME'), # DB Name os.environ['DATABASE_NAME'],
-        'USER': get_env_value('PG_USER'),  # from server register => connection tab change the name of server and username
-        'PASSWORD': get_env_value('PG_PASSWORD'),
-        'HOST': get_env_value('PG_HOST'),    # os.environ['DATABASE_HOST'],
-        'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
-    }
-}
-# import mimetypes
-# mimetypes.add_type("text/css", ".css", True)
-# # # w/o the above method
+# from django.core.exceptions import ImproperlyConfigured
+# def get_env_value(env_variable):
+#     try:
+#         return os.environ[env_variable]
+#     except KeyError:
+#         error_msg = 'Set the {} environment variable'.format(env_variable)
+#         raise ImproperlyConfigured(error_msg)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-#         'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
-#         'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-#         'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
-#         'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
-#         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-#     },
+#         'NAME': get_env_value('PG_NAME'), # DB Name os.environ['DATABASE_NAME'],
+#         'USER': get_env_value('PG_USER'),  # from server register => connection tab change the name of server and username
+#         'PASSWORD': get_env_value('PG_PASSWORD'),
+#         'HOST': get_env_value('PG_HOST'),    # os.environ['DATABASE_HOST'],
+#         'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
+#     }
 # }
+# import mimetypes
+# mimetypes.add_type("text/css", ".css", True)
+# # # w/o the above method
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+        'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+        'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+        'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
+        'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
+        'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+    },
+}
 
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
@@ -377,7 +377,7 @@ STATIC_ROOT = os.path.join(SITE_ROOT, '_static')
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATICFILES_DIRS = (
-    os.path.join(SITE_ROOT, 'static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
