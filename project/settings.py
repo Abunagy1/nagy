@@ -363,27 +363,23 @@ if ENVIRONMENT == 'production':
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-#PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
-#SITE_ROOT = PROJECT_ROOT / BASE_DIR # SITE_ROOT = BASE_DIR
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/' # then you can reach to all static from this url
 ######### PRODUCTION STATIC SETTINGS #############
 #STATIC_ROOT IS for Production only
-STATIC_ROOT = [
-    os.path.join(SITE_ROOT, '_static'),
-    'https://static-app-bkpoj.ondigitalocean.app/_static',
-    'https://starfish-app-xgsam.ondigitalocean.app/_static'
-] # for production use "/var/www/example.com/static/"
+#PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
+#SITE_ROOT = PROJECT_ROOT / BASE_DIR # SITE_ROOT = BASE_DIR
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATIC_ROOT = os.path.join(SITE_ROOT, 'staticfiles')
+ # for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATICFILES_DIRS = [
+STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    'https://static-app-bkpoj.ondigitalocean.app/_static',
-    'https://starfish-app-xgsam.ondigitalocean.app/_static'
-]
+)
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
 TEMPLATE_DIRS = (
