@@ -15,7 +15,7 @@ load_dotenv()
 # Application definition
 INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'rest_framework',
-    'account.apps.AccountConfig',
+    'account',
     "daphne",
     'chat',
     'django.contrib.admin',
@@ -33,12 +33,12 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     # CORS
     'corsheaders',
     "django_bootstrap5",
-    'blog.apps.BlogConfig', 
-    'home.apps.HomeConfig', 
-    'contact.apps.ContactConfig',
-    'job.apps.JobConfig',
+    'blog', 
+    'home', 
+    'contact',
+    'job',
     #'pinax.notifications', # it causing ugettext problem in heroku becauseof requirements.txt(removed from both)
-    'postman.apps.PostmanConfig', # either this or post man not both
+    'postman', # either this or post man not both
     'ajax_select',
     #"messages", # it will clashes with postman.Message, so don't activate both, but just one and postman is the best ever
     'django_private_chat2.apps.DjangoPrivateChat2Config',
@@ -235,36 +235,36 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # using next methods to test production db conection
-# from django.core.exceptions import ImproperlyConfigured
-# def get_env_value(env_variable):
-#     try:
-#         return os.environ[env_variable]
-#     except KeyError:
-#         error_msg = 'Set the {} environment variable'.format(env_variable)
-#         raise ImproperlyConfigured(error_msg)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-#         'NAME': get_env_value('PG_NAME'), # DB Name os.environ['DATABASE_NAME'],
-#         'USER': get_env_value('PG_USER'),  # from server register => connection tab change the name of server and username
-#         'PASSWORD': get_env_value('PG_PASSWORD'),
-#         'HOST': get_env_value('PG_HOST'),    # os.environ['DATABASE_HOST'],
-#         'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
-#     }
-# }
-import mimetypes
-mimetypes.add_type("text/css", ".css", True)
-# # w/o the above method
+from django.core.exceptions import ImproperlyConfigured
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(env_variable)
+        raise ImproperlyConfigured(error_msg)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-        'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
-        'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-        'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
-        'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
-        'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-    },
+        'NAME': get_env_value('PG_NAME'), # DB Name os.environ['DATABASE_NAME'],
+        'USER': get_env_value('PG_USER'),  # from server register => connection tab change the name of server and username
+        'PASSWORD': get_env_value('PG_PASSWORD'),
+        'HOST': get_env_value('PG_HOST'),    # os.environ['DATABASE_HOST'],
+        'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
+    }
 }
+# import mimetypes
+# mimetypes.add_type("text/css", ".css", True)
+# # # w/o the above method
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+#         'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+#         'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+#         'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
+#         'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
+#         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+#     },
+# }
 
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
@@ -363,8 +363,29 @@ if ENVIRONMENT == 'production':
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
-SITE_ROOT = PROJECT_ROOT / BASE_DIR # SITE_ROOT = BASE_DIR
+#PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
+#SITE_ROOT = PROJECT_ROOT / BASE_DIR # SITE_ROOT = BASE_DIR
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+# The URL to use when referring to static files (where they will be served from)
+STATIC_URL = '/static/' # then you can reach to all static from this url
+######### PRODUCTION STATIC SETTINGS #############
+#STATIC_ROOT IS for Production only
+STATIC_ROOT = [
+    os.path.join(SITE_ROOT, '_static'),
+    'https://static-app-bkpoj.ondigitalocean.app/_static',
+    'https://starfish-app-xgsam.ondigitalocean.app/_static'
+] # for production use "/var/www/example.com/static/"
+# Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
+# If you don't have this directory and have this uncommented your build will fail
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    'https://static-app-bkpoj.ondigitalocean.app/_static',
+    'https://starfish-app-xgsam.ondigitalocean.app/_static'
+]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates" or '/127.0.0.1:8000/nagy/templates',
     # Always use forward slashes, even on Windows. "/path/to/my_project/my_app/static/bootstrap/",  
@@ -372,18 +393,6 @@ TEMPLATE_DIRS = (
     # ("downloads", "/opt/webfiles/stats"),   tuple  prefix key or name of the path and value of the path
     os.path.join(SITE_ROOT, 'templates'),
 )
-# The absolute path to the directory where collectstatic will collect static files for deployment.
-# The URL to use when referring to static files (where they will be served from)
-STATIC_URL = '/static/' # then you can reach to all static from this url
-#STATIC_ROOT = BASE_DIR / 'staticfiles'
-#STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
-STATIC_ROOT = os.path.join(BASE_DIR, '_static') # for production use "/var/www/example.com/static/"
-# Uncomment next line if you have extra static files and a directory in your GitHub repo.
-# If you don't have this directory and have this uncommented your build will fail
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIAFILES_DIRS = (BASE_DIR / 'media')
