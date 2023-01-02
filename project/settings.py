@@ -340,27 +340,6 @@ DATABASES = {
 #         # Enable test database if found in CI environment.
 #         if "CI" in os.environ:
 #             DATABASES["default"]["TEST"] = DATABASES["default"]
-
-
-# see Deployment checklist in how to deploy with wsgi file
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'development') # development is the default valuew
-if ENVIRONMENT == 'production':
-    DEBUG = False
-    SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
-    CSRF_COOKIE_AGE = 31449600 
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SESSION_EXPIRE_AT_BROWSER_CLOSE=True
-    SECURE_HSTS_SECONDS = 10    # 31536000 it would break the site forlong time if you improperly set it, set it if everything is okay
-    #SECURE_HSTS_PRELOAD=True
-    SECURE_REDIRECT_EXEMPT = []
-    USE_X_FORWARDED_HOST=True
-    SECURE_SSL_REDIRECT = True # requests over HTTP will be redirected to HTTPS
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 # The absolute path to the directory where collectstatic will collect static files for deployment.
@@ -376,7 +355,7 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static/css"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
 # for production use "/var/www/example.com/static/"
@@ -412,4 +391,25 @@ CHANNEL_LAYERS = {
         },
     }, # you can add more channel layers here
 }
+
+# see Deployment checklist in how to deploy with wsgi file
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'development') # development is the default valuew
+if ENVIRONMENT == 'production':
+    DEBUG = False
+    SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
+    CSRF_COOKIE_AGE = 31449600 
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+    SECURE_HSTS_SECONDS = 10    # 31536000 it would break the site forlong time if you improperly set it, set it if everything is okay
+    #SECURE_HSTS_PRELOAD=True
+    SECURE_REDIRECT_EXEMPT = []
+    USE_X_FORWARDED_HOST=True
+    SECURE_SSL_REDIRECT = True # requests over HTTP will be redirected to HTTPS
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
 
