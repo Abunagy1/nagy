@@ -50,8 +50,9 @@ ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 MIDDLEWARE = [
     # CORS
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware', # Manages sessions across requests
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -235,13 +236,13 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # using next methods to test production db conection
-# from django.core.exceptions import ImproperlyConfigured
-# def get_env_value(env_variable):
-#     try:
-#         return os.environ[env_variable]
-#     except KeyError:
-#         error_msg = 'Set the {} environment variable'.format(env_variable)
-#         raise ImproperlyConfigured(error_msg)
+from django.core.exceptions import ImproperlyConfigured
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(env_variable)
+        raise ImproperlyConfigured(error_msg)
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
@@ -252,8 +253,8 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 #         'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
 #     }
 # }
-# import mimetypes
-# mimetypes.add_type("text/css", ".css", True)
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
 # # # w/o the above method
 DATABASES = {
     'default': {
@@ -265,7 +266,6 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
     },
 }
-
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 # # productions Settings
@@ -370,15 +370,16 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 #STATIC_ROOT IS for Production only
 #PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
 #SITE_ROOT = PROJECT_ROOT / BASE_DIR # SITE_ROOT = BASE_DIR
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-STATIC_ROOT = os.path.join(SITE_ROOT, '_static')
- # for production use "/var/www/example.com/static/"
+#SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+#STATIC_ROOT = os.path.join(SITE_ROOT, 'project/_static')
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+#STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
 TEMPLATE_DIRS = (
@@ -386,7 +387,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows. "/path/to/my_project/my_app/static/bootstrap/",  
     # Don't forget to use absolute paths, not relative paths.
     # ("downloads", "/opt/webfiles/stats"),   tuple  prefix key or name of the path and value of the path
-    os.path.join(SITE_ROOT, 'templates'),
+    os.path.join(BASE_DIR, 'templates'),
 )
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
