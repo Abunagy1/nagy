@@ -352,7 +352,7 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "_static")
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 
