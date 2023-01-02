@@ -378,7 +378,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static_files/css"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "_static/css"),)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
 TEMPLATE_DIRS = (
