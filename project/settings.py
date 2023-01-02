@@ -376,7 +376,7 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static/css"),)
 
 
 # for production use "/var/www/example.com/static/"
