@@ -319,8 +319,6 @@ if DEVELOPMENT_MODE == 'True':
     }
 }
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if os.getenv("DB_URL", None) is None:
-        raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
