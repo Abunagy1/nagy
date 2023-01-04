@@ -256,16 +256,16 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
 # # # w/o the above method
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-#         'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
-#         'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-#         'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
-#         'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
-#         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-#     },
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+        'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+        'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+        'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
+        'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
+        'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+    },
+}
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 # # productions Settings
@@ -301,43 +301,43 @@ mimetypes.add_type("text/css", ".css", True)
 #             DATABASES["default"]["TEST"] = DATABASES["default"]
 
 
-DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
-# productions Settings
-if DEVELOPMENT_MODE == 'True':
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-        'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
-        'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-        'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
-        'HOST': os.environ.get('PG_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")), 
-        'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-    },
-    "test": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
-}
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-            'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
-            'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-            'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'],
-            'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("DB_URL")),
-            'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-        },
-    }
-    if "DB_URL" in os.environ:
-        # Update database configuration from $DATABASE_URL.
-        # db_from_env = dj_database_url.config(conn_max_age=500)
-        # DATABASES['default'].update(db_from_env)
-        # in just one line
-        DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
-        # Enable test database if found in CI environment.
-        if "CI" in os.environ:
-            DATABASES["default"]["TEST"] = DATABASES["default"]
+# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
+# # productions Settings
+# if DEVELOPMENT_MODE == 'True':
+#     DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+#         'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
+#         'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+#         'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
+#         'HOST': os.environ.get('PG_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")), 
+#         'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+#     },
+#     "test": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+#     }
+# }
+# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+#             'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+#             'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+#             'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'],
+#             'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("DB_URL")),
+#             'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+#         },
+#     }
+    # if "DB_URL" in os.environ:
+    #     # Update database configuration from $DATABASE_URL.
+    #     # db_from_env = dj_database_url.config(conn_max_age=500)
+    #     # DATABASES['default'].update(db_from_env)
+    #     # in just one line
+    #     DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+    #     # Enable test database if found in CI environment.
+    #     if "CI" in os.environ:
+    #         DATABASES["default"]["TEST"] = DATABASES["default"]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 # The absolute path to the directory where collectstatic will collect static files for deployment.
@@ -351,9 +351,10 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 #STATIC_ROOT = os.path.join(SITE_ROOT, 'staticfiles')
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-
-STATIC_ROOT = os.path.join(BASE_DIR, "_static")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # for production use "/var/www/example.com/static/"
