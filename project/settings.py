@@ -359,7 +359,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 #STATICFILES_DIRS = (os.path.join(BASE_DIR, "_static/css"),)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates" or '/127.0.0.1:8000/nagy/templates',
