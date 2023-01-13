@@ -256,49 +256,49 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
 # # # w/o the above method
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-        'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
-        'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-        'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
-        'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
-        'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
-    },
-}
-
-# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
-# # productions Settings
-# if DEVELOPMENT_MODE is True:
-#     DATABASES = {
+# DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
-#         'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
-#         'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
-#         'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
-#         'HOST': os.environ.get('PG_HOST'), # dj_database_url.parse(os.environ.get("DATABASE_URL")), 
-#         'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+#         'NAME': os.environ.get('DB_NAME'), # DB Name os.environ['PG_NAME'],
+#         'USER': os.environ.get('DB_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+#         'PASSWORD': os.getenv('DB_PASSWORD'), # os.environ['PG_PASSWORD'], 
+#         'HOST': os.environ.get('DB_HOST'), # remotely => dj_database_url.parse(os.environ.get("PG_HOST")),
+#         'PORT': os.environ.get('DB_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
 #     },
-#     "test": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#     }
 # }
-# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if os.getenv("DB_URL", None) is None:  # if "DB_URL" in os.environ:
-#         raise Exception("DATABASE_URL environment variable not defined")
-#     # Configure Django for DATABASE_URL environment variable.
-#     DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
-#     #DATABASES = {"default": {dj_database_url.parse(os.environ.get("DB_URL")),}}
-#     if "DB_URL" in os.environ:
-#         # Update database configuration from $DATABASE_URL.
-#         # db_from_env = dj_database_url.config(conn_max_age=500)
-#         # DATABASES['default'].update(db_from_env)
-#         # in just one line
-#         DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
-#         # Enable test database if found in CI environment.
-#         if "CI" in os.environ:
-#             DATABASES["default"]["TEST"] = DATABASES["default"]
+
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+# productions Settings
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # django.db.backends.mysql'
+        'NAME': os.environ.get('PG_NAME'), # DB Name os.environ['PG_NAME'],
+        'USER': os.environ.get('PG_USER'),  # os.environ['PG_USER'], from server register => connection tab change the name of server and username
+        'PASSWORD': os.getenv('PG_PASSWORD'), # os.environ['PG_PASSWORD'], 
+        'HOST': os.environ.get('PG_HOST'), # dj_database_url.parse(os.environ.get("DATABASE_URL")), 
+        'PORT': os.environ.get('PG_PORT'),   # postgresql://USERNAME:PASSWORD@DB_HOST:DB_PORT/DATABASE_NAME
+    },
+    "test": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
+}
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DB_URL", None) is None:  # if "DB_URL" in os.environ:
+        raise Exception("DATABASE_URL environment variable not defined")
+    # Configure Django for DATABASE_URL environment variable.
+    #DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
+    DATABASES = {"default": {dj_database_url.parse(os.environ.get("DB_URL")),}}
+    # if "DB_URL" in os.environ:
+    #     # Update database configuration from $DATABASE_URL.
+    #     # db_from_env = dj_database_url.config(conn_max_age=500)
+    #     # DATABASES['default'].update(db_from_env)
+    #     # in just one line
+    #     DATABASES["default"] = dj_database_url.config(conn_max_age=500, ssl_require=True)
+    #     # Enable test database if found in CI environment.
+    #     if "CI" in os.environ:
+    #         DATABASES["default"]["TEST"] = DATABASES["default"]
 
 
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
@@ -352,17 +352,14 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 
 # for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 #STATICFILES_DIRS = (os.path.join(BASE_DIR, "_static/css"),)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates" or '/127.0.0.1:8000/nagy/templates',
