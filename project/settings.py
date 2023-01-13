@@ -289,7 +289,7 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
         raise Exception("DATABASE_URL environment variable not defined")
     # Configure Django for DATABASE_URL environment variable.
     #DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
-    DATABASES = {"default": {dj_database_url.parse(os.environ.get("DB_URL")),}}
+    DATABASES = {"default": {dj_database_url.parse(os.environ.get("DB_URL"))}}
     # if "DB_URL" in os.environ:
     #     # Update database configuration from $DATABASE_URL.
     #     # db_from_env = dj_database_url.config(conn_max_age=500)
