@@ -352,7 +352,7 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 #STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles/css"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "_static/css"),)
 
 # for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
