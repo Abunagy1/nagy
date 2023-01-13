@@ -7,6 +7,10 @@ import sys
 import dj_database_url
 from dotenv import load_dotenv
 load_dotenv()
+import environ
+env = environ.Env()
+# reading .env file
+environ.Env.read_env()
 # by default django redirects the user after login to accounts/profile, even if you have different redirect in views
 # if you want to change that use this next line
 #LOGIN_REDIRECT_URL = '/accounts/username'
@@ -231,7 +235,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key()) # get_random_secre
 #DEBUG = True
 DEBUG = os.getenv("DJANGO_DEBUG", "False") # causing problem not found for scripts and css
 #ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1', '[::1]'] # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 # ::1 is the compressed format IPV6 loopback address 0:0:0:0:0:0:0:1. It is the equivalent of the IPV4 address 127.0.0.1
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
