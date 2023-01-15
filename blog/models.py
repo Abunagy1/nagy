@@ -35,16 +35,16 @@ def video_directory_path(instance, folder):
 
 def photo_directory_path(instance, folder):
     return os.path.join('image', str(instance.user.id), str(instance.photo_id))
-
-def upload_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/posts/<user_name>/<filename>
-    # return os.path.join("uploads", filename)
-    return 'posts/{0}/{1}'.format(instance.name, filename)
-
+# photo Path function  
 def directory_path(instance, filename):
     imgName, extension = filename.split('.')
     imgName = instance.title
-    return 'posts/%s.%s' %(imgName, extension)
+    return 'posts/images/%s.%s' %(imgName, extension)
+# Video Path function
+def upload_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/posts/<user_name>/<filename>
+    # return os.path.join("uploads", filename)
+    return 'posts/videos/{0}/{1}'.format(instance.title, filename)
 
 class Snippet(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -228,11 +228,11 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
-        img = Image.open(self.post_img.path) # specify path, pip install PILLOW, from PIL import Image
-        if img.height > 400 or img.width > 400:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.post_img.path)
+        # img = Image.open(self.post_img.path) # specify path, pip install PILLOW, from PIL import Image
+        # if img.height > 400 or img.width > 400:
+        #     output_size = (300, 300)
+        #     img.thumbnail(output_size)
+        #     img.save(self.post_img.path)
         return super(Post, self).save(*args, **kwargs)
 
 class Vote(models.Model):  # or multi-inherit Vote(Comment, Post):

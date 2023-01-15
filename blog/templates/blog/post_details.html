@@ -147,6 +147,8 @@
                     <p class="blog-post-meta">{{post.timeStamp}} by <a href="{% url 'accounts:user_profile' post.creator.username %}">{{post.creator}}</a> (<span> {{post.views}} views</span>)</p>
                     <hr>
                     <p class="card-text ">{{ post.content | safe }}</p>
+                    <hr><br>
+                    <p class="card-text ">{{ post.video | safe }}</p>
                 </div>
                 <div>
                     <p>{{ post.snippet.snippet_title }}</p>
