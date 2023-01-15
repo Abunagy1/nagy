@@ -108,10 +108,10 @@
                         {% endif %}
                     </div>
                     {% endfor %} {% bootstrap_form filter.form %}
-                    <input value='find' class="boxed-btn3 btn-danger w-10 mt-2" type="submit">
+                    <input value='find' class="btn-primary btn-danger w-10 mt-2" type="submit">
                 </form>
                 <div class="reset_btn">
-                    {% if has_filter %}<button class="boxed-btn3 w-100" type="submit"><a href="{%  url 'blog:index' %}">Reset</a> </button> {% endif %}
+                    {% if has_filter %}<button class="btn-primary w-100" type="submit"><a href="{%  url 'blog:index' %}">Reset</a> </button> {% endif %}
                 </div>
             </div>
         </div>

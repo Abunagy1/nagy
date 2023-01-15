@@ -19,7 +19,7 @@ from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import FormView
 from django.core.mail import send_mail, send_mass_mail, BadHeaderError
 from django.conf import settings
-@login_required  # or @login_required() only logged in users should access this
+#@login_required  # or @login_required() only logged in users should access this
 def contact(request):
     info = Contact.objects.first()  # from the Model
     form = ContactForm(request.POST or None)
@@ -42,7 +42,7 @@ def contact(request):
         else:
             return HttpResponse('Make sure all fields are entered and valid.') 
     return render(request, 'contact/contact.html', {'info': info, 'form': form})
-@login_required  # or @login_required() only logged in users should access this
+#@login_required  # or @login_required() only logged in users should access this
 def contact_me(request):
     info = Contact.objects.first()  # from the Model
     if request.method == 'POST':

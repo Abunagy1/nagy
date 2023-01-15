@@ -57,11 +57,11 @@
                                 {% endif %}
                             </div>
                             {% endfor %} {% bootstrap_form filter.form %}
-                            <input value='find' class="boxed-btn3 w-10 mt-2" type="submit">
+                            <input value='find' class="btn-primary w-10 mt-2" type="submit">
                         </form>
                     </div>
                     <div class="reset_btn">
-                        <button class="boxed-btn3 w-100" type="submit">Reset</button>
+                        <button class="btn-primary w-100" type="submit">Reset</button>
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
                                 <div class="jobs_right">
                                     <div class="apply_now">
                                         <a class="heart_mark" href="#"> <i class="fa fa-heart"></i> </a>
-                                        <a href="{% url 'jobs:details' job.slug %}" class="boxed-btn3">Apply Now</a>
+                                        <a href="{% url 'jobs:details' job.slug %}" class="btn-primary">Apply Now</a>
                                     </div>
                                     <div class="date">
                                         <p>{{ job.published_at|date:"d M o" }}</p>
