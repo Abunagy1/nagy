@@ -272,6 +272,8 @@ mimetypes.add_type("text/css", ".css", True)
 # }
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 # productions Settings
 if DEVELOPMENT_MODE is True:
     DATABASES = {
@@ -294,6 +296,8 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     # Configure Django for DATABASE_URL environment variable.
     #DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
     DATABASES = {"default": dj_database_url.parse(os.environ.get("DB_URL")),}
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
     # if "DB_URL" in os.environ:
     #     # Update database configuration from $DATABASE_URL.
     #     # db_from_env = dj_database_url.config(conn_max_age=500)
@@ -359,8 +363,8 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 
 # STATIC Settings for Production deployment
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
