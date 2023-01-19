@@ -18,10 +18,10 @@
                             <span class="badge badge-dark">{{ post.tag }}</span> {% endfor %}
                         </div>
                         {% if post.post_img %}
-                        <img class="card-img-top mt-3" src="{{ post.post_img.url }}" alt="/{{ img_list }}/{{ post.title }}"> {% endif %}
+                        <img class="card-img-top mt-3" src="{{ post.post_img.url }}" alt=""> {% endif %}
                         <li><span> {% if img_list %} {% for list in img_list %}
                                     <a href="{% url 'blog:details' post.id %}">
-                                        <img src="{{ list.post_img.url }}" alt="/{{ img_list }}/">
+                                        <img src="{{ list.post_img.url }}" alt="">
                                     </a>{% endfor %} {% else %}
                                     <p>No image available.</p></span>{% endif %}</li>
                     </div>
