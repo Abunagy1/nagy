@@ -48,7 +48,7 @@ def index(request):
     filter = UserFilter(request.GET, queryset=users)
     has_filter = any(field in request.GET for field in set(filter.get_fields()))
     f = filter.qs
-    paginator = Paginator(f, 3)  # Paginator object Show filtered 3 posts per page.
+    paginator = Paginator(f, 10)  # Paginator object Show filtered 3 posts per page.
     page_obj = request.GET.get('page') # page object on the request
     page = paginator.get_page(page_obj) # give filtered page to Paginator to be Paginated float page numbers or (page() for int. doesn't matter)
     path = settings.MEDIA_ROOT
