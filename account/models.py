@@ -262,7 +262,9 @@ def upload_path(instance, filename):
 '''
 def directory_path(instance, filename):
     imgName, extension = filename.split('.')
-    return 'profiles/%s.%s' % (imgName, extension)
+    imgName = instance.user
+    return 'profiles/%s.%s' %(imgName, extension)
+
 class City(models.Model):
     name = models.CharField(max_length=30, null= True, blank=True)
     def __str__(self):
