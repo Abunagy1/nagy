@@ -267,6 +267,8 @@ def directory_path(instance, filename):
 
 class City(models.Model):
     name = models.CharField(max_length=30, null= True, blank=True)
+    class meta:
+        verbose_name_plural = _('cities')
     def __str__(self):
         return self.name
 

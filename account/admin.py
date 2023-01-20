@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from .models import User, Profile # you can use get_user_model
+from .models import User, Profile, City # you can use get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 # from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin # for Normal auth.User
@@ -10,7 +10,11 @@ from django.contrib.auth import get_user_model
 # -*- coding: utf-8 -*-
 from .forms import CustomUserCreationForm, CustomUserChangeForm, GroupAdminForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-
+class CityAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    # wrong inlines = [PostsInline] # that mean only one Tag can have many Posts (it has many to many not foreign key relation to post)
+    # blog.admin.PostsInline': 'blog.Post' has no ForeignKey to 'blog.Tag'.
+admin.site.register(City, CityAdmin)
 class ProfileInline(admin.StackedInline):
     model = Profile
     #can_delete = False
