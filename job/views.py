@@ -32,10 +32,11 @@ def job_details(request, slug):
             # process the data in form.cleaned_data as required
             apply = form.save(commit=False)
             apply.job = job_details  # apply is the related_name in applicant model to job model
+            apply.applicant = request.user 
             apply.save()
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect('/jobs/')
+            return HttpResponseRedirect('/contacts/thanks')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = Apply()

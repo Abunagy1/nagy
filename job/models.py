@@ -54,9 +54,9 @@ class Applicant(models.Model):
     applicant = models.OneToOneField(User, related_name='applicant', on_delete=models.CASCADE)
     job = models.ForeignKey(Job, related_name='apply', on_delete=models.CASCADE)
     email = models.CharField(max_length=100)
-    website = models.URLField()
+    website = models.URLField(blank=True)
     cv = models.FileField(upload_to=upload_path, null=True, blank=True)
-    cover_letter = models.TextField(max_length=500)
+    cover_letter = models.TextField(max_length=500, blank=True)
     date_of_application = models.DateTimeField(auto_now=True)
     def __str__(self) -> str:
         return self.name
