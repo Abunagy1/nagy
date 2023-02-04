@@ -21,7 +21,7 @@
             <form method="post">
                 {% csrf_token %}
                 <p>{% bootstrap_form form %}</p>
-                <button type="submit" class="btn-primary w-40">Login</button>
+                <button type="submit" class="boxed-btn3 w-40">Login</button>
             </form>
             <br>
             <p>Forgot your password? <a href="{% url 'accounts:password_reset' %}">Click here</a></p>

@@ -48,9 +48,9 @@
                 </div>
                 <div class='p-5'>
                     {% if request.user.username == profile.user.username %}
-                    <a href="{% url 'accounts:edit_profile' user.username %}" class="btn-primary w-20"> Edit Profile</a> {% else %}
+                    <a href="{% url 'accounts:edit_profile' user.username %}" class="boxed-btn3 w-20"> Edit Profile</a> {% else %}
                     <div class='p-5'>
-                        <a href="{% url 'postman:write' recipients=profile.user.email %}" class="btn-primary w-20">Message Me</a>
+                        <a href="{% url 'postman:write' recipients=profile.user.email %}" class="boxed-btn3 w-20">Message Me</a>
                     </div>
                     {% endif %}
                 </div>

@@ -257,8 +257,10 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 #         'PORT': get_env_value('PG_PORT'),  # int(os.environ['DATABASE_PORT']),
 #     }
 # }
-import mimetypes
-mimetypes.add_type("text/css", ".css", True)
+# these two lines causing boxed-btn3 bootstrab class to not loading so removed them
+# import mimetypes
+# mimetypes.add_type("text/css", ".css", True)
+
 # # # w/o the above method
 # DATABASES = {
 #     'default': {
