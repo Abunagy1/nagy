@@ -111,7 +111,7 @@
                                 <div class="jobs_right">
                                     <div class="apply_now">
                                         <a class="heart_mark" href="#"> <i class="fa fa-heart"></i> </a>
-                                        <a href="{% url 'jobs:details' job.slug %}" class="boxed-btn3">Apply Now</a>
+                                        <a class="boxed-btn3" href="{% url 'jobs:details' job.slug %}">Apply Now</a>
                                     </div>
                                     <div class="date">
                                         <p>{{ job.published_at|date:"d M o" }}</p>
