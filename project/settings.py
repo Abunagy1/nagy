@@ -233,9 +233,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key()) # AI suggesti
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"   # Proper boolean conversion, default is "False" which will be converted to False, and "True" will be converted to True
 #DEBUG = os.getenv("DJANGO_DEBUG", "False") # causing problem not found for scripts and css
 #ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1', '[::1]'] # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",") # was working 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1').split(',') # AI Suggestion
+#ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",") # was working 
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',') # AI Suggestion
 # ::1 is the compressed format IPV6 loopback address 0:0:0:0:0:0:0:1. It is the equivalent of the IPV4 address 127.0.0.1
+"""
+os.getenv("VAR", default)       # shortcut for os.environ.get("VAR", default)
+os.environ.get("VAR", default)  # explicit dictionary lookup with default value
+os.environ["VAR"]              # raises KeyError if "VAR" is not set
+"""
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # using next methods to test production db conection
