@@ -23,7 +23,7 @@
                             <img class="vote-down" src="{% static 'img/vote-down-off.jpeg' %}" style="width:50px;height:60px;" title="Vote this thread DOWN if it is innapropriate or incorrect. (click again to undo)" /> {% else %}
                             <img class="vote-down selected" src="{% static 'img/vote-down-on.png' %}" style="width:50px;height:60px;" title="Vote this thread DOWN if it is innapropriate or incorrect. (click again to undo)" /> {% endif %}
                             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-                            <script type="text/javascript">
+                            <!-- <script type="text/javascript">
                                 $(document).ready(function() {
                                     $('div.vote-buttons img.vote-up').click(function() {
                                         let id = post.id;
@@ -59,8 +59,54 @@
                                         }
                                     });
                                 });
+                            </script> -->
+                            <script>
+                                function getCookie(name) {
+                                let cookieValue = null;
+                                if (document.cookie && document.cookie !== '') {
+                                    const cookies = document.cookie.split(';');
+                                    for (let i = 0; i < cookies.length; i++) {
+                                    const cookie = cookies[i].trim();
+                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                        break;
+                                    }
+                                    }
+                                }
+                                return cookieValue;
+                                }
+                                const csrftoken = getCookie('csrftoken');
+
+                                $(document).ready(function() {
+                                $('div.vote-buttons img.vote-up, div.vote-buttons img.vote-down').click(function() {
+                                    let id = '{{ post.id }}';
+                                    let vote_type = $(this).hasClass('vote-up') ? 'up' : 'down';
+                                    let action = $(this).hasClass('selected') ? 'recall-vote' : 'vote';
+
+                                    $.ajax({
+                                    url: "{% url 'blog:vote' %}",
+                                    type: "POST",
+                                    headers: {'X-CSRFToken': csrftoken},
+                                    data: { id: id, type: vote_type, action: action },
+                                    success: function(response) {
+                                        let score = parseInt(response);
+                                        if (!isNaN(score)) {
+                                        $('div.vote-tally span.num').text(score);
+                                        }
+                                        if (action === 'vote') {
+                                        $(this).addClass('selected')
+                                            .attr('src', vote_type === 'up' ? '/static/img/vote-up-on.jpeg' : '/static/img/vote-down-on.png');
+                                        } else {
+                                        $(this).removeClass('selected')
+                                            .attr('src', vote_type === 'up' ? '/static/img/vote-up-off.jpeg' : '/static/img/vote-down-off.jpeg');
+                                        }
+                                    }.bind(this)
+                                    });
+                                });
+                                });
                             </script>
                         </div>
+                        <div class="vote-tally">Score: <span class="num">{{ post.score }}</span></div>
                         <div class="voted-post">
                             <div id="post_595" class="post">
                                 <img src="{% static 'img/vote_up.png' %}" style="width:50px;height:60px;" class="vote up">

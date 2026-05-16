@@ -24,7 +24,7 @@
         <div class="col-lg-12">
             <div class="job_filter white-bg">
                 <div class="form_inner bg-dark">
-                    <form method='GET'>
+                    <!-- <form action="" method='POST'>
                         {{ form.non_field_errors }} {% csrf_token %} {% for field in form %}
                         <div class="send">
                             {% if field.errors %}
@@ -39,10 +39,19 @@
                         </div>
                         {% endfor %} {% bootstrap_form form %}
                         <input value='Send' class="boxed-btn3 w-10 mt-2" type="submit">
+                    </form> -->
+                    <!-- <div class="reset_btn">
+                        <button class="boxed-btn3 w-100" type="submit">Clear</button>
+                    </div> -->
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        {% bootstrap_form form %}
+                        <div class="d-flex gap-2 mt-2">
+                            <button type="submit" class="boxed-btn3 w-50">Send</button>
+                            <button type="reset" class="boxed-btn3 w-50">Clear</button>
+                        </div>
                     </form>
-                </div>
-                <div class="reset_btn">
-                    <button class="boxed-btn3 w-100" type="submit">Clear</button>
                 </div>
             </div>
         </div>

@@ -166,37 +166,38 @@ def edit(request):
     else:
         form = EditProfileForm(user.username)   # <-- add also here 
     return render(request, "account/profile_edit.html", {'form': form})
-@login_required(login_url='login_user')
-def profiles(request):
-    # logged in user
-    user = request.user
-    # instance id of current logged in user
-    instance_id = request.user.profile.id
-    # Profile is a instance of NewUser class
-    form = ProForm(instance=user)
-    if request.method == 'POST':
-        # form data + Profile instance
-        form = ProForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            # the picture that is currently uploaded by user
-            uploaded_file = request.FILES['avatar']
-            # django file system storage, we call it, so we can save the file on disk
-            #fs = FileSystemStorage()  # uncomment this line i commented it because it's not installed yet
-            # we save the file. We need the name and the content of the file.
-            #fs.save(uploaded_file.name, uploaded_file) # uncomment this line 
-            # new picture cleaned data from form post
-            avatar = form.cleaned_data.get('avatar')
-            #name_extension = avatar.name
-            #name, extension = name_extension.split(".")
-            #raise ValueError(avatar)
-            # title cleaned data from form post
-            title = form.cleaned_data.get('title')
-            # we update the database with the name of the picture we want to display
-            Profile.objects.filter(id=instance_id).update(avatar=avatar, title=title)
-        else:
-            messages.success(request, "Invalid File.")
-    context = {'form': form}
-    return render(request, "profiles/profiles.html", context)
+# Not used cause we have the above edit_profile view that has two forms one for user and one for profile and it's better to use it to edit the profile and user at the same time without having to make two separate views and templates for each form
+# @login_required(login_url='login_user')
+# def profiles(request):
+#     # logged in user
+#     user = request.user
+#     # instance id of current logged in user
+#     instance_id = request.user.profile.id
+#     # Profile is a instance of NewUser class
+#     form = ProForm(instance=user)
+#     if request.method == 'POST':
+#         # form data + Profile instance
+#         form = ProForm(request.POST, request.FILES, instance=user)
+#         if form.is_valid():
+#             # the picture that is currently uploaded by user
+#             uploaded_file = request.FILES['avatar']
+#             # django file system storage, we call it, so we can save the file on disk
+#             #fs = FileSystemStorage()  # uncomment this line i commented it because it's not installed yet
+#             # we save the file. We need the name and the content of the file.
+#             #fs.save(uploaded_file.name, uploaded_file) # uncomment this line 
+#             # new picture cleaned data from form post
+#             avatar = form.cleaned_data.get('avatar')
+#             #name_extension = avatar.name
+#             #name, extension = name_extension.split(".")
+#             #raise ValueError(avatar)
+#             # title cleaned data from form post
+#             title = form.cleaned_data.get('title')
+#             # we update the database with the name of the picture we want to display
+#             Profile.objects.filter(id=instance_id).update(avatar=avatar, title=title)
+#         else:
+#             messages.success(request, "Invalid File.")
+#     context = {'form': form}
+#     return render(request, "profiles/profiles.html", context)
 ########################################################################################
 ################################ Sign_up & Login views #################################
 ########################################################################################

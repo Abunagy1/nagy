@@ -310,7 +310,7 @@ class PostViews(models.Model):
     def __str__(self):
         return '{0} in {1} post'.format(self.IP, self.post.title)
 """
-class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete = models.CASCADE, related_name="likes")
+# class Like(models.Model):
+#     post = models.ForeignKey(Post, on_delete = models.CASCADE, related_name="likes")
 
 

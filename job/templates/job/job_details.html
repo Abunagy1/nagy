@@ -133,7 +133,7 @@
                 <div class="job_location_wrap">
                     <div class="job_lok_inner">
                         <div id="map" style="height: 200px;"></div>
-                        <script>
+                        <!-- <script>
                             function initMap() {
                                 var uluru = {
                                     lat: -25.363,
@@ -163,8 +163,49 @@
                                 });
                             }
                         </script>
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap"></script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap"></script> -->
+                        <script>
+                        // Only define initMap if Google Maps is available
+                        function initMap() {
+                            if (typeof google === 'undefined') return;
+                            var uluru = {lat: -25.363, lng: 131.044};
+                            var grayStyles = [{
+                                featureType: "all",
+                                stylers: [{
+                                    saturation: -90
+                                }, {
+                                    lightness: 50
+                                }]
+                            }, {
+                                elementType: 'labels.text.fill',
+                                stylers: [{
+                                    color: '#ccdee9'
+                                }]
+                            }];
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                center: {lat: -31.197, lng: 150.744},
+                                zoom: 9,
+                                styles: grayStyles,
+                                scrollwheel: false
+                            });
+                        }
+                        </script>
+                        <!-- Load the API only on this page, asynchronously -->
 
+                        {% block extra_scripts %}
+                        <!-- Google Maps API (only on this page) -->
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap" async defer></script>
+                        <!-- a_data scripts needed by the map (loaded after the API) -->
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/common.js' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/util.js' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/stats.js' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/onion.js' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/ViewportInfoService.GetViewportInfo' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/vt' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/controls.js' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/AuthenticationService.Authenticate' %}"></script>
+                        <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/QuotaService.RecordEvent' %}"></script>
+                        {% endblock %}
                     </div>
                 </div>
             </div>

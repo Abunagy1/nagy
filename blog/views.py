@@ -3,7 +3,7 @@ import uuid
 from django.conf import settings
 from django.forms import modelformset_factory, inlineformset_factory
 from django.utils import timezone
-from .models import Post, Maintainer, PostInstance, Genre, Comment, PostViews, Vote, Snippet, Like
+from .models import Post, Maintainer, PostInstance, Genre, Comment, PostViews, Snippet # ,Vote, Like
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.contenttypes.models import ContentType
@@ -20,7 +20,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from django.urls import reverse, reverse_lazy
-from .forms import CommentForm, SnippetForm, SnippetUpdateForm, VoteForm, PostForm, PostUpdateForm, MaintainerForm
+from .forms import CommentForm, SnippetForm, SnippetUpdateForm, PostForm, PostUpdateForm, MaintainerForm # ,VoteForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # ... index view is for home view only 
 ################################################
@@ -113,7 +113,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'blog/add_post.html'
     permission_required = ''
     def get_success_url(self):
-        messages.success(self.request, 'Your post has been created successfully.')
+        messages.success(self.request, _('Your post has been created successfully.'))
         return reverse_lazy("blog:index")
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -135,18 +135,43 @@ def add_post(request):
         # as well tag & genre too has ManyToMany but will be selected from multi choice drop menus
         post_form = PostForm(request.POST, request.FILES)
         snippet_form = SnippetForm(request.POST)
-        if post_form.is_valid() and snippet_form.is_valid():
-            post = post_form.save(commit=False)
-            snpt = snippet_form.save()
-            post.creator = request.user
-            post.snippet = snpt
-            post.save(),
-            snpt.save()
-            return redirect('blog:details',  post.pk) # post.get_absolute_url()  /   'blog:details', post.id args={'pk': post.pk}
+    #     if post_form.is_valid() and snippet_form.is_valid():
+    #         post = post_form.save(commit=False)
+    #         snpt = snippet_form.save()
+    #         post.creator = request.user
+    #         post.snippet = snpt
+    #         post.save(),
+    #         snpt.save()
+    #         return redirect('blog:details',  post.pk) # post.get_absolute_url()  /   'blog:details', post.id args={'pk': post.pk}
+    # else:
+    #     post_form = PostForm()
+    #     snippet_form = SnippetForm()
+    # return render(request, 'blog/add_post.html', {'post': post_form, 'snpt': snippet_form})
+        if post_form.is_valid():
+            add_code = post_form.cleaned_data.get('add_code', False)
+            if add_code:
+                if snippet_form.is_valid():
+                    post = post_form.save(commit=False)
+                    snpt = snippet_form.save()
+                    post.creator = request.user
+                    post.snippet = snpt
+                    post.save()
+                    return redirect('blog:details', pk=post.pk)
+                else:
+                    # re-render with errors
+                    return render(request, 'blog/add_post.html', {'post': post_form, 'snpt': snippet_form})
+            else:
+                post = post_form.save(commit=False)
+                post.creator = request.user
+                post.save()
+                return redirect('blog:details', pk=post.pk)
+        else:
+            messages.error(request, _('Please correct the following errors.'))
     else:
         post_form = PostForm()
         snippet_form = SnippetForm()
     return render(request, 'blog/add_post.html', {'post': post_form, 'snpt': snippet_form})
+  
 
 # Same add_post method but to accomply with conditional field add_code cleaned_data get(both methods works fne)
 @login_required
@@ -190,12 +215,12 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     permission_required = ''
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        update = True
-        context['update'] = update
+        # update = True
+        context['update'] = True # upate is the key name to use in template to check if it's update or create form
         return context
     def get_success_url(self):
         messages.success(
-            self.request, 'Your post has been updated successfully.')
+            self.request, _('Your post has been updated successfully.'))
         return reverse_lazy("blog:index")
     def get_queryset(self):
         return self.model.objects.filter(creator=self.request.user)
@@ -205,28 +230,30 @@ def edit_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == 'POST':
         post_form = PostUpdateForm(request.POST, request.FILES, instance=post)
-        if post.snippet.code:
+        if post.snippet and post.snippet.code:
             snippet_form = SnippetUpdateForm(request.POST, instance=post.snippet)
             if post_form.is_valid() and snippet_form.is_valid():
-                snippet_form.save(), post_form.save()
+                snippet_form.save()
+                post_form.save()
                 messages.success(request, _('Your post has been successfully updated!'))
-                return redirect('blog:details',  post.pk)
+                return redirect('blog:details',  pk=post.pk)
             else:
                 messages.error(request, _('Please correct the following error.'))
                 return redirect('blog:post-update', pk=post.pk)
         elif post_form.is_valid():
                 post_form.save()
                 messages.success(request, _('Your post has been successfully updated!'))
-                return redirect('blog:details', post.pk)
+                return redirect('blog:details', pk=post.pk)
         else:
             messages.error(request, _('Please correct the following error.'))
     else:
         post_form = PostUpdateForm(instance=post)
         context = {'post': post_form}
-        if post.snippet.code:
+        if post.snippet and post.snippet.code:
             snippet_form = SnippetUpdateForm(instance=post.snippet)
-            context = {'post': post_form, 'snpt': snippet_form}
-    return render(request, 'blog/post_form.html', context)
+            #context = {'post': post_form, 'snpt': snippet_form}
+            context['snpt'] = snippet_form
+        return render(request, 'blog/post_form.html', context)
 ##########################################
 # --------- Start Detail View ---------- #
 ##########################################
@@ -246,7 +273,7 @@ first_post.commenters.all() # related_name='commenters' in Comment Model(Many-Si
 @login_required
 def post_details(request, pk):
     #template_name = 'post_details.html' # Show that we can use attributes in fn. based rather than render(req.,blog/post_dwtails.html, contxt)
-    post = get_object_or_404(Post, id=pk) # or the usual post = Post.objects.get(slug=slug)
+    post = get_object_or_404(Post, pk=pk) # or the usual post = Post.objects.get(slug=slug) - it was okay also with id=pk but i want to show you how to use get_object_or_404 shortcut function that returns an object if found or raises Http404 if not found
     # using related_name = comments in Comment Model (Many-Side) we can get all post comments that's active=True only
     comments = post.comments.filter(active=True) # This queryset retrieves all the approved comments from the database instead of comment_set.filter
     post.views += 1
@@ -264,20 +291,32 @@ def post_details(request, pk):
         return ip
     PostViews.objects.get_or_create(user=request.user, post=post_details).save()
     '''
-    comnt = None
+    # ----- Add these lines -----
+    thisUserUpVote = post.userUpVotes.filter(id=request.user.id).count()
+    thisUserDownVote = post.userDownVotes.filter(id=request.user.id).count()
+    # ---------------------------
+    #comnt = None
     replyDict={} # we will put the reply comments in dictionary (objects)
+    replies = Comment.objects.filter(post=post).exclude(parent=None)
+    for reply in replies:
+        if reply.parent.id not in replyDict:
+            replyDict[reply.parent.id] = [reply]
+        else:
+            replyDict[reply.parent.id].append(reply)
+    comnt = None
     if request.method == 'POST':
+        form = CommentForm(request.POST or None, request.FILES)
         # if a POST request is made, then form variable will hold the data of user input
         # create a form instance and populate it with data from the request:
         # request.POST is a dictionary-like object that lets you access submitted data by key name (template context field var)
-        comments= Comment.objects.filter(post=post, parent=None) # get the first comment on the same post (parent comment)
-        replies= Comment.objects.filter(post=post).exclude(parent=None) # get the other comments other than parent one (self-relationship)  
-        for reply in replies:
-            if reply.parent.id not in replyDict.keys(): # if parent comment id is not in the dictionary keys
-                replyDict[reply.parent.id]=[reply]
-            else:
-                replyDict[reply.parent.id].append(reply)
-        form = CommentForm(request.POST or None, request.FILES)
+        #comments = Comment.objects.filter(post=post, parent=None) # get the first comment on the same post (parent comment)
+        # replies = Comment.objects.filter(post=post).exclude(parent=None) # get the other comments other than parent one (self-relationship)  
+        # for reply in replies:
+        #     if reply.parent.id not in replyDict.keys(): # if parent comment id is not in the dictionary keys
+        #         replyDict[reply.parent.id] = [reply]
+        #     else:
+        #         replyDict[reply.parent.id].append(reply)
+        #form = CommentForm(request.POST or None, request.FILES)
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -287,12 +326,15 @@ def post_details(request, pk):
             comnt.save()
             # Always return an HttpResponseRedirect after successfully dealing with Post request
             # redirect to a new URL:
-            return HttpResponseRedirect(f'/blog/posts/{pk}')
+            #return HttpResponseRedirect(f'/blog/posts/{pk}')
+            return HttpResponseRedirect(reverse('blog:details', args=[pk]))
             #return redirect(post.get_absolute_url())
+        else:
+            comments = Comment.objects.filter(post=post, parent=None)  # to re-render
     # if a GET (or any other method) we'll create a blank form
     else:
         form = CommentForm()
-    context = {'post': post, 'comnt': comnt, 'comments': comments, 'form': form, 'user': request.user, 'replyDict': replyDict}
+    context = {'post': post, 'comnt': comnt, 'comments': comments, 'form': form, 'user': request.user, 'replyDict': replyDict, 'thisUserUpVote': thisUserUpVote, 'thisUserDownVote': thisUserDownVote}
     return render(request, 'blog/post_details.html', context)
 
 def PostDetails(request, slug, uuid):
@@ -431,7 +473,7 @@ class PostView(DetailView):
             # Always return an HttpResponseRedirect after successfully dealing with Post request to be edited here
         return self.render_to_response(context=context)
 @login_required
-def vote(request, _id): 
+def voting(request, _id): 
     template_name = 'post_details.html' # Show that we can use attributes in fn. based rather than render(req.,blog/post_dwtails.html, contxt)
     post = get_object_or_404(Post, pk=_id)
     # request.POST is a dictionary-like object that lets you access submitted data by key name (template context field var)
@@ -489,7 +531,7 @@ def vote(request, _id):
         form = VoteForm()
     context = {'post': post,'new_comment': add, 'form': form, 'score': score, 'up_count': up_count, 'down_count': down_count }
     return render(request, template_name, context)
-def vote(request):
+def voter(request):
    post_id = int(request.POST.get('id')) # try uuid if int is not working
    vote_type = request.POST.get('type')
    vote_action = request.POST.get('action')
@@ -518,54 +560,83 @@ def vote(request):
    num_votes = thread.userUpVotes.count() - thread.userDownVotes.count()
    return HttpResponse(num_votes)
 
-
-def add_vote(request):
+@login_required
+def vote(request):
+    """Handle up/down vote via AJAX. Expects POST with 'id', 'type', 'action'."""
     if request.method == 'POST':
-        try:
-            post = Post.objects.get(pk=request.POST['id'])
-        except Post.DoesNotExist:
-            return HttpResponse("{'success': 'false'}")
-        try:
-            vote = Vote.objects.get(post=post, user=request.user)
-        except Vote.DoesNotExist:
-            pass
-        else:
-            return HttpResponse("{'success': 'false'}")
-        if request.POST['type'] == 'up':
-            post.score = post.score + 1
-        else:
-            post.score = post.score - 1
+        post_id = request.POST.get('id')
+        vote_type = request.POST.get('type')
+        vote_action = request.POST.get('action')
+        post = get_object_or_404(Post, pk=post_id)
+        user_up_count = post.userUpVotes.filter(id=request.user.id).count()
+        user_down_count = post.userDownVotes.filter(id=request.user.id).count()
+        if vote_action == 'vote':
+            if user_up_count == 0 and user_down_count == 0:
+                if vote_type == 'up':
+                    post.userUpVotes.add(request.user)
+                elif vote_type == 'down':
+                    post.userDownVotes.add(request.user)
+            else:
+                # already voted, ignore
+                pass
+        elif vote_action == 'recall-vote':
+            if vote_type == 'up' and user_up_count == 1:
+                post.userUpVotes.remove(request.user)
+            elif vote_type == 'down' and user_down_count == 1:
+                post.userDownVotes.remove(request.user)
+        post.score = post.userUpVotes.count() - post.userDownVotes.count()
         post.save()
-        Vote.objects.create(post=post, user=request.user, type=request.POST['type'])
+        return HttpResponse(str(post.score))   # plain number as expected by front-end
+    return HttpResponse(status=400)
 
-        return HttpResponse("{'success':'true', 'score':" + post.score + "}")
-    else:
-        raise Http404('What are you doing here?')
-def remove_vote(request):
-    if request.method == 'POST':
-        try:
-            post = Post.objects.get(pk=request.POST['id'])
-        except Post.DoesNotExist:
-            return HttpResponse("{'success': 'false'}")
-        try:
-            vote = Vote.objects.get(post=post, user=request.user)
-        except Vote.DoesNotExist:
-            return HttpResponse("{'success': 'false'}")
-        else:
-            vote.delete()
-        if request.POST['type'] == 'up':
-            post.score = post.score - 1
-        else:
-            post.score = post.score + 1
-        post.save()
-        return HttpResponse("{'success':'true', 'score':" + post.score + "}")
-    else:
-        raise Http404('What are you doing here?')
+# def add_vote(request):
+#     if request.method == 'POST':
+#         try:
+#             post = Post.objects.get(pk=request.POST['id'])
+#         except Post.DoesNotExist:
+#             return HttpResponse("{'success': 'false'}")
+#         try:
+#             vote = Vote.objects.get(post=post, user=request.user)
+#         except Vote.DoesNotExist:
+#             pass
+#         else:
+#             return HttpResponse("{'success': 'false'}")
+#         if request.POST['type'] == 'up':
+#             post.score = post.score + 1
+#         else:
+#             post.score = post.score - 1
+#         post.save()
+#         Vote.objects.create(post=post, user=request.user, type=request.POST['type'])
+
+#         return HttpResponse("{'success':'true', 'score':" + post.score + "}")
+#     else:
+#         raise Http404('What are you doing here?')
+# def remove_vote(request):
+#     if request.method == 'POST':
+#         try:
+#             post = Post.objects.get(pk=request.POST['id'])
+#         except Post.DoesNotExist:
+#             return HttpResponse("{'success': 'false'}")
+#         try:
+#             vote = Vote.objects.get(post=post, user=request.user)
+#         except Vote.DoesNotExist:
+#             return HttpResponse("{'success': 'false'}")
+#         else:
+#             vote.delete()
+#         if request.POST['type'] == 'up':
+#             post.score = post.score - 1
+#         else:
+#             post.score = post.score + 1
+#         post.save()
+#         return HttpResponse("{'success':'true', 'score':" + post.score + "}")
+#     else:
+#         raise Http404('What are you doing here?')
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 # add a view for getting the list of all new posts that's been posted by the current user
 # "N" is the stored code for "new" and we order by the renew_on(due_on/delet_on/etc...) date so that the newest items are displayed first.
 class PostedByUserListView(LoginRequiredMixin, generic.ListView):
+    """My new posts (status 'N') commented by the user."""
     """Generic class-based view listing only new posts(or loaned books) created by current user(maybe admin or normal user acc. to perms)
     ordered by date of renewal(OR due_back_date for abook)."""
     model = PostInstance
@@ -573,7 +644,8 @@ class PostedByUserListView(LoginRequiredMixin, generic.ListView):
     template_name = 'blog/postinstance_list_renewed_user.html'
     paginate_by = 10
     def get_queryset(self):
-        return PostInstance.objects.filter(commenter=self.request.user).filter(status__exact='N').order_by('renew_on')
+        #return PostInstance.objects.filter(commenter=self.request.user).filter(status__exact='N').order_by('renew_on')
+        return PostInstance.objects.filter(commenter=self.request.user, status__exact='N').order_by('renew_on')
 
 # add a view for all renewed posts that's been viewd by only employee or admin of site
 # you can use decoratot for permission in function based like
@@ -592,8 +664,10 @@ def my_view(request):
 """
 class RenewedAllListView(PermissionRequiredMixin, generic.ListView):
     """Generic class-based view listing all renewed(R)/new(N) posts(OR loaned). Only visible to users with can_renew permission."""
+    """All renewed (status 'R') post instances."""
     model = PostInstance
     permission_required = ('blog.can_renew', 'blog.can_edit')
+    #permission_required = ['blog.can_renew']
     template_name = 'blog/PostInstance_list_renewed_all.html'
     paginate_by = 10
     def get_queryset(self):
@@ -606,6 +680,7 @@ from django.urls import reverse # Generates a URL from a URL configuration name 
 import datetime # A Python library for manipulating dates and times.
 from django.contrib.auth.decorators import login_required, permission_required
 from blog.forms import RenewPostForm # import our form (RenewPostForm) ==  from .forms import RenewPostForm
+
 @login_required # To restrict access to the view to just logged-in emloyees who have permission to renew posts
 @permission_required('blog.can_renew', 'blog.can_edit', raise_exception=True) # Allow access (with our can_renew/"can_renew") pr "<app label>.<permission codename>"
 def renew_post_admin(request, pk): # You should have created a new permission setting in PostInstance ("can_renew")
@@ -621,11 +696,12 @@ def renew_post_admin(request, pk): # You should have created a new permission se
             post_instance.renew_on = form.cleaned_data['renewal_date']
             post_instance.save() # Save the data into the renew_on value of the associated PostInstance object
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('all-renewed'))
+            return HttpResponseRedirect(reverse('blog:all-renewed')) # we use HttpResponseRedirect and reverse() to redirect to usually a "success" page, here to a view named 'all-renewed'
     # If this is a GET (or any other method) create the default form
     # We create the default form passing in an initial value for the renewal_date field, 3 weeks from the current date
     else: # Not a POST Request then we create the default form passing in an initial value for the renewal_date field,
-        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3) # 3 weeks from the current date.
+        #proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3) # 3 weeks from the current date.
+        proposed_renewal_date = timezone.now() + timezone.timedelta(weeks=3)
         form = RenewPostForm(initial={'renewal_date': proposed_renewal_date})
     context = {
         'form': form, # post_instance passed to context to list post title, commenter, and the original due date that we...
@@ -646,6 +722,7 @@ class MaintainerListView(generic.ListView):
         maintainer = get_object_or_404(Maintainer, id=self.kwargs.get('pk'))
         post = Post.objects.filter(maintainer=maintainer).order_by('-created_at')
         return post
+    
 @login_required
 def maintainers_list(request):
     maintainers = Maintainer.objects.all()
@@ -659,7 +736,8 @@ def maintainers_list(request):
 
 def maint_details(request, pk):
     try:
-        maintainer = Maintainer.objects.get(id =pk)  # get the post object by id (you can change to slug)
+        maintainer = get_object_or_404(Maintainer, pk=pk)
+        #maintainer = Maintainer.objects.get(id =pk)  # get the post object by id (you can change to slug)
         # get the comments objects that has relation to same post(field in Comment model)
         posts = Post.objects.filter(maintainer = maintainer)
     except Post.DoeidtExist:
@@ -692,6 +770,7 @@ def create_maint(request):
                 return redirect('blog:maintainer-detail',  maint.pk)
             else:
                 form.save()
+                return redirect('blog:maintainers')
     else:
         form = MaintainerForm()
     return render(request, 'blog/maintainer_form.html', {'form': form,})
@@ -710,7 +789,7 @@ class MaintainerUpdate(PermissionRequiredMixin, UpdateView):
 class MaintainerDelete(PermissionRequiredMixin, DeleteView):
     permission_required = ['blog.can_renew', 'account.can_publish']
     model = Maintainer
-    success_url = reverse_lazy('maintainers')
+    success_url = reverse_lazy('blog:maintainers')
 
 ##############################################################################
 #------------------------------- Snippet Views ------------------------------#
@@ -732,27 +811,25 @@ class SnippetUpdate(PermissionRequiredMixin, UpdateView):
     #permission_required = 'blog.can_renew'
 class SnippetDelete(PermissionRequiredMixin, DeleteView):
     model = Snippet
-    success_url = reverse_lazy('blog')
+    success_url = reverse_lazy('blog:index')
     #permission_required = 'blog.can_renew'
 
 # delete post class based
 """
 class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
-    success_url = reverse_lazy('posts')
+    success_url = reverse_lazy('blog:index')
     permission_required = 'blog.can_renew'
 """
 class PostDeleteView(LoginRequiredMixin, DeleteView):
-    success_url = reverse_lazy('blog')
-    permission_required = 'blog.can_renew'
     model = Post
-    def get_success_url(self):
-        messages.success(
-            self.request, 'Your post has been deleted successfully.')
-        return reverse_lazy("blog:index")
+    success_url = reverse_lazy('blog:index')
+    permission_required = 'blog.can_renew'
     def get_queryset(self):
         return self.model.objects.filter(creator=self.request.user)
-
+    def get_success_url(self):
+        messages.success(self.request, _('Your post has been deleted successfully.'))
+        return reverse_lazy("blog:index")
 def delete_view(request, id):
     # dictionary for initial data with
     # field names as keys
@@ -772,37 +849,57 @@ def delete(request, id):
     data.delete()
     return redirect('blog:index')
 
-def likePost(request):
-    if request.method == 'GET':
-        post_id = request.GET['post_id']
-        likedpost = Post.objects.get(pk=post_id) #getting the liked posts
-        m = Like(post=likedpost) # Creating Like Object
-        m.save()  # saving it to store in database
-        return HttpResponse("Success!") # Sending an success response
-    else:
-        return HttpResponse("Request method is not a GET")
+# def likePost(request):
+#     if request.method == 'GET':
+#         post_id = request.GET['post_id']
+#         likedpost = Post.objects.get(pk=post_id) #getting the liked posts
+#         m = Like(post=likedpost) # Creating Like Object
+#         m.save()  # saving it to store in database
+#         return HttpResponse("Success!") # Sending an success response
+#     else:
+#         return HttpResponse("Request method is not a GET")
 
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+# ------------------------------------------------------------
+#  SEARCH (AJAX) the original one
+# ------------------------------------------------------------
+# def search_titles(request):
+#     ctx = {}
+#     url_parameter = request.GET.get("q")
+#     if url_parameter:
+#         posts = Post.objects.filter(title__contains=url_parameter)
+#     else:
+#         posts = Post.objects.filter(created_at__lte=timezone.now()).order_by('-created_at')[:5]
+#     ctx["posts"] = posts
+#     does_req_accept_json = request.accepts("application/json")
+#     is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
+#     if is_ajax_request:
+#         html = render_to_string(
+#             template_name="components/posts-results-partial.html", context={"posts": posts}
+#         )
+#         data_dict = {"html_from_view": html}
+#         return JsonResponse(data=data_dict, safe=False)
+#     return render(request, "blog/posts.html", context=ctx)
+# ------------------------------------------------------------
+#  SEARCH (AJAX) -- from the AI assistant
+# ------------------------------------------------------------
 def search_titles(request):
-    ctx = {}
-    url_parameter = request.GET.get("q")
+    url_parameter = request.GET.get('q')
     if url_parameter:
-        posts = Post.objects.filter(title__contains=url_parameter)
+        posts = Post.objects.filter(title__icontains=url_parameter)
     else:
         posts = Post.objects.filter(created_at__lte=timezone.now()).order_by('-created_at')[:5]
-    ctx["posts"] = posts
-    does_req_accept_json = request.accepts("application/json")
-    is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
-    if is_ajax_request:
-        html = render_to_string(
-            template_name="components/posts-results-partial.html", context={"posts": posts}
-        )
-        data_dict = {"html_from_view": html}
-        return JsonResponse(data=data_dict, safe=False)
-    return render(request, "blog/posts.html", context=ctx)
 
+    is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
+    if is_ajax:
+        html = render_to_string(
+            template_name='components/posts-results-partial.html',
+            context={'posts': posts}
+        )
+        return JsonResponse({'html_from_view': html})
+    return render(request, 'blog/posts.html', {'posts': posts})
 '''
 EX:
 <QuerySet [<Post: AI Intellegent (comments count: 1)>]>

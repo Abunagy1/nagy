@@ -206,18 +206,28 @@
         }
     </script>
     <!-- contact form script end-->
+    <!-- Google Maps API (must load before a_data scripts) -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I"></script> -->
+    
     <!-- Google Fonts -->
-    <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/common.js' %}"></script>
-    <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/util.js' %}"></script>
+    <!-- <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/common.js' %}"></script> -->
+    <!-- <script>
+    if (typeof google !== 'undefined') {
+        var script = document.createElement('script');
+        script.src = "{% static 'a_data/common.js' %}";
+        document.head.appendChild(script);
+    }
+    </script> -->
+    <!-- <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/util.js' %}"></script> -->
     <!-- <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/map.js' %}"></script> -->
     <!-- <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/marker.js' %}"></script> -->
-    <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/stats.js' %}"></script>
+    <!-- <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/stats.js' %}"></script>
     <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/onion.js' %}"></script>
     <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/ViewportInfoService.GetViewportInfo' %}"></script>
     <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/vt' %}"></script>
     <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/controls.js' %}"></script>
-    <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/AuthenticationService.Authenticate' %}"></script>
-    <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/QuotaService.RecordEvent' %}"></script>
+    <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/AuthenticationService.Authenticate' %}"></script> -->
+    <!-- <script type="text/javascript" charset="UTF-8" src="{% static 'a_data/QuotaService.RecordEvent' %}"></script>  -->
 </head>
 
 <body>
@@ -359,13 +369,13 @@
     <script src="{% static 'js/gijgo.min.js' %}"></script>
     <script src="{% static 'js/range.js' %}"></script>
     <!--contact js-->
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
     <script src="{% static 'js/contact.js' %}"></script>
     <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
     <script src="{% static 'js/jquery.form.js' %}"></script>
-    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
     <script src="{% static 'js/mail-script.js' %}"></script>
     <!--Site Main js-->
-    <script src="{% static 'a_data/main.js' %}"></script>
+    <!-- <script src="{% static 'a_data/main.js' %}"></script> -->
     <script src="{% static 'js/main.js' %}"></script>
     <!-- End -->
     <!-- JavaScript Bundle with Popper -->
@@ -376,14 +386,16 @@
     <!-- the newest  bundle library including popper just one link better than the two above-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <!-- old-Jquery js-->
-    <script src="{% static 'a_data/jquery-3.js' %}"></script>
+    <!-- <script src="{% static 'a_data/jquery-3.js' %}"></script>
     <script src="{% static 'a_data/bootstrap.js' %}"></script>
     <script src="{% static 'a_data/plugins.js' %}"></script>
     <script src="{% static 'a_data/animated.js' %}"></script>
-    <script src="{% static 'a_data/js' %}"></script>
+    <script src="{% static 'a_data/js' %}"></script> -->
     <!--<script src="{% static 'a_data/gmap3.js' %}"></script> -->
     <!--Site Main js-->
-    <script src="{% static 'a_data/main.js' %}"></script>
+    <!-- <script src="{% static 'a_data/main.js' %}"></script> -->
+    {% block extra_scripts %}{% endblock %}
+</body>
 </body>
 
 </html>

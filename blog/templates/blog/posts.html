@@ -15,7 +15,7 @@
                         {# icon and search-box #}
                         <div class="col-6 align-left">
                             <i id="search-icon" class="fas fa-search"></i>
-                            <input id="user-input" placeholder="Search">
+                            <input id="user-input" placeholder="Search" autocomplete="off" type="text" name="search" value="{{ request.GET.search }}">
                         </div>
                         {# post-list section #}
                         <div id="replaceable-content" class="col-6">
@@ -27,4 +27,16 @@
         </div>
     </div>
 </section>
+<script>
+document.getElementById('user-input').addEventListener('keyup', function() {
+  let query = this.value;
+  fetch(`?q=${encodeURIComponent(query)}`, {
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('replaceable-content').innerHTML = data.html_from_view;
+  });
+});
+</script>
 {% endblock body %}

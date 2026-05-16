@@ -173,7 +173,7 @@ class PostForm(forms.ModelForm):
         model = Post
         #fields = '__all__'
         #fields = ['title', 'tag', 'maintainer', 'post_img', 'content', 'snippet', 'genre', 'post_language', 'video', 'post_type', 'urls', 'views', 'status' ]
-        exclude = ('creator', 'snippet', 'slug', 'userUpVotes', 'score', 'userDownVotes')
+        exclude = ('creator', 'snippet', 'slug', 'userUpVotes', 'score', 'userDownVotes', 'views')
 
 class SnippetForm(forms.ModelForm):
     class Meta:

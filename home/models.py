@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
 from django.forms import widgets
-from blog.models import Post, Maintainer, Comment, Snippet, Vote, PostInstance
+from blog.models import Post, Maintainer, Comment, Snippet, PostInstance # Vote
 from job.models import Job, Applicant
 from account.models import User, Profile
 from contact.models import Contact

@@ -85,17 +85,17 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=40)),
             ],
         ),
-        migrations.CreateModel(
-            name='Vote',
-            fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('vote_type', models.IntegerField(choices=[(-1, 'Downvote'), (1, 'Upvote'), (0, 'Unvote')], default=0)),
-                ('score', models.IntegerField(default=0)),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='votes', to='blog.post')),
-                ('voters', models.ManyToManyField(related_name='voters', to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='Vote',
+        #     fields=[
+        #         ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+        #         ('created', models.DateTimeField(auto_now_add=True)),
+        #         ('vote_type', models.IntegerField(choices=[(-1, 'Downvote'), (1, 'Upvote'), (0, 'Unvote')], default=0)),
+        #         ('score', models.IntegerField(default=0)),
+        #         ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='votes', to='blog.post')),
+        #         ('voters', models.ManyToManyField(related_name='voters', to=settings.AUTH_USER_MODEL)),
+        #     ],
+        # ),
         migrations.CreateModel(
             name='PostViews',
             fields=[
@@ -139,13 +139,13 @@ class Migration(migrations.Migration):
             name='userUpVotes',
             field=models.ManyToManyField(blank=True, related_name='posrUpVotes', to=settings.AUTH_USER_MODEL),
         ),
-        migrations.CreateModel(
-            name='Like',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='blog.post')),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='Like',
+        #     fields=[
+        #         ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='likes', to='blog.post')),
+        #     ],
+        # ),
         migrations.CreateModel(
             name='Comment',
             fields=[

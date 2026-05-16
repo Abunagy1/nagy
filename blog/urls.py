@@ -2,9 +2,26 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from django.urls import path, include, re_path
 from rest_framework.routers import DefaultRouter
 from .import api
-from .views import (add_vote, create_maint, edit_post, index, likePost, maint_details, maintainers_list, post_details, PostDetailView, add_post, PostCreateView, PostUpdateView, PostDeleteView,
-PostedByUserListView, remove_vote, renew_post_admin, RenewedAllListView, MaintainerListView, MaintainerDetailView, MaintainerCreate,
-MaintainerUpdate, MaintainerDelete, search_titles, vote )
+# from .views import ( vote, create_maint, edit_post, index, likePost, maint_details, maintainers_list, post_details, PostDetailView, add_post, PostCreateView, PostUpdateView, PostDeleteView, # add_vote
+# PostedByUserListView, remove_vote, renew_post_admin, RenewedAllListView, MaintainerListView, MaintainerDetailView, MaintainerCreate,
+# MaintainerUpdate, MaintainerDelete, search_titles, vote )
+from .views import (
+    index,
+    add_post,
+    post_details,
+    edit_post,
+    vote,
+    create_maint,
+    maintainers_list,
+    maint_details,
+    search_titles,
+    renew_post_admin,
+    PostDeleteView,
+    PostedByUserListView,
+    RenewedAllListView,
+    MaintainerUpdate,
+    MaintainerDelete,
+)
 """
 <a href="{% url 'url_name_in_urlpatterns' argument_needed %}"> {{ context_var_name.field_name }}</a>
 <li><a href="{% url 'posts:details' post.id %}">{{ post.title }}</a></li>  
@@ -23,14 +40,14 @@ router.register(r'snippets', api.SnippetViewSet) # api views
 #router.register(r'users', api.UserViewSet) # will conflict with the same users of job urls.py
 # The Normal views routing.
 urlpatterns = [ # you can use the URL name to map the link in template <a href="{% url 'name' %}">URLText</a>
-    path('api', include(router.urls)), # OR re_path(r'^', include(router.urls)) => this only for api routing using default router
+    path('api/', include(router.urls)), # OR re_path(r'^', include(router.urls)) => this only for api routing using default router
     #path('', views.IndexView.as_view(), name='home'),
     path('', index, name='index'), # <a href="/blog/">Home</a>  for normal function based views 127.0.0.1:8000/blog
     #path('posts/', views.PostListView.as_view(), name='posts'), # <a href="/blog/posts/">Home</a>  use name better blog/posts
-    path('posts/add/', add_post, name='add'),  # 127.0.0.1:8000/blog/posts/add/
     path('posts/', search_titles, name='search'),  # 127.0.0.1:8000/blog/posts/add/
-    path('posts/vote', add_vote, name='vote'),  # 127.0.0.1:8000/blog/posts/add/
-    path('posts/remove-vote', remove_vote, name='vote'),  # 127.0.0.1:8000/blog/posts/add/
+    path('posts/add/', add_post, name='add'),  # 127.0.0.1:8000/blog/posts/add/
+    path('posts/vote/', vote, name='vote'),  # 127.0.0.1:8000/blog/posts/add/
+    #path('posts/remove-vote', remove_vote, name='vote'),  # 127.0.0.1:8000/blog/posts/add/
     #path('posts/create/', PostCreateView.as_view(), name='create'),
     path('posts/<uuid:pk>/', post_details, name='details'), # 127.0.0.1:8000/blog/posts/slug/
     #re_path('/posts/(?P<pk>[0-9]+)/\\Z', post_details, name='details'), # /(?<slug>[\w-])+/
@@ -40,7 +57,7 @@ urlpatterns = [ # you can use the URL name to map the link in template <a href="
     path('posts/<uuid:pk>/update/', edit_post, name='post-update'),
     #path('posts/<uuid:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     #path('posts/<int:pk>/highlight/', api.PostHighlight.as_view()),
-    path('posts/like/', likePost, name='likepost'),
+    #path('posts/like/', likePost, name='likepost'),
     #path('posts/<int:pk>/delete/', views.PostDelete.as_view(), name='post-delete'),
     path('posts/<uuid:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
     path('posts/myposts/', PostedByUserListView.as_view(), name='my-posts'),    
@@ -52,7 +69,7 @@ urlpatterns = [ # you can use the URL name to map the link in template <a href="
     #path('posts/snippets/<int:pk>', SnippetDetailView.as_view(), name='snippet-details'),
     # The pattern only matches if pk is a correctly formatted uuid
     path('maintainers/', maintainers_list, name='maintainers'), # <a href="{% url 'maintainers' %}">URLText</a>
-    path('maintainers/<int:pk>', maint_details, name='maintainer-detail'),# <a href="{% url 'auth-det' %}">URLText</a>
+    path('maintainers/<int:pk>/', maint_details, name='maintainer-detail'),# <a href="{% url 'auth-det' %}">URLText</a>
     path('maintainers/create/', create_maint, name='maintainer-create'),
     path('maintainers/<int:pk>/update/', MaintainerUpdate.as_view(), name='maintainer-update'),
     path('maintainers/<int:pk>/delete/', MaintainerDelete.as_view(), name='maintainer-delete'),
