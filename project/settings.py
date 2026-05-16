@@ -48,6 +48,8 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     #"messages", # it will clashes with postman.Message, so don't activate both, but just one and postman is the best ever
     'django_private_chat2.apps.DjangoPrivateChat2Config',
     'debug_toolbar', # after install pip3 install django-debug-toolbar
+    'cloudinary',
+    'cloudinary_storage',
 ]
 SITE_ID=1 
 AUTH_USER_MODEL = 'account.User' # because we have extended user Model using a custome model in user app
@@ -144,6 +146,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+# Cloudinary configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    'API_URL': os.getenv('CLOUDINARY_URL'),
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -321,6 +331,9 @@ else:
     DATABASES = {
         'default': dj_database_url.parse(database_url)
     }
+    # DATABASES = {
+    #     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    # }
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
 # # productions Settings
 # if DEVELOPMENT_MODE == 'True':
