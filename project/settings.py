@@ -76,7 +76,6 @@ CORS_ORIGIN_WHITELIST = os.environ.get('CORS_ORIGIN_WHITELIST', 'http://localhos
 CACHE_MIDDLEWARE_ALIAS = 'default' # The cache alias to use for storage
 CACHE_MIDDLEWARE_SECONDS = 600 # The number of seconds each page should be cached for (TTL)
 
-
 # The reason for setting a long-lived expiration time is to avoid problems
 # in the case of a user closing a browser or bookmarking a page and then loading that page from a browser cache
 # If the cache is shared across multiple sites using the same Django installation, set this to the name of the site
@@ -135,7 +134,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-
 # In REST framework are all namespaced into a single dictionary setting, named REST_FRAMEWORK
 # which helps keep them well separated from your other project settings
 # You could also customize the pagination style 
@@ -181,7 +179,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 # Postman Settings
 POSTMAN_I18N_URLS = True # True, if you want the internationalization of URL patterns, Defaults to: False
 #POSTMAN_DISALLOW_ANONYMOUS = True # True if you do not allow visitors to write to users, default is False
@@ -212,11 +209,12 @@ def get_params_email(context):
 POSTMAN_PARAMS_EMAIL = get_params_email  # default is None
 POSTMAN_AUTO_MODERATE_AS = True  # default is None
 POSTMAN_SHOW_USER_AS = 'get_full_name' # lambda u: u.get_profile().nickname. like => progile.get_absolute_url()
-POSTMAN_NAME_USER_AS = 'last_name'
+POSTMAN_NAME_USER_AS = 'username'
 POSTMAN_QUICKREPLY_QUOTE_BODY = True
 #POSTMAN_NOTIFIER_APP = 'pinax_notifications' # must be activated but pinqx deprecated, so take it from site_packages to be an app
-POSTMAN_MAILER_APP = 'mailer'
-POSTMAN_AUTOCOMPLETER_APP = {'name': 'ajax_select', 'field': 'AutoCompleteField', 'arg_name': 'channel', 'arg_default': {}}
+# POSTMAN_MAILER_APP = 'mailer' # must be activated but mailer deprecated, so take it from site_packages to be an app
+POSTMAN_MAILER_APP = None # default is None, but if you want to use mailer for sending emails, you can set it to 'mailer'
+POSTMAN_AUTOCOMPLETER_APP = {'name': 'ajax_select', 'field': 'AutoCompleteField', 'arg_name': 'channel', 'arg_default': 'postman_users', 'arg_delimiter': ','} # default is None, but if you want to use ajax_select for autocompletion of users in the recipient field, you can set it to {'name': 'ajax_select', 'field': 'AutoCompleteField', 'arg_name': 'channel', 'arg_default': 'postman_users', 'arg_delimiter': ','}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/

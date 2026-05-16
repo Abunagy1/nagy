@@ -36,6 +36,7 @@ urlpatterns = [
     path('blog/', include('blog.urls', namespace='blog')),
     path('', include('home.urls', namespace='home')),
     #re_path(r"^messages/", include("messages.urls", namespace="messages")), it was pinax.message but i took it outside the pinax abn made it free
+    path('ajax_select/', include('ajax_select.urls')),   # required for lookups
     path('messages/', include('postman.urls', namespace='postman')), # just alternated by pinax.messages
     path("chat/", include("chat.urls", namespace='chat')),
     re_path(r'chat2/', include('django_private_chat2.urls', namespace='django_private_chat2')),

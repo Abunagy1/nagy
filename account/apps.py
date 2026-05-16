@@ -12,6 +12,7 @@ class AccountConfig(AppConfig):
     # we use the next signal ready fn if we have custom abstract user only or other app not related to the 
     # auth user that already registered in relation to profile in the same app account
     def ready(self):
+        import account.lookups   # registers the lookup channel
         from . import signals
         import account.signals
         #post_save.connect(signals.create_profile, sender=User, weak=False, dispatch_uid='Profile')

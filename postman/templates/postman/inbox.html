@@ -1,38 +1,125 @@
-{% extends "postman/base_folder.html" %}{% load django_bootstrap5 %} {% load i18n %} {% block body %}{% include "components/header.html" %}
-<section id="" class="about-area bg-dark section-padding">
-    <div class="container">
-        <div class="header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="section-title">
-                        <h2>{% block head_title %}Inbox{% endblock %}</h2>
-                        <h3>{% block pm_folder_title %} {% trans "Received Messages" %}{% endblock %}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <div>
-                {% block pm_undelete_button %}{% endblock %} {% block pm_recipient_header %}{% endblock %}
-                <h5>{% block pm_date %}{% trans "Received" %}{% endblock %}</h5>
-            </div>
-            {% block pm_recipient_cell %}{% endblock %} {% if pm_messages %} {% for message in pm_messages %}
-            <div class="single-blog">
-                <div class="message-img">
-                    <div>
-                        <span class="badge badge-dark">{{ message.subject }}</span>
-                        <span class="badge badge-dark">{{ message.body }}</span>
-                        <span class="badge badge-dark">{{ message.sender }}</span>
-                        <span class="badge badge-dark">{{ message.email }}</span>
-                        <span class="badge badge-dark">{{ message.sent_at }}</span>
-                    </div>
-                    {% endfor %} {% endif %}
-                </div>
-            </div>
-        </div>
+{% extends "postman/base_folder.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load postman_tags %}
+{% load pagination_tags %}
 
-        {% endblock %}
+{% block body %}
+{% include "components/header.html" %}
+
+<section id="" class="about-area bg-dark section-padding">
+  <div class="container">
+    <div class="header">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="section-title">
+            <h2>{% block head_title %}Inbox{% endblock %}</h2>
+            <h3>{% block pm_folder_title %}{% trans "Received Messages" %}{% endblock %}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Django messages (success / error) -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show mt-3">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Inbox content from base_folder -->
+  <div id="postman">
+    <h1>{% trans "Received Messages" %}</h1>
+
+    {% autopaginate pm_messages %}
+    {% if invalid_page %}
+      <p>{% trans "Sorry, this page number is invalid." %}</p>
+    {% else %}
+      {% if pm_messages %}
+        {% block pm_by_modes %}{% endblock %}
+
+        <form id="pm-action-form" method="post" action="">
+          {% csrf_token %}
+          <div id="pm_buttons" class="mb-3">
+            <button type="button" class="btn btn-sm btn-danger" data-action="{% url 'postman:delete' %}">
+              {% trans "Delete" %}
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary" data-action="{% url 'postman:archive' %}">
+              {% trans "Archive" %}
+            </button>
+            <button type="button" class="btn btn-sm btn-info" data-action="{% url 'postman:mark-read' %}">
+              {% trans "Mark as read" %}
+            </button>
+            <button type="button" class="btn btn-sm btn-info" data-action="{% url 'postman:mark-unread' %}">
+              {% trans "Mark as unread" %}
+            </button>
+          </div>
+
+          <table id="pm_messages" class="table table-dark">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="select-all"></th>
+                <th>{% trans "Sender" %}</th>
+                <th>{% trans "Subject" %}</th>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Actions" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for message in pm_messages %}
+                <tr>
+                  <td><input type="checkbox" name="pks" value="{{ message.pk }}"></td>
+                  <td>{{ message.obfuscated_sender|or_me:user }}</td>
+                  <td>
+                    <a href="{% url 'postman:view' message.pk %}">
+                      {{ message.subject }}
+                    </a>
+                  </td>
+                  <td>{{ message.sent_at|date:"d M Y H:i" }}</td>
+                  <td>
+                    <a href="{% url 'postman:reply' message.pk %}" class="btn btn-sm btn-outline-primary">Reply</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
+
+        {% paginate %}
+      {% else %}
+        <p>{% trans "No messages." %}</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  // Handle the action buttons without inline JS
+  document.getElementById('pm_buttons').addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON') {
+      e.preventDefault();
+      var form = document.getElementById('pm-action-form');
+      form.action = e.target.getAttribute('data-action');
+      if (form.querySelector('input[name="pks"]:checked')) {
+        form.submit();
+      } else {
+        alert('{% trans "Please select at least one message." %}');
+      }
+    }
+  });
+
+  // Select all checkbox toggle
+  document.getElementById('select-all').addEventListener('change', function() {
+    var checkboxes = document.getElementsByName('pks');
+    for (var i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = this.checked;
+    }
+  });
+</script>
+{% endblock %}

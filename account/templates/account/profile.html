@@ -60,7 +60,11 @@
             <div class='p-3'>
                 <a href="{% url 'postman:trash' %}" class="boxed-btn3 w-20">Trash</a>
             </div>
-
+            {% if user.is_superuser %}
+            <div class='p-3'>
+                <a href="{% url 'admin:index' %}" class="boxed-btn3 w-20">Admin Panel</a>
+            </div>
+            {% endif %}
 
         </div>
     </div>
