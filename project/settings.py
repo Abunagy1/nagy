@@ -297,7 +297,7 @@ if DEVELOPMENT_MODE:
 }
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DB_URL", None) is None:  # if "DB_URL" in os.environ:
-        raise Exception("DATABASE_URL environment variable not defined")
+        raise Exception("DATABASE_URL environment variable not defined in production")
     # Configure Django for DATABASE_URL environment variable.
     #DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
     DATABASES = {"default": dj_database_url.parse(os.environ.get("DB_URL")),}
@@ -317,11 +317,10 @@ else:
     database_url = os.environ.get('DATABASE_URL')
     if not database_url:
         # Raise a clear error if not set
-        raise Exception('DATABASE_URL environment variable not defined')
+        raise Exception('DATABASE_URL environment variable not defined in production')
     DATABASES = {
         'default': dj_database_url.parse(database_url)
     }
-
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
 # # productions Settings
 # if DEVELOPMENT_MODE == 'True':
