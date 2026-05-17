@@ -319,7 +319,7 @@ if DEVELOPMENT_MODE:
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+elif len(sys.argv) > 1 and sys.argv[1] != 'collectstatic': # it was 0, but caused errors in vercel 
     if os.getenv("DB_URL", None) is None:  # if "DB_URL" in os.environ:
         raise Exception("DATABASE_URL environment variable not defined in production")
     # Configure Django for DATABASE_URL environment variable.
