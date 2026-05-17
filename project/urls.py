@@ -6,12 +6,13 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 from django.urls import include, path, re_path
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+# from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 #import blog.api, job.api
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 from django.shortcuts import redirect
 #Add URL maps to redirect the base URL to our application
 from rest_framework.routers import DefaultRouter
@@ -43,12 +44,16 @@ urlpatterns = [
     #re_path(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')), # has no relation with others blog urls only for login to api
     path('__debug__/', include(debug_toolbar.urls)), # after install django-debug-toolbar
-] + staticfiles_urlpatterns()
+] # + staticfiles_urlpatterns()
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# # ...
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
-    urlpatterns+= static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-# ...
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+    urlpatterns += [
+        re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
 '''
 django_private_chat2 doesn't provide any endpoint to fetch users (required to start new chat,
 for example) It's up to you to do so.
