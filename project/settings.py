@@ -288,7 +288,7 @@ os.environ["VAR"]              # raises KeyError if "VAR" is not set
 DEVELOPMENT_MODE = os.environ.get('DEVELOPMENT_MODE', 'False') == 'True' # AI suggestion, the original one ws working
 #DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True" # the original one ws working 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 # productions Settings
 if DEVELOPMENT_MODE:
     DATABASES = {
