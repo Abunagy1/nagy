@@ -426,7 +426,7 @@ class PostDetailView(generic.DetailView):
 class V(mixins.UpdateModelMixin, GenericViewSet):
     `` some codes``
     lookup_field = 'uuid'
-    @action(detail=True, methods=['put'], permission_classes=[IsAdminUser], url_path='approve/(?P<uuid>[\w-]+)')
+    @action(detail=True, methods=['put'], permission_classes=[IsAdminUser], url_path=r'approve/(?P<uuid>[\w-]+)')
     def approve(self, request, uuid, *args, **kwargs):
         obj = self.get_object()
         `` some codes ``
