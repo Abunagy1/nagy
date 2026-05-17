@@ -2,13 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "nagy/project/wsgi.py",
+      "src": "project/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
     }
   ],
   "routes": [
     { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/(.*)", "dest": "nagy/project/wsgi.py" }
+    { "src": "/(.*)", "dest": "project/wsgi.py" }
   ]
 }
