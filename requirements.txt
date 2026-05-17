@@ -1,6 +1,6 @@
 arrow==1.2.3
 asgiref==3.5.2
-astroid==2.11.6
+# astroid==2.11.6 # Linting tool; not needed on a serverless backend, for Development tools only, not for production.
 async-generator==1.10
 async-timeout==4.0.2
 attrs==22.1.0
@@ -31,7 +31,7 @@ django-bootstrap==0.2.4
 django-bootstrap5==22.1
 django-cors-headers==3.13.0
 django-crispy-forms==1.14.0
-django-debug-toolbar==3.7.0
+# django-debug-toolbar==3.7.0 # Debugging tool; not needed on a serverless backend, for Development tools only, not for production.
 django-dotenv==1.4.2
 django-environ==0.9.0
 django-filter==22.1
@@ -47,11 +47,11 @@ gunicorn==20.1.0
 h11==0.14.0
 hashring==1.5.1
 hiredis>=2.3.0
-httpie==3.2.1
+# httpie==3.2.1 # Command-line HTTP client; not needed on a serverless backend, for Development tools only, not for production.
 hyperlink==21.0.0
 idna==3.3
 incremental==22.10.0
-isort==5.10.1
+# isort==5.10.1 # Code formatting tool; not needed on a serverless backend, for Development tools only, not for production.
 Jinja2==3.1.2
 jinja2-time==0.2.0
 lazy-object-proxy==1.7.1
@@ -75,7 +75,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
 Pygments==2.12.0
-pylint==2.14.3
+# pylint==2.14.3  # Linting tool; not needed on a serverless backend, for Development tools only, not for production.
 pymemcache==4.0.0
 pyOpenSSL==22.1.0
 pyparsing==3.0.9
@@ -84,12 +84,13 @@ python-dateutil==2.8.2
 python-dotenv==0.21.0
 python-slugify==7.0.0
 pytz==2022.1
-PyYAML==6.0
+# PyYAML==6.0.2
+pyyaml>=6.0.2
 redis==4.3.5
 requests==2.28.2
 requests-toolbelt==0.9.1
 rich==12.4.4
-selenium==4.7.2
+# selenium==4.7.2 # Used for browser automation; not needed on a serverless backend.
 service-identity==21.1.0
 six==1.16.0
 sniffio==1.3.0
