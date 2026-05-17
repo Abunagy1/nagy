@@ -39,7 +39,7 @@ urlpatterns = [
     path('ajax_select/', include('ajax_select.urls')),   # required for lookups
     path('messages/', include('postman.urls', namespace='postman')), # just alternated by pinax.messages
     path("chat/", include("chat.urls", namespace='chat')),
-    re_path(r'chat2/', include('django_private_chat2.urls', namespace='django_private_chat2')),
+    # re_path(r'chat2/', include('django_private_chat2.urls', namespace='django_private_chat2')), # for private chat but it is not working on vercel without channels and websocket, so i will use postman for messaging
     #re_path(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')), # has no relation with others blog urls only for login to api
     path('__debug__/', include(debug_toolbar.urls)), # after install django-debug-toolbar

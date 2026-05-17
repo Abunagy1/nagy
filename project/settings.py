@@ -22,7 +22,7 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'rest_framework',
     'account',
     # "daphne",
-    # 'chat', # for channels and websocket and not going to work in vercel because of the lack of support for long running processes, but you can use it in heroku
+    'chat', # for channels and websocket and not going to work in vercel because of the lack of support for long running processes, but you can use it in heroku
     'django.contrib.admin',
     'django.contrib.auth', # Core authentication framework and its default models
     'django.contrib.contenttypes', # Django content type system (allows permissions to be associated with models).
