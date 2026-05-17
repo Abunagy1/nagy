@@ -1,12 +1,6 @@
 #!/bin/bash
-
 echo "Starting build.sh..."
 
-echo "Creating virtual environment..."
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies (Vercel would do this anyway, but we need to run migrations after)
 echo "Installing Python dependencies..."
 python3 -m pip install --break-system-packages -r requirements.txt
 
