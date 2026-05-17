@@ -88,34 +88,46 @@ ROOT_URLCONF = 'project.urls'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
-        'LOCATION': ['127.0.0.1:11211', '0.0.0.0:11211'],
-        #'LOCATION': os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379'),
-        'TIMEOUT': 200,
-        'OPTIONS': {
-            'no_delay': True,
-            'ignore_exc': True,
-            'max_pool_size': 4,
-            'use_pooling': True,
+
+# use the following cash settings on vercel as it should be paid service and you can't use memcached or redis in it, but you can use them in local development, or better if your project is not depends on cashing you can use dummy cash in both local and production, but if you want to use memcached or redis in local development and dummy cash in production, you can use the following settings
+# Check if running on Vercel (or any production environment)
+if os.environ.get('VERCEL') or os.environ.get('PRODUCTION') or not os.environ.get('REDIS_URL'):
+    # On Vercel, use dummy cache (no caching)
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
-    },
-    'redis': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': ['redis://127.0.0.1:6379', os.getenv("REDIS_URL"),],
-        'OPTIONS': {
-            'db': '0',
-            'parser_class': 'redis.connection.PythonParser',
-            'pool_class': 'redis.BlockingConnectionPool',
-            # "CLIENT_CLASS": "django_redis.client.DefaultClient", # if you are using django-redis client rather than redis-py
-            # that's already been instaled using => (pip install redis)
-        }
-    },
-    'dummy': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
-}
+else:
+    # Local development – your original cache settings
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+            'LOCATION': ['127.0.0.1:11211', '0.0.0.0:11211'],
+            #'LOCATION': os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379'),
+            'TIMEOUT': 200,
+            'OPTIONS': {
+                'no_delay': True,
+                'ignore_exc': True,
+                'max_pool_size': 4,
+                'use_pooling': True,
+            }
+        },
+        'redis': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': ['redis://127.0.0.1:6379', os.getenv("REDIS_URL", "")],
+            'OPTIONS': {
+                'db': '0',
+                'parser_class': 'redis.connection.PythonParser',
+                'pool_class': 'redis.BlockingConnectionPool',
+                # "CLIENT_CLASS": "django_redis.client.DefaultClient", # if you are using django-redis client rather than redis-py
+                # that's already been instaled using => (pip install redis)
+            }
+        },
+        'dummy': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
 
 TEMPLATES = [
     {
@@ -241,8 +253,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key()) # AI suggesti
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"   # Proper boolean conversion, default is "False" which will be converted to False, and "True" will be converted to True
 #DEBUG = os.getenv("DJANGO_DEBUG", "False") # causing problem not found for scripts and css
 #ALLOWED_HOSTS = ['nagies.heroku.com', 'localhost', '127.0.0.1', '[::1]'] # ALLOWED_HOSTS = ['*']
-#ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",") # was working 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',') # AI Suggestion
+#ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '.vercel.app,localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+if not ALLOWED_HOSTS or ALLOWED_HOSTS == ['']:
+    ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
 # ::1 is the compressed format IPV6 loopback address 0:0:0:0:0:0:0:1. It is the equivalent of the IPV4 address 127.0.0.1
 """
 os.getenv("VAR", default)       # shortcut for os.environ.get("VAR", default)
