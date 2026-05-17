@@ -1,5 +1,4 @@
 staticfiles/
-static/
 media/
 __pycache__/
 *.pyc
