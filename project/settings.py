@@ -302,7 +302,6 @@ os.environ["VAR"]              # raises KeyError if "VAR" is not set
 DEVELOPMENT_MODE = os.environ.get('DEVELOPMENT_MODE', 'False') == 'True' # AI suggestion, the original one ws working
 #DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True" # the original one ws working 
 
-
 # productions Settings
 if DEVELOPMENT_MODE:
     DATABASES = {
@@ -388,6 +387,7 @@ else:
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 # The URL to use when referring to static files (where they will be served from)
+
 STATIC_URL = '/static/' # then you can reach to all static from this url
 ######### PRODUCTION STATIC SETTINGS #############
 #STATIC_ROOT IS for Production only
@@ -402,7 +402,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # STATIC Settings for Production deployment
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+print(f"STATIC_ROOT = {STATIC_ROOT}")
+print(f"STATIC_URL = {STATIC_URL}")
 # for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
@@ -428,7 +429,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # for using channels and websocket you need to have puip3 -m pip install channel_redis and then
 # ASGI_APPLICATION = "project.asgi.application"
 WSGI_APPLICATION = 'project.wsgi.application'
-
 # CHANNEL_LAYERS = {
 #     "default": {
 #         "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",  #   "channels_redis.core.RedisChannelLayer"
