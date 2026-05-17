@@ -22,7 +22,7 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'rest_framework',
     'account',
     # "daphne",
-    'chat',
+    # 'chat', # for channels and websocket and not going to work in vercel because of the lack of support for long running processes, but you can use it in heroku
     'django.contrib.admin',
     'django.contrib.auth', # Core authentication framework and its default models
     'django.contrib.contenttypes', # Django content type system (allows permissions to be associated with models).
@@ -46,7 +46,7 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'postman', # either this or post man not both
     'ajax_select',
     #"messages", # it will clashes with postman.Message, so don't activate both, but just one and postman is the best ever
-    'django_private_chat2.apps.DjangoPrivateChat2Config',
+    # 'django_private_chat2.apps.DjangoPrivateChat2Config', # for private chat but it is not working with channels and websocket, so i will use postman for messaging
     'debug_toolbar', # after install pip3 install django-debug-toolbar
     'cloudinary',
     'cloudinary_storage',
