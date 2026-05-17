@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <style>
+        .gm-control-active>img {
+            box-sizing: content-box;
+            display: none;
+            left: 50%;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%)
+        }
+        
+        .gm-control-active>img:nth-child(1) {
+            display: block
+        }
+        
+        .gm-control-active:hover>img:nth-child(1),
+        .gm-control-active:active>img:nth-child(1) {
+            display: none
+        }
+        
+        .gm-control-active:hover>img:nth-child(2),
+        .gm-control-active:active>img:nth-child(3) {
+            display: block
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="a_data/css.css">
+    <style>
+        .gm-ui-hover-effect {
+            opacity: .6
+        }
+        
+        .gm-ui-hover-effect:hover {
+            opacity: 1
+        }
+    </style>
+    <style>
+        .gm-style .gm-style-cc a,
+        .gm-style .gm-style-cc button,
+        .gm-style .gm-style-cc span,
+        .gm-style .gm-style-mtc div {
+            font-size: 10px;
+            box-sizing: border-box
+        }
+    </style>
+    <style>
+        @media print {
+            .gm-style .gmnoprint,
+            .gmnoprint {
+                display: none
+            }
+        }
+        
+        @media screen {
+            .gm-style .gmnoscreen,
+            .gmnoscreen {
+                display: none
+            }
+        }
+    </style>
+    <style>
+        .gm-style-pbc {
+            transition: opacity ease-in-out;
+            background-color: rgba(0, 0, 0, 0.45);
+            text-align: center
+        }
+        
+        .gm-style-pbt {
+            font-size: 22px;
+            color: white;
+            font-family: Roboto, Arial, sans-serif;
+            position: relative;
+            margin: 0;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%)
+        }
+    </style>
+    <style>
+        .gm-style img {
+            max-width: none;
+        }
+        
+        .gm-style {
+            font: 400 11px Roboto, Arial, sans-serif;
+            text-decoration: none;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="keywords" content="onepage, html5, portfolio">
+    <meta name="description" content="Nagy - Personal Portfolio Landing Page">
+    <!-- Title -->
+    <title>Nagy - Personal Portfolio</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/icons8-internet.gif">
+    <!-- contact form script start-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- EmailJS SDK-->
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init('dsZUujcwCCf2-pYDv'); // initialize the SDK with 'YOUR_PUBLIC_KEY'
+        })();
+    </script>
+    <script type="text/javascript">
+        function sendemail() {
+            var name = document.getElementById('form_name').value;
+            var subject = document.getElementById('form_subject').value;
+            var mail = document.getElementById('form_email').value;
+            var msg = document.getElementById('form_message').value;
+            var validmail = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
+            if (name == "") {
+                alert("Please Enter Name");
+            } else if (subject == "") {
+                alert("Please Enter a subject");
+            } else if (mail == "" || mail.match(!validmail)) {
+                alert("Please Enter Valid Email");
+            } else if (msg == "") {
+                alert("Please Enter Message");
+            } else {
+                var detail = {
+                    from_name: name,
+                    from_subject: subject,
+                    from_email: mail,
+                    message: msg
+                };
+                emailjs.sendForm('service_ciupevo', 'contact_form', detail).then(function(res) {
+                    alert("Email Sent Successfully");
+                    console.log('SUCCESS!', response.status, response.text);
+                }, function(error) {
+                    console.log('FAILED...', error);
+                });
+                reason => {
+                    alert("Error Occur");
+                }
+            }
+        }
+    </script>
+    <!-- contact form script end-->
+    <!-- Google Fonts -->
+    <link href="a_data/css2.css" rel="stylesheet">
+    <link href="a_data/css2_002.css" rel="stylesheet">
+    <!-- Site Main Style sheet css -->
+    <link href="a_data/style.css" rel="stylesheet">
+    <link href="a_data/responsive.css" rel="stylesheet">
+    <script type="text/javascript" charset="UTF-8" src="a_data/common.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/util.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/map.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/marker.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/stats.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/onion.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/ViewportInfoService.GetViewportInfo"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/vt"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/controls.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/AuthenticationService.Authenticate"></script>
+    <script type="text/javascript" charset="UTF-8" src="a_data/QuotaService.RecordEvent"></script>
+</head>
+
+<body>
+    <!-- Loadnig Page Start -->
+    <div class="loader" style="display: none;">
+        <div class="loader-outter"></div>
+        <div class="loader-inner"></div>
+    </div>
+    <!-- Loadnig Page End -->
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-b navbar-trans navbar-expand-md fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll" href="https://www.linkedin.com/in/mohamed-nagy-18a30414a/">
+                <p style="font-size: 40px;"><span class="color-text">Old</span>Nagy</p>
+            </a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="navbar-collapse collapse justify-content-end" id="navbarDefault">
+                <ul class="navbar-nav">
+                    <li class="nav-item"> <a class="nav-link js-scroll active" href="#home">Home</a></li>
+                    <li class="nav-item"> <a class="nav-link js-scroll " href="#about">About</a></li>
+                    <li class="nav-item"> <a class="nav-link js-scroll " href="#service">Service</a></li>
+                    <li class="nav-item"> <a class="nav-link js-scroll " href="#resume">Resume</a></li>
+                    <li class="nav-item"> <a class="nav-link js-scroll " href="#project">Portfolio</a></li>
+                    <li class="nav-item"> <a class="nav-link js-scroll " href="#blog">Blog</a></li>
+                    <li class="nav-item"> <a class="nav-link js-scroll " href="#contact-form">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <!-- Home Section Start -->
+    <header id="home" class="home-area hero-equal-height section-padding" style="background-image: url('a_data/header.JPG');">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2">
+                    <div class="text-center home-content z-index position-relative  ">
+                        <h3>Welcome To My Website</h3>
+                        <h1 class="cd-headline clip">
+                            <span class="blc"> </span>
+                            <span class="cd-words-wrapper" style="width: 392.333px;">
+                              <b class="is-visible">I'm M. Nagy</b>
+                              <b class="is-hidden">Web Designer</b>
+                              <b class="is-hidden">AI Researcher</b>
+                              <b class="is-hidden">Tech. Instructor</b>
+                              <b class="is-hidden">Elec. Pow. Eng.</b>
+                              <b class="is-hidden">Mech. Pow. Eng.</b>
+                            </span>
+                        </h1>
+                        <div class="social-media">
+                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i>  </a>
+                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i>  </a>
+                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i>  </a>
+                            <a href="#"><i class="fa fa-behance" aria-hidden="true"></i>  </a>
+                            <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i>  </a>
+                        </div>
+                        <a href="#work" class="button home-btn-1 js-scroll">Join Me</a>
+                        <a href="#contact-form" class="button home-btn-2 js-scroll">Contact Me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="arrow">
+            <a href="#about" class="js-scroll">
+                <i class="fa fa-chevron-down"></i>
+            </a>
+        </div>
+    </header>
+    <!-- Home Section End -->
+    <!-- About Section Start -->
+    <section id="about" class="about-area bg-dark section-padding">
+        <div class="contain">
+            <div class="header">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="section-title">
+                            <h2>About Me</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar">Left panel</div>
+            <div class="mainbody">
+                <div class="container">
+
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="about-img-wrapper">
+                                <img class="img-fluid" src="a_data/about.jpg" alt="about image">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="about-content">
+                                <h3>I am <span class="color-text">Nagy</span></h3>
+                                <h5>Web Developer &amp; Researcher</h5>
+                                <p style="align-content: center;"><b>Long time ago, I started to learn about back-end web developing frameworks like django & Express, but couldn't believe that i'll be among those who have grasp most of required knowledge about web-developing.</b></p>
+                                <p><b>Anyway here is my web site, that has some features by which I've tried to merge some experiences about the field. Please Explore my site to see all parts </b></p>
+                                <a href="#0" class="after-btn js-scroll"><b>Download my CV</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section End -->
+    <!-- Service Section Start -->
+    <section id="service" class="service-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>My Service</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="service-content">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div id="service-slide" class="owl-carousel owl-theme owl-loaded owl-drag">
+                            <!-- Service Single Item -->
+                            <!-- Service Single Item -->
+                            <!-- Service Single Item -->
+                            <!-- Service Single Item -->
+                            <!-- Service Single Item -->
+                            <div class="owl-stage-outer">
+                                <div class="owl-stage" style="transform: translate3d(-3040px, 0px, 0px); transition: all 1s ease 0s; width: 4560px;">
+                                    <div class="owl-item active" style="width: 350px; margin-right: 30px;">
+                                        <div class="single-services-box">
+                                            <div class="single-services">
+                                                <div class="services-icon"> <i class="pe-7s-tools"></i> </div>
+                                                <div class="services-text">
+                                                    <h3>Web Developing</h3>
+                                                    <p>scince I have been certified from Udacity as a profissional web developer, I continued to gain more experience by merging more complex tools and data driven framworks</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="owl-item" style="width: 350px; margin-right: 30px;">
+                                        <div class="single-services-box">
+                                            <div class="single-services">
+                                                <div class="services-icon"> <i class="pe-7s-share"></i> </div>
+                                                <div class="services-text">
+                                                    <h3>Fast Communication</h3>
+                                                    <p>You Can reach me any time along the day 24/7</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="owl-item " style="width: 350px; margin-right: 30px;">
+                                        <div class="single-services-box">
+                                            <div class="single-services">
+                                                <div class="services-icon"> <i class="pe-7s-edit"></i> </div>
+                                                <div class="services-text">
+                                                    <h3>Responsive Design</h3>
+                                                    <p>This is the most important feature which I include in any design.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="owl-item active" style="width: 350px; margin-right: 30px;">
+                                        <div class="single-services-box">
+                                            <div class="single-services">
+                                                <div class="services-icon"> <i class="pe-7s-display1"></i> </div>
+                                                <div class="services-text">
+                                                    <h3>Researcher</h3>
+                                                    <p>I'm currently a MSc. Student in AI Vision Control Sys.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="owl-item" style="width: 350px; margin-right: 30px;">
+                                        <div class="single-services-box">
+                                            <div class="single-services">
+                                                <div class="services-icon"> <i class="pe-7s-target"></i> </div>
+                                                <div class="services-text">
+                                                    <h3>Tech. Support</h3>
+                                                    <p>After Launching and post consultation</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="owl-item" style="width: 350px; margin-right: 30px;">
+                                        <div class="single-services-box">
+                                            <div class="single-services">
+                                                <div class="services-icon"> <i class="pe-7s-graph1"></i> </div>
+                                                <div class="services-text">
+                                                    <h3>Tech. Instructor & Electrical / Mechanical Pow. Engineer</h3>
+                                                    <p>I am teaching Python & C & JS.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                            <div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Service Section End -->
+    <!-- Work & Eduction & Skills Section Start -->
+    <section id="resume" class="work-eduction-skills-area bg-dark section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Work &amp; Eduction</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="work-eduction-wrapper">
+                <div class="row">
+                    <div class="col-md-6 wow customFadeInUp  delay-0-2s slow" style="visibility: visible; animation-name: customFadeInUp;">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="icon"></div>
+                                <div class="box">
+                                    <h5>Full stack Web Developer </h5>
+                                    <small class="bg-base-color"> 2021 - 2022</small>
+                                    <p>Starting to work as a free lancer in web developing services</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="icon"></div>
+                                <div class="box">
+                                    <h5>Back-End Developer</h5>
+                                    <small class="bg-base-color"> 2020 - 2021</small>
+                                    <p>Used Django framework a lot to design data driven web applications</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="icon"></div>
+                                <div class="box ">
+                                    <h5>Tech. Support & Instructor </h5>
+                                    <small class="bg-base-color"> 2010 - 2015</small>
+                                    <p>Was teaching Python and JavaScript</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 wow customFadeInUp delay-0-4s slow" style="visibility: visible; animation-name: customFadeInUp;">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="icon"></div>
+                                <div class="box ">
+                                    <h5>Academic Degree</h5>
+                                    <small class="bg-base-color"> 2018 - 2020</small>
+                                    <p>Preparing for my research on Robotics Vision control & currently</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="icon"> </div>
+                                <div class="box ">
+                                    <h5>Bachelor’s Degree, Diploma, MSc.</h5>
+                                    <small class="bg-base-color"> 2008 - 2020</small>
+                                    <p>Download my Cv to Know more opn my acqdemic career</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="icon"></div>
+                                <div class="box">
+                                    <h5>Specialization Course </h5>
+                                    <small class="bg-base-color"> 2010 - 2015</small>
+                                    <p>In my CV, Just Download it from above button ib about section</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>My Skills</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="skills-wrapper">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>Python</h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
+                                    <span>90%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>C</h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                                    <span>80%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>Express </h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                                    <span>75%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>Django</h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
+                                    <span>95%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>HTML5 CSS3</h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
+                                    <span>90%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>Javascript</h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+                                    <span>80%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>React</h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                                    <span>30%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--skill-item-->
+                        <div class="skill-item">
+                            <h6>Jquery</h6>
+                            <div class="skill-progress">
+                                <div class="skill-progress-bar bg-base-color" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+                                    <span>70%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Work & Eduction & Skills Section End -->
+    <!-- Project Section Start -->
+    <section id="project" class="project-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Recent Portfolio</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="project-list">
+                        <ul class="nav" id="project-flters">
+                            <li class="filter filter-active" data-filter=".all">all</li>
+                            <li class="filter" data-filter=".branding">Websites</li>
+                            <li class="filter" data-filter=".webdesign">design</li>
+                            <li class="filter" data-filter=".photography">Consultancy</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="project-container" style="position: relative; height: 813.834px;">
+                    <!-- project-item -->
+                    <div class="col-lg-4 col-md-6 project-grid-item all branding webdesign" style="position: absolute; left: 0px; top: 0px;">
+                        <a class="popup-img project-item " href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-1.jpg"> <img src="a_data/work-1.jpg" alt="img">
+                            <div class="project-img-overlay">
+                                <div class="project-content">
+                                    <h4>Web Development</h4>
+                                    <h6>View Project</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- project-item -->
+                    <div class="col-lg-4 col-md-6 project-grid-item all photography" style="position: absolute; left: 380px; top: 0px;">
+                        <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-2.jpg"> <img src="a_data/work-2.png" alt="img">
+                            <div class="project-img-overlay">
+                                <div class="project-content">
+                                    <h4>Responsive design</h4>
+                                    <h6>View Project</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- project-item -->
+                    <div class="col-lg-4 col-md-6 project-grid-item all branding webdesign" style="position: absolute; left: 760px; top: 0px;">
+                        <a class="popup-img project-item " href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-3.jpg"> <img src="a_data/work-3.png" alt="img">
+                            <div class="project-img-overlay">
+                                <div class="project-content">
+                                    <h4>Ui ux Design</h4>
+                                    <h6>View Project</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- project-item -->
+                    <div class="col-lg-4 col-md-6 project-grid-item all branding webdesig photographyn" style="position: absolute; left: 0px; top: 406.917px;">
+                        <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-4.jpg"> <img src="a_data/work-4.jpg" alt="img">
+                            <div class="project-img-overlay">
+                                <div class="project-content">
+                                    <h4>Construction</h4>
+                                    <h6>View Project</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- project-item -->
+                    <div class="col-lg-4 col-md-6 project-grid-item all webdesign photography" style="position: absolute; left: 380px; top: 406.917px;">
+                        <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-5.jpg"> <img src="a_data/work-5.png" alt="img">
+                            <div class="project-img-overlay">
+                                <div class="project-content">
+                                    <h4>Instructor</h4>
+                                    <h6>View Project</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- project-item -->
+                    <div class="col-lg-4 col-md-6 project-grid-item all webdesign photography" style="position: absolute; left: 760px; top: 406.917px;">
+                        <a class="popup-img project-item" href="http://www.webtechnologybd.com/html/Lavina/assets/img/projects/work-6.jpg"> <img src="a_data/work-6.jpg" alt="img">
+                            <div class="project-img-overlay">
+                                <div class="project-content">
+                                    <h4>Platform</h4>
+                                    <h6>View Project</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- project more button -->
+                <div class="col-md-12">
+                    <div class="project-more-btn text-center">
+                        <a href="#0" class="after-btn">Previous Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Project Section End -->
+    <!-- Testimonials Section Start -->
+    <section id="review" class="testimonial-area bg-dark section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="section-title">
+                        <h2>Testimonials</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1 col-md-12">
+                    <div id="testimonial-slide" class="owl-carousel owl-theme owl-loaded owl-drag">
+                        <!-- testimonials item -->
+
+                        <!-- testimonials item -->
+
+                        <!-- testimonials item -->
+
+                        <!-- testimonials item -->
+
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage" style="transform: translate3d(-2805px, 0px, 0px); transition: all 1s ease 0s; width: 7480px;">
+                                <div class="owl-item cloned" style="width: 920px; margin-right: 15px;">
+                                    <div class="single-testimonial">
+                                        <div class="testi-content-inner">
+                                            <div class="avatar">
+                                                <img src="a_data/testimonial-3.jpg" alt="testimonial">
+                                            </div>
+                                            <div class="testimonial-content">
+                                                <p>It's been great experience to know someone like M. Nagy, he is so talented and an active person. </p>
+                                            </div>
+                                            <div class="bio-info">
+                                                <h3>Ruben Houston</h3>
+                                                <h6>Ceo of Google</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned" style="width: 920px; margin-right: 15px;">
+                                    <div class="single-testimonial">
+                                        <div class="testi-content-inner">
+                                            <div class="avatar">
+                                                <img src="a_data/testimonial-4.jpg" alt="testimonial">
+                                            </div>
+                                            <div class="testimonial-content">
+                                                <p>I knew Mohamed after working with him in a project, he was a great person and really pationate about knowledge and work hard</p>
+                                            </div>
+                                            <div class="bio-info">
+                                                <h3>Monica Frazier</h3>
+                                                <h6>Coo of Facebook</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item" style="width: 920px; margin-right: 15px;">
+                                    <div class="single-testimonial">
+                                        <div class="testi-content-inner">
+                                            <div class="avatar">
+                                                <img src="a_data/testimonial-1.jpg" alt="testimonial">
+                                            </div>
+                                            <div class="testimonial-content">
+                                                <p>Personally, Mohamed Nagy is a great and succesful person that can affect and change you and make your life better.</p>
+                                            </div>
+                                            <div class="bio-info">
+                                                <h3>Saabir al-Obeid</h3>
+                                                <h6>Business Man</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item active" style="width: 920px; margin-right: 15px;">
+                                    <div class="single-testimonial">
+                                        <div class="testi-content-inner">
+                                            <div class="avatar">
+                                                <img src="a_data/testimonial-2.jpg" alt="testimonial">
+                                            </div>
+                                            <div class="testimonial-content">
+                                                <p>Thank you Mohamed for the cooperation and great understanding, wish you the best.</p>
+                                            </div>
+                                            <div class="bio-info">
+                                                <h3>Rose Hopkins</h3>
+                                                <h6>Founder of Apple</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                        <div class="owl-dots"><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials Section End -->
+    <!-- Blog Section Start -->
+    <section id="blog" class="blog-area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h2>Blog &amp; Article</h2>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 blog-item">
+                    <div class="single-blog">
+                        <div class="post-img">
+                            <a href="#">
+                                <img src="a_data/blog-1.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-date">
+                                <span><i>06</i> August</span>
+                            </div>
+                            <div class="blog-body-title">
+                                <h5><a href="#">The Best Coolest Shops Studio in Egypt</a></h5>
+                            </div>
+                            <div class="blog-body-text">
+                                <p>Other visual stylings like exposed brick and custom-made barber chairs combine with.</p>
+                            </div>
+                            <div class="blog-bottom-text-link">
+                                <a class="after-btn" href="#">Read Story</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 blog-item">
+                    <div class="single-blog">
+                        <div class="post-img">
+                            <a href="#">
+                                <img src="a_data/blog-2.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-date">
+                                <span><i>06</i> August</span>
+                            </div>
+                            <div class="blog-body-title">
+                                <h5><a href="#">Top awards for our team from Alex Master</a></h5>
+                            </div>
+                            <div class="blog-body-text">
+                                <p>Other visual stylings combine with.</p>
+                            </div>
+                            <div class="blog-bottom-text-link">
+                                <a class="after-btn" href="#">Read Story</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 blog-item">
+                    <div class="single-blog">
+                        <div class="post-img">
+                            <a href="#">
+                                <img src="a_data/blog-3.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="blog-content">
+                            <div class="blog-date">
+                                <span><i>06</i> August</span>
+                            </div>
+                            <div class="blog-body-title">
+                                <h5><a href="#">The Team showcase their talents Connection</a></h5>
+                            </div>
+                            <div class="blog-body-text">
+                                <p>Other visual stylings.</p>
+                            </div>
+                            <div class="blog-bottom-text-link">
+                                <a class="after-btn" href="#">Read Story</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Blog Section End -->
+    <!-- Contact Section Start -->
+    <section id="contact-form" class="contact-area bg-dark section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 section-title">
+                    <h2>Get In Touch</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1 col-md-12">
+                    <p class="form-message"></p>
+                    <br>
+                    <form class="contact-form form" id="contact-form" action="" method="POST" onsubmit="sendemail()" enctype="multipart/form-data">
+                        <div class="controls">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="form-group has-error has-danger">
+                                        <input id="form_name" type="text" name="user_name" placeholder="Name" required="required"> </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="form-group has-error has-danger">
+                                        <input id="form_subject" type="text" name="subject" placeholder="Subject" required="required"> </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group has-error has-danger">
+                                        <input id="form_email" type="email" name="user_email" placeholder="Email" required="required"> </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea id="form_message" name="message" placeholder="Message" rows="4" required="required"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="after-btn" data-text="Send Message">Send Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+    <!-- Map Section Start -->
+    <div class="map-area ">
+        <div class="map-content ">
+            <div class="map-canvas " id="contact-map " style="position: relative; overflow: hidden; ">
+                <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223); ">
+                    <div style="position: absolute; z-index: 0; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; " class="gm-style ">
+                        <div style="position: absolute; z-index: 0; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; cursor: url(&quot;https://maps.gstatic.com/mapfiles/openhand_8_8.cur&quot;), default; touch-action:
+                        pan-x pan-y; " tabindex="0 " aria-label="Map " aria-roledescription="map " role="group ">
+                            <div style="z-index: 1; position: absolute; left: 50%; top: 50%; width: 100%; transform: translate(0px); ">
+                                <div style="position: absolute; left: 0px; top: 0px; z-index: 100; width: 100%; ">
+                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 0; ">
+                                        <div style="position: absolute; z-index: 988; transform: matrix(1, 0, 0, 1, -250, -254); ">
+                                            <div style="position: absolute; left: 256px; top: 256px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: 0px; top: 256px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: 0px; top: 0px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: 256px; top: 0px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: 512px; top: 0px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: 512px; top: 256px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: -256px; top: 256px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: -256px; top: 0px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: 768px; top: 0px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: 768px; top: 256px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: -512px; top: 256px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                            <div style="position: absolute; left: -512px; top: 0px; width: 256px; height: 256px; ">
+                                                <div style="width: 256px; height: 256px; ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position: absolute; left: 0px; top: 0px; z-index: 101; width: 100%; ">
+                                </div>
+                                <div style="position: absolute; left: 0px; top: 0px; z-index: 102; width: 100%; ">
+                                </div>
+                                <div style="position: absolute; left: 0px; top: 0px; z-index: 103; width: 100%; ">
+                                    <div style="position: absolute; left: 0px; top: 0px; z-index: -1; ">
+                                        <div style="position: absolute; z-index: 988; transform: matrix(1, 0, 0, 1, -250, -254); ">
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 256px; top: 256px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 0px; top: 256px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 0px; top: 0px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 256px; top: 0px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 512px; top: 0px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 512px; top: 256px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -256px; top: 256px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -256px; top: 0px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 768px; top: 0px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: 768px; top: 256px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -512px; top: 256px; ">
+                                            </div>
+                                            <div style="width: 256px; height: 256px; overflow: hidden; position: absolute; left: -512px; top: 0px; ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="width: 50px; height: 52px; overflow: hidden; position: absolute; left: -25px; top: -52px; z-index: 0; ">
+                                        <img style="position: absolute; left: 0px; top: 0px; width: 50px; height: 52px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " alt=" " src="a_data/map_pin.png " draggable="false ">
+                                    </div>
+                                </div>
+                                <div style="position: absolute; left: 0px; top: 0px; z-index: 0; ">
+                                    <div style="position: absolute; z-index: 988; transform: matrix(1, 0, 0, 1, -250, -254); ">
+                                        <div style="position: absolute; left: 256px; top: 256px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_005.png ">
+                                        </div>
+                                        <div style="position: absolute; left: 0px; top: 256px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_011.png ">
+                                        </div>
+                                        <div style="position: absolute; left: 512px; top: 256px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_012.png ">
+                                        </div>
+                                        <div style="position: absolute; left: -512px; top: 256px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_010.png ">
+                                        </div>
+                                        <div style="position: absolute; left: -256px; top: 0px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_002.png ">
+                                        </div>
+                                        <div style="position: absolute; left: 512px; top: 0px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_007.png ">
+                                        </div>
+                                        <div style="position: absolute; left: 0px; top: 0px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_004.png ">
+                                        </div>
+                                        <div style="position: absolute; left: 768px; top: 256px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_008.png ">
+                                        </div>
+                                        <div style="position: absolute; left: 256px; top: 0px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_003.png ">
+                                        </div>
+                                        <div style="position: absolute; left: -256px; top: 256px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_009.png ">
+                                        </div>
+                                        <div style="position: absolute; left: 768px; top: 0px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt_006.png ">
+                                        </div>
+                                        <div style="position: absolute; left: -512px; top: 0px; width: 256px; height: 256px; transition: opacity 200ms linear 0s; ">
+                                            <img style="width: 256px; height: 256px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " draggable="false " alt=" " role="presentation " src="a_data/vt.png ">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="z-index: 2; position: absolute; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; left: 0px; top: 0px; opacity: 0; " class="gm-style-pbc ">
+                                <p class="gm-style-pbt "></p>
+                            </div>
+                            <div style="z-index: 3; position: absolute; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; left: 0px; top: 0px; touch-action: pan-x pan-y; ">
+                                <div style="z-index: 4; position: absolute; left: 50%; top: 50%; width: 100%; transform: translate(0px); ">
+                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 104; width: 100%; ">
+                                    </div>
+                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 105; width: 100%; ">
+                                    </div>
+                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%; ">
+                                        <div style="width: 50px; height: 52px; overflow: hidden; position: absolute; cursor: pointer; touch-action: none; left: -25px; top: -52px; z-index: 0; " title=" " tabindex="-1 ">
+                                            <img style="width: 50px; height: 52px; user-select: none; border: 0px none; padding: 0px; margin: 0px; max-width: none; " alt=" " src="a_data/transparent.png " draggable="false ">
+                                        </div>
+                                    </div>
+                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 107; width: 100%; ">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <iframe aria-hidden="true " tabindex="-1 " style="z-index: -1; position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; border: medium none; " frameborder="0 "></iframe>
+                        <div style="pointer-events: none; width: 100%; height: 100%; box-sizing: border-box; position: absolute; z-index: 1000002; opacity: 0; border: 2px solid rgb(26, 115, 232); ">
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                            <button style="background: rgb(255, 255, 255) none repeat scroll 0% 0%; display: none; border: 0px none; margin: 10px; padding: 0px; text-transform: none; appearance: none; position: absolute; cursor: pointer; user-select:
+                        none; top: 0px; right: 0px; " draggable="false " title="Toggle fullscreen view " aria-label="Toggle fullscreen view " type="button "></button>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                            <div class="gmnoprint gm-bundled-control gm-bundled-control-on-bottom " style="margin: 10px; user-select: none; position: absolute; bottom: 95px; right: 40px; " draggable="false " controlwidth="40 " controlheight="81 ">
+                                <div class="gmnoprint " controlwidth="40 " controlheight="40 " style="display: none; position: absolute; ">
+
+                                    <div style="background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px; border-radius: 2px; width: 40px; height: 40px; ">
+
+                                        <button style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; display: none; border: 0px none; margin: 0px; padding: 0px; text-transform: none; appearance: none; position: relative; cursor: pointer; user-select:
+                        none; left: 0px; top: 0px; overflow: hidden; width: 40px; height: 40px; " draggable="false " title="Rotate map clockwise " aria-label="Rotate map clockwise " type="button " class="gm-control-active ">
+        
+        <img style="width: 20px; height: 20px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22none%22%20d%3D%22M0%200h24v24H0V0z%22/%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M12.06%209.06l4-4-4-4-1.41%201.41%201.59%201.59h-.18c-2.3%200-4.6.88-6.35%202.64-3.52%203.51-3.52%209.21%200%2012.72%201.5%201.5%203.4%202.36%205.36%202.58v-2.02c-1.44-.21-2.84-.86-3.95-1.97-2.73-2.73-2.73-7.17%200-9.9%201.37-1.37%203.16-2.05%204.95-2.05h.17l-1.59%201.59%201.41%201.41zm8.94%203c-.19-1.74-.88-3.32-1.91-4.61l-1.43%201.43c.69.92%201.15%202%201.32%203.18H21zm-7.94%207.92V22c1.74-.19%203.32-.88%204.61-1.91l-1.43-1.43c-.91.68-2%201.15-3.18%201.32zm4.6-2.74l1.43%201.43c1.04-1.29%201.72-2.88%201.91-4.61h-2.02c-.17%201.18-.64%202.27-1.32%203.18z%22/%3E%3C/svg%3E ">
+        
+        <img style="width: 20px; height: 20px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22none%22%20d%3D%22M0%200h24v24H0V0z%22/%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M12.06%209.06l4-4-4-4-1.41%201.41%201.59%201.59h-.18c-2.3%200-4.6.88-6.35%202.64-3.52%203.51-3.52%209.21%200%2012.72%201.5%201.5%203.4%202.36%205.36%202.58v-2.02c-1.44-.21-2.84-.86-3.95-1.97-2.73-2.73-2.73-7.17%200-9.9%201.37-1.37%203.16-2.05%204.95-2.05h.17l-1.59%201.59%201.41%201.41zm8.94%203c-.19-1.74-.88-3.32-1.91-4.61l-1.43%201.43c.69.92%201.15%202%201.32%203.18H21zm-7.94%207.92V22c1.74-.19%203.32-.88%204.61-1.91l-1.43-1.43c-.91.68-2%201.15-3.18%201.32zm4.6-2.74l1.43%201.43c1.04-1.29%201.72-2.88%201.91-4.61h-2.02c-.17%201.18-.64%202.27-1.32%203.18z%22/%3E%3C/svg%3E ">
+        
+        <img style="width: 20px; height: 20px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22none%22%20d%3D%22M0%200h24v24H0V0z%22/%3E%3Cpath%20fill%3D%22%23111%22%20d%3D%22M12.06%209.06l4-4-4-4-1.41%201.41%201.59%201.59h-.18c-2.3%200-4.6.88-6.35%202.64-3.52%203.51-3.52%209.21%200%2012.72%201.5%201.5%203.4%202.36%205.36%202.58v-2.02c-1.44-.21-2.84-.86-3.95-1.97-2.73-2.73-2.73-7.17%200-9.9%201.37-1.37%203.16-2.05%204.95-2.05h.17l-1.59%201.59%201.41%201.41zm8.94%203c-.19-1.74-.88-3.32-1.91-4.61l-1.43%201.43c.69.92%201.15%202%201.32%203.18H21zm-7.94%207.92V22c1.74-.19%203.32-.88%204.61-1.91l-1.43-1.43c-.91.68-2%201.15-3.18%201.32zm4.6-2.74l1.43%201.43c1.04-1.29%201.72-2.88%201.91-4.61h-2.02c-.17%201.18-.64%202.27-1.32%203.18z%22/%3E%3C/svg%3E "></button>
+
+                                        <div style="position: relative; overflow: hidden; width: 30px; height: 1px; margin: 0px 5px; background-color: rgb(230, 230, 230); display: none; "></div><button style="background: rgba(0, 0, 0, 0) none repeat
+                        scroll 0% 0%; display: none; border: 0px none; margin: 0px; padding: 0px; text-transform: none; appearance: none; position: relative; cursor: pointer; user-select: none; left: 0px; top: 0px; overflow: hidden; width: 40px; height: 40px;
+                        transform: scaleX(-1); " draggable="false " title="Rotate map counterclockwise " aria-label="Rotate map counterclockwise " type="button " class="gm-control-active ">
+        
+        <img style="width: 20px; height: 20px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22none%22%20d%3D%22M0%200h24v24H0V0z%22/%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M12.06%209.06l4-4-4-4-1.41%201.41%201.59%201.59h-.18c-2.3%200-4.6.88-6.35%202.64-3.52%203.51-3.52%209.21%200%2012.72%201.5%201.5%203.4%202.36%205.36%202.58v-2.02c-1.44-.21-2.84-.86-3.95-1.97-2.73-2.73-2.73-7.17%200-9.9%201.37-1.37%203.16-2.05%204.95-2.05h.17l-1.59%201.59%201.41%201.41zm8.94%203c-.19-1.74-.88-3.32-1.91-4.61l-1.43%201.43c.69.92%201.15%202%201.32%203.18H21zm-7.94%207.92V22c1.74-.19%203.32-.88%204.61-1.91l-1.43-1.43c-.91.68-2%201.15-3.18%201.32zm4.6-2.74l1.43%201.43c1.04-1.29%201.72-2.88%201.91-4.61h-2.02c-.17%201.18-.64%202.27-1.32%203.18z%22/%3E%3C/svg%3E ">
+        
+        <img style="width: 20px; height: 20px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22none%22%20d%3D%22M0%200h24v24H0V0z%22/%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M12.06%209.06l4-4-4-4-1.41%201.41%201.59%201.59h-.18c-2.3%200-4.6.88-6.35%202.64-3.52%203.51-3.52%209.21%200%2012.72%201.5%201.5%203.4%202.36%205.36%202.58v-2.02c-1.44-.21-2.84-.86-3.95-1.97-2.73-2.73-2.73-7.17%200-9.9%201.37-1.37%203.16-2.05%204.95-2.05h.17l-1.59%201.59%201.41%201.41zm8.94%203c-.19-1.74-.88-3.32-1.91-4.61l-1.43%201.43c.69.92%201.15%202%201.32%203.18H21zm-7.94%207.92V22c1.74-.19%203.32-.88%204.61-1.91l-1.43-1.43c-.91.68-2%201.15-3.18%201.32zm4.6-2.74l1.43%201.43c1.04-1.29%201.72-2.88%201.91-4.61h-2.02c-.17%201.18-.64%202.27-1.32%203.18z%22/%3E%3C/svg%3E ">
+        
+        <img style="width: 20px; height: 20px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20fill%3D%22none%22%20d%3D%22M0%200h24v24H0V0z%22/%3E%3Cpath%20fill%3D%22%23111%22%20d%3D%22M12.06%209.06l4-4-4-4-1.41%201.41%201.59%201.59h-.18c-2.3%200-4.6.88-6.35%202.64-3.52%203.51-3.52%209.21%200%2012.72%201.5%201.5%203.4%202.36%205.36%202.58v-2.02c-1.44-.21-2.84-.86-3.95-1.97-2.73-2.73-2.73-7.17%200-9.9%201.37-1.37%203.16-2.05%204.95-2.05h.17l-1.59%201.59%201.41%201.41zm8.94%203c-.19-1.74-.88-3.32-1.91-4.61l-1.43%201.43c.69.92%201.15%202%201.32%203.18H21zm-7.94%207.92V22c1.74-.19%203.32-.88%204.61-1.91l-1.43-1.43c-.91.68-2%201.15-3.18%201.32zm4.6-2.74l1.43%201.43c1.04-1.29%201.72-2.88%201.91-4.61h-2.02c-.17%201.18-.64%202.27-1.32%203.18z%22/%3E%3C/svg%3E "></button>
+
+                                        <div style="position: relative; overflow: hidden; width: 30px; height: 1px; margin: 0px 5px; background-color: rgb(230, 230, 230); display: none; ">
+                                        </div>
+                                        <button style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; display: block; border: 0px none; margin: 0px; padding: 0px; text-transform: none; appearance: none; position: relative; cursor: pointer; user-select:
+                        none; top: 0px; left: 0px; overflow: hidden; width: 40px; height: 40px; " draggable="false " title="Tilt map " aria-label="Tilt map " type="button " class="gm-tilt gm-control-active ">
+        
+        <img style="width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2016%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M0%2016h8V9H0v7zm10%200h8V9h-8v7zM0%207h8V0H0v7zm10-7v7h8V0h-8z%22/%3E%3C/svg%3E ">
+        
+        <img style="width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2016%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M0%2016h8V9H0v7zm10%200h8V9h-8v7zM0%207h8V0H0v7zm10-7v7h8V0h-8z%22/%3E%3C/svg%3E ">
+        
+        <img style="width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2016%22%3E%3Cpath%20fill%3D%22%23111%22%20d%3D%22M0%2016h8V9H0v7zm10%200h8V9h-8v7zM0%207h8V0H0v7zm10-7v7h8V0h-8z%22/%3E%3C/svg%3E "></button>
+                                    </div>
+                                </div>
+                                <div class="gmnoprint " style="position: absolute; left: 0px; top: 0px; " controlwidth="40 " controlheight="81 ">
+                                    <div draggable="false " style="user-select: none; box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px; border-radius: 2px; cursor: pointer; background-color: rgb(255, 255, 255); width: 40px; height: 81px;
+                        "><button style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; display: block; border: 0px none; margin: 0px; padding: 0px; text-transform: none; appearance: none; position: relative; cursor: pointer; user-select: none; overflow: hidden;
+                        width: 40px; height: 40px; top: 0px; left: 0px; " draggable="false " title="Zoom in " aria-label="Zoom in " type="button " class="gm-control-active ">
+        
+        <img style="height: 18px; width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M18%207h-7V0H7v7H0v4h7v7h4v-7h7z%22/%3E%3C/svg%3E
+                        " alt=" ">
+        
+        <img style="height: 18px; width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M18%207h-7V0H7v7H0v4h7v7h4v-7h7z%22/%3E%3C/svg%3E
+                        " alt=" ">
+        
+        <img style="height: 18px; width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23111%22%20d%3D%22M18%207h-7V0H7v7H0v4h7v7h4v-7h7z%22/%3E%3C/svg%3E
+                        " alt=" "></button>
+
+                                        <div style="position: relative; overflow: hidden; width: 30px; height: 1px; margin: 0px 5px; background-color: rgb(230, 230, 230); top: 0px; ">
+                                        </div>
+
+                                        <button style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; display: block; border: 0px none; margin: 0px; padding: 0px; text-transform: none; appearance: none; position: relative; cursor: pointer; user-select:
+                        none; overflow: hidden; width: 40px; height: 40px; top: 0px; left: 0px; " draggable="false " title="Zoom out " aria-label="Zoom out " type="button " class="gm-control-active ">
+        
+        <img style="height: 18px; width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M0%207h18v4H0V7z%22/%3E%3C/svg%3E " alt="
+                        "><img style="height: 18px; width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M0%207h18v4H0V7z%22/%3E%3C/svg%3E " alt=" ">
+        
+        <img style="height: 18px; width: 18px; " src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2018%2018%22%3E%3Cpath%20fill%3D%22%23111%22%20d%3D%22M0%207h18v4H0V7z%22/%3E%3C/svg%3E " alt=" "></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="margin-left: 5px; margin-right: 5px; z-index: 1000000; position: absolute; left: 0px; bottom: 0px; ">
+                                <a style="position: static; overflow: visible; float: none; display: inline; " target="_blank " rel="noopener " href="https://maps.google.com/maps?ll=40.714353,-74.005973&amp;z=12&amp;t=m&amp;hl=en-US&amp;gl=US&amp;mapclient=apiv3
+                        " title="Open this area in Google Maps (opens a new window) ">
+                                    <div style="width: 66px; height: 26px; cursor: pointer; ">
+                                        <img style="position: absolute; left: 0px; top: 0px; width: 66px; height: 26px; user-select: none; border: 0px none; padding: 0px; margin: 0px; " alt=" " src="a_data/google_white5_hdpi.png " draggable="false ">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                            <div class="gmnoprint " style="z-index: 1000001; position: absolute; right: 166px; bottom: 0px; width: 121px; ">
+                                <div draggable="false " style="user-select: none; height: 14px; line-height: 14px; " class="gm-style-cc ">
+                                    <div style="opacity: 0.7; width: 100%; height: 100%; position: absolute; ">
+                                        <div style="width: 1px; ">
+                                        </div>
+                                        <div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px; ">
+                                        </div>
+                                    </div>
+                                    <div style="position: relative; padding-right: 6px; padding-left: 6px; box-sizing: border-box; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(0, 0, 0); white-space: nowrap; direction: ltr; text-align:
+                        right; vertical-align: middle; display: inline-block; ">
+
+                                        <button style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; display: none; border: 0px none; margin: 0px; padding: 0px; text-transform: none; appearance: none; position: relative; cursor: pointer; user-select:
+                        none; color: rgb(0, 0, 0); font-family: inherit; " draggable="false " title="Map Data " aria-label="Map Data " type="button ">Map Data</button>
+
+                                        <span>Map data ©2021 Google</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gmnoprint gm-style-cc " style="z-index: 1000001; user-select: none; height: 14px; line-height: 14px; position: absolute; right: 95px; bottom: 0px; " draggable="false ">
+                                <div style="opacity: 0.7; width: 100%; height: 100%; position: absolute; ">
+                                    <div style="width: 1px; ">
+                                    </div>
+                                    <div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px; ">
+                                    </div>
+                                </div>
+                                <div style="position: relative; padding-right: 6px; padding-left: 6px; box-sizing: border-box; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(0, 0, 0); white-space: nowrap; direction: ltr; text-align:
+                        right; vertical-align: middle; display: inline-block; ">
+
+                                    <a style="text-decoration: none; cursor: pointer; color: rgb(0, 0, 0); " href="https://www.google.com/intl/en-US_US/help/terms_maps.html " target="_blank " rel="noopener ">Terms of Use</a>
+                                </div>
+                            </div>
+                            <div draggable="false " style="user-select: none; height: 14px; line-height: 14px; position: absolute; right: 0px; bottom: 0px; " class="gm-style-cc ">
+                                <div style="opacity: 0.7; width: 100%; height: 100%; position: absolute; ">
+                                    <div style="width: 1px; ">
+                                    </div>
+                                    <div style="background-color: rgb(245, 245, 245); width: auto; height: 100%; margin-left: 1px; ">
+                                    </div>
+                                </div>
+                                <div style="position: relative; padding-right: 6px; padding-left: 6px; box-sizing: border-box; font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(0, 0, 0); white-space: nowrap; direction: ltr; text-align:
+                        right; vertical-align: middle; display: inline-block; ">
+
+                                    <a target="_blank " rel="noopener " title="Report errors in the road map or imagery to Google " dir="ltr " style="font-family: Roboto, Arial, sans-serif; font-size: 10px; color: rgb(0, 0, 0); text-decoration: none;
+                        position: relative; " href="https://www.google.com/maps/@40.7143528,-74.0059731,12z/data=!10m1!1e1!12b1?source=apiv3&amp;rapsrc=apiv3 ">Report a map error</a>
+                                </div>
+                            </div>
+                            <div class="gmnoscreen " style="position: absolute; right: 0px; bottom: 0px; ">
+                                <div style="font-family: Roboto, Arial, sans-serif; font-size: 11px; color: rgb(0, 0, 0); direction: ltr; text-align: right; background-color: rgb(245, 245, 245); ">
+                                    Map data ©2021 Google</div>
+                            </div>
+                        </div>
+                        <div style="background-color: white; padding: 15px 21px; border: 1px solid rgb(171, 171, 171); font-family: Roboto, Arial, sans-serif; color: rgb(34, 34, 34); box-sizing: border-box; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 16px;
+                        z-index: 10000002; display: none; width: 300px; height: 180px; position: absolute; left: 610px; top: 160px; ">
+                            <div style="padding: 0px 0px 10px; font-size: 16px; box-sizing: border-box; ">Map Data</div>
+
+                            <div style="font-size: 13px; ">Map data ©2021 Google</div>
+                            <button style="background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; display: block; border: 0px none; margin: 0px; padding: 0px; text-transform: none; appearance: none; position: absolute; cursor: pointer; user-select:
+                        none; top: 0px; right: 0px; width: 37px; height: 37px; " draggable="false " title="Close " aria-label="Close " type="button " class="gm-ui-hover-effect ">
+        
+        <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%206.41L17.59%205%2012%2010.59%206.41%205%205%206.41%2010.59%2012%205%2017.59%206.41%2019%2012%2013.41%2017.59%2019%2019%2017.59%2013.41%2012z%22/%3E%3Cpath%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22/%3E%3C/svg%3E
+                        " style="pointer-events: none; display: block; width: 13px; height: 13px; margin: 12px; " alt=" ">
+        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Map Section End -->
+    <!-- Footer Section Start -->
+    <footer class="footer-area ">
+        <div class="copyright-area text-center ">
+            <div class="container ">
+                <div class="row ">
+                    <div class="col-md-12 ">
+                        <div class="footer-social-media ">
+                            <a href="# "><i class="fa fa-facebook " aria-hidden="true "></i>  </a>
+                            <a href="# "><i class="fa fa-twitter " aria-hidden="true "></i>  </a>
+                            <a href="# "><i class="fa fa-instagram " aria-hidden="true "></i>  </a>
+                            <a href="# "><i class="fa fa-behance " aria-hidden="true "></i>  </a>
+                            <a href="# "><i class="fa fa-dribbble " aria-hidden="true "></i>  </a>
+                        </div>
+                        <p>Copyright © 2022 - All Right Reserved.</p>
+                        <p>Designed by M.Nagy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+    <!-- Back to Top -->
+    <a href="# " class="back-to-top back-to-top-pulse "><i class="fa fa-caret-up "></i></a>
+    <!--Jquery js-->
+    <script src="a_data/jquery-3.js "></script>
+    <script src="a_data/bootstrap.js "></script>
+    <script src="a_data/plugins.js "></script>
+    <script src="a_data/animated.js "></script>
+    <script src="a_data/js "></script>
+    <script src="a_data/gmap3.js "></script>
+    <!--Site Main js-->
+    <script src="a_data/main.js "></script>
+</body>
+
+</html>
