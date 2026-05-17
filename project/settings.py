@@ -301,7 +301,7 @@ os.environ["VAR"]              # raises KeyError if "VAR" is not set
 # Uses DEVELOPMENT_MODE to choose between local PostgreSQL and a remote URL.
 DEVELOPMENT_MODE = os.environ.get('DEVELOPMENT_MODE', 'False') == 'True' # AI suggestion, the original one ws working
 #DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True" # the original one ws working 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 # productions Settings
 if DEVELOPMENT_MODE:
@@ -396,7 +396,7 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 #SITE_ROOT = PROJECT_ROOT / BASE_DIR # SITE_ROOT = BASE_DIR
 #SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 #STATIC_ROOT = os.path.join(SITE_ROOT, 'staticfiles')
-
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # STATIC Settings for local development
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
@@ -409,7 +409,9 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 # If you don't have this directory and have this uncommented your build will fail
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 #STATICFILES_DIRS = (os.path.join(BASE_DIR, "_static/css"),)
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# for production on vercel you can use the following settings
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 #STATIC_ROOT = (os.path.join(SITE_ROOT, 'static_files/'))
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates" or '/127.0.0.1:8000/nagy/templates',
