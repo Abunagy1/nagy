@@ -111,7 +111,7 @@
 # wsproto==1.2.0
 # zope.interface==5.5.2
 
-# for production uncomment the follwoing packages and comment the development ones
+# for production at vercel uncomment the follwoing packages and comment the development ones
 Django==4.1.4
 gunicorn==20.1.0
 whitenoise==6.2.0

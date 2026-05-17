@@ -21,7 +21,7 @@ environ.Env.read_env()
 INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'rest_framework',
     'account',
-    "daphne",
+    # "daphne",
     'chat',
     'django.contrib.admin',
     'django.contrib.auth', # Core authentication framework and its default models
@@ -414,16 +414,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ASGI_APPLICATION = "project.asgi.application"
 WSGI_APPLICATION = 'project.wsgi.application'
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",  #   "channels_redis.core.RedisChannelLayer"
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379), os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379'),],
-            # ['redis://127.0.0.1:6379', os.getenv("REDIS_URL"),],
-            "on_disconnect": "redis.disconnect",
-        },
-    }, # you can add more channel layers here
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",  #   "channels_redis.core.RedisChannelLayer"
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379), os.environ.get('REDIS_URL', 'redis://127.0.0.1:6379'),],
+#             # ['redis://127.0.0.1:6379', os.getenv("REDIS_URL"),],
+#             "on_disconnect": "redis.disconnect",
+#         },
+#     }, # you can add more channel layers here
+# }
 # see Deployment checklist in how to deploy with wsgi file
 # Production security settings (only applied when ENVIRONMENT=production)
 ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
