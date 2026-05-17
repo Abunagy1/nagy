@@ -68,8 +68,9 @@ phonenumbers==8.12.50
 Pillow==9.1.1
 pinax-notifications==6.0.0
 platformdirs==2.5.2
-psycopg2==2.9.3
-psycopg2-binary==2.9.11
+# psycopg2==2.9.3
+# psycopg2-binary==2.9.11
+psycopg2-binary>=2.9
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
@@ -103,7 +104,7 @@ Twisted==22.10.0
 txaio==22.2.1
 typing_extensions==4.4.0
 urllib3==1.26.9
-uWSGI==2.0.21
+# uWSGI==2.0.21
 whitenoise==6.2.0
 wrapt==1.14.1
 wsproto==1.2.0
