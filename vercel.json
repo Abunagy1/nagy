@@ -4,7 +4,7 @@
     {
       "src": "project/wsgi.py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.12", "handler": "wsgi.handler" }
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.12" }
     }
   ],
   "routes": [
@@ -12,4 +12,3 @@
     { "src": "/(.*)", "dest": "project/wsgi.py" }
   ]
 }
-
