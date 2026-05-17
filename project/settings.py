@@ -134,7 +134,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
+
 
 # In REST framework are all namespaced into a single dictionary setting, named REST_FRAMEWORK
 # which helps keep them well separated from your other project settings
@@ -411,7 +411,8 @@ MEDIAFILES_DIRS = (BASE_DIR / 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # for using channels and websocket you need to have puip3 -m pip install channel_redis and then
-ASGI_APPLICATION = "project.asgi.application"
+# ASGI_APPLICATION = "project.asgi.application"
+WSGI_APPLICATION = 'project.wsgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
