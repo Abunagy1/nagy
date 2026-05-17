@@ -319,14 +319,14 @@ if DEVELOPMENT_MODE:
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-elif len(sys.argv) > 1 and sys.argv[1] != 'collectstatic': # it was 0, but caused errors in vercel 
-    if os.getenv("DB_URL", None) is None:  # if "DB_URL" in os.environ:
-        raise Exception("DATABASE_URL environment variable not defined in production")
-    # Configure Django for DATABASE_URL environment variable.
-    #DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
-    DATABASES = {"default": dj_database_url.parse(os.environ.get("DB_URL")),}
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# elif len(sys.argv) > 1 and sys.argv[1] != 'collectstatic': # it was 0, but caused errors in vercel 
+#     if os.getenv("DB_URL", None) is None:  # if "DB_URL" in os.environ:
+#         raise Exception("DATABASE_URL environment variable not defined in production")
+#     # Configure Django for DATABASE_URL environment variable.
+#     #DATABASES = {'default': dj_database_url.config(default='DB_URL',)}
+#     DATABASES = {"default": dj_database_url.parse(os.environ.get("DB_URL")),}
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
     # if "DB_URL" in os.environ:
     #     # Update database configuration from $DATABASE_URL.
     #     # db_from_env = dj_database_url.config(conn_max_age=500)
@@ -343,11 +343,10 @@ else:
         # Raise a clear error if not set
         raise Exception('DATABASE_URL environment variable not defined in production')
     DATABASES = {
-        'default': dj_database_url.parse(database_url)
+        # 'default': dj_database_url.parse(database_url)
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+        # 'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
     }
-    # DATABASES = {
-    #     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-    # }
 # DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "True")
 # # productions Settings
 # if DEVELOPMENT_MODE == 'True':
@@ -447,6 +446,8 @@ ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
 if ENVIRONMENT == 'production':
     DEBUG = False
     SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
+    if not SECRET_KEY:
+        raise ValueError("SECRET_KEY environment variable must be set")
     CSRF_COOKIE_AGE = 31449600 
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
