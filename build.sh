@@ -1,14 +1,8 @@
 #!/bin/bash
 echo "Starting build.sh..."
 
-echo "Upgrading pip and setuptools..."
-python3 -m pip install --break-system-packages --upgrade pip setuptools wheel
-
-echo "Installing Python dependencies..."
-python3 -m pip install --break-system-packages --upgrade -r requirements.txt
-
-# echo "Installing Python dependencies with upgrade strategy..."
-# python3 -m pip install --break-system-packages --upgrade --upgrade-strategy eager -r requirements.txt
+echo "Installing Python dependencies with upgrade strategy..."
+python3 -m pip install --break-system-packages --upgrade --upgrade-strategy eager -r requirements.txt
 
 echo "Running database migrations..."
 python3 manage.py migrate --noinput
