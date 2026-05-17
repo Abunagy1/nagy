@@ -139,3 +139,4 @@ python-dotenv>=0.21.0
 pytz>=2022.1
 sqlparse>=0.4.2
 asgiref>=3.5.2
+pygments>=2.12.0
