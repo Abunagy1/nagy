@@ -270,7 +270,7 @@ class City(models.Model):
     class meta:
         verbose_name_plural = _('cities')
     def __str__(self):
-        return self.name
+        return self.name or ''   # or 'Unnamed City'
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile_users', on_delete=models.CASCADE, primary_key=True, unique=True, db_index=True) # settings.AUTH_USER_MODEL or get_user_model()

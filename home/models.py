@@ -25,7 +25,11 @@ class Home(models.Model):
     class Meta:
         verbose_name = _('Home')
         verbose_name_plural = _('Home')
+    # def __str__(self):
+    #     return 'Posts titles {} Jobs Available {}'.format(self.post.title, self.job.title)  # 
+    #     return '{0}, {1}'.format(self.posts, self.jobs) # return (self.posts, self.users, self.jobs)
+    #     return f'{self.users.username}\'s Post- {self.posts.title}' # return self.creator.username + ',
     def __str__(self):
-        return 'Posts titles {} Jobs Available {}'.format(self.post.title, self.job.title)  # 
-        return '{0}, {1}'.format(self.posts, self.jobs) # return (self.posts, self.users, self.jobs)
-        return f'{self.users.username}\'s Post- {self.posts.title}' # return self.creator.username + ',
+        post_title = self.post.title if self.post else 'No Post'
+        job_title = self.job.title if self.job else 'No Job'
+        return f'Posts titles {post_title} Jobs Available {job_title}'

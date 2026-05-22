@@ -300,9 +300,13 @@ class PostInstance(models.Model): # Represenrt a Many To Many relation btn both 
         permissions = (("can_renew", "Set post new date"), ("can_edit", "Edit post details"))
         #unique_together=('post', 'content_type', 'object_id') # Solve the unique per page
         #indexes = [models.Index(fields=["content_type", "object_id"]),]
+    # def __str__(self):
+    #     """String for representing the Model object."""  # we use old(format)/new(f'' string interpolation syntax
+    #     return '{0} ({1})'.format(self.id, self.post.title) # or better use f'{self.id} ({self.post.title})'  f == format f' ' (new feature)
     def __str__(self):
-        """String for representing the Model object."""  # we use old(format)/new(f'' string interpolation syntax
-        return '{0} ({1})'.format(self.id, self.post.title) # or better use f'{self.id} ({self.post.title})'  f == format f' ' (new feature)
+        post_title = self.post.title if self.post else 'No Post'
+        return '{0} ({1})'.format(self.id, post_title)
+
 """
 class PostViews(models.Model):
     IP = models.GenericIPAddressField(default="45.243.82.169")

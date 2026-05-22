@@ -51,7 +51,7 @@ INSTALLED_APPS = [ #  pip install django-phonenumber-field[phonenumbers
     'cloudinary',
     'cloudinary_storage',
 ]
-SITE_ID=1 
+SITE_ID = 1 
 AUTH_USER_MODEL = 'account.User' # because we have extended user Model using a custome model in user app
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
 MIDDLEWARE = [
@@ -394,16 +394,14 @@ STATIC_URL = '/static/' # then you can reach to all static from this url
 #PROJECT_ROOT = os.path.join(os.path.dirname(__file__), '..')
 #SITE_ROOT = PROJECT_ROOT / BASE_DIR # SITE_ROOT = BASE_DIR
 #SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-#STATIC_ROOT = os.path.join(SITE_ROOT, 'staticfiles')
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # STATIC Settings for local development
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 # STATIC Settings for Production deployment
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-print(f"STATIC_ROOT = {STATIC_ROOT}")
-print(f"STATIC_URL = {STATIC_URL}")
+# print(f"STATIC_ROOT = {STATIC_ROOT}")
+# print(f"STATIC_URL = {STATIC_URL}")
 # for production use "/var/www/example.com/static/"
 # Uncomment next line if you have extra static files paths and a directory in your GitHub repo.
 # If you don't have this directory and have this uncommented your build will fail
