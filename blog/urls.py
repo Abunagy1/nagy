@@ -6,6 +6,7 @@ from .import api
 # PostedByUserListView, remove_vote, renew_post_admin, RenewedAllListView, MaintainerListView, MaintainerDetailView, MaintainerCreate,
 # MaintainerUpdate, MaintainerDelete, search_titles, vote )
 from .views import (
+    MyPostsListView,
     index,
     add_post,
     post_details,
@@ -17,7 +18,7 @@ from .views import (
     search_titles,
     renew_post_admin,
     PostDeleteView,
-    PostedByUserListView,
+    MyPostsListView,
     RenewedAllListView,
     MaintainerUpdate,
     MaintainerDelete,
@@ -60,7 +61,8 @@ urlpatterns = [ # you can use the URL name to map the link in template <a href="
     #path('posts/like/', likePost, name='likepost'),
     #path('posts/<int:pk>/delete/', views.PostDelete.as_view(), name='post-delete'),
     path('posts/<uuid:pk>/delete/', PostDeleteView.as_view(), name='post_delete'),
-    path('posts/myposts/', PostedByUserListView.as_view(), name='my-posts'),    
+    # path('posts/myposts/', PostedByUserListView.as_view(), name='my-posts'),    
+    path('posts/myposts/', MyPostsListView.as_view(), name='my-posts'),
     # Add URLConf for admin to renew a post. /blog/post/<postinstance_id>/renew/1
     path('posts/<uuid:pk>/renew/', renew_post_admin, name='renew-post-admin'),
     path(r'renewed/', RenewedAllListView.as_view(), name='all-renewed'),

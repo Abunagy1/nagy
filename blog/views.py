@@ -103,6 +103,24 @@ def index(request):
         return render(request, 'blog/index.html', context) # you can just write only posts.html to refer to templates/blog/posts.html
     else:
         return redirect(reverse('/'))
+    
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from .models import Post
+
+class MyPostsListView(LoginRequiredMixin, ListView):
+    """Show all posts created by the currently logged-in user."""
+    model = Post
+    template_name = 'blog/my_posts.html'  # we'll create this template
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self):
+        # Return only posts where the creator is the current user
+        return Post.objects.filter(creator=self.request.user).order_by('-created_at')
+    
+    
 ##########################################
 #------------- Create View --------------#
 ##########################################

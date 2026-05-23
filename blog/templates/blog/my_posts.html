@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block body %}
+{% include "components/header.html" %}
+
+<section id="blog" class="blog-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h2>My Posts</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                {% if posts %}
+                    <div class="row">
+                    {% for post in posts %}
+                        <div class="col-lg-4 col-md-6 blog-item">
+                            <div class="single-blog h-100">
+                                {% if post.post_img %}
+                                <div class="post-img">
+                                    <img class="card-img-top" src="{{ post.post_img.url }}" alt="{{ post.title }}">
+                                </div>
+                                {% endif %}
+                                <div class="blog-content">
+                                    <div class="card-body">
+                                        <a href="{% url 'blog:details' post.id %}">
+                                            <h2 class="card-title my-3">{{ forloop.counter }}) {{ post.title }}</h2>
+                                        </a>
+                                        <div class="text-muted mb-3">
+                                            <div>
+                                                <span>Created: {{ post.created_at|date:"d M Y, H:i" }}</span><br>
+                                                <span>Updated: {{ post.updated_at|date:"d M Y" }}</span>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                                        <a class="after-btn" href="{% url 'blog:details' post.id %}">Read More...</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <!-- Pagination -->
+                    {% if posts.has_other_pages %}
+                    <div class="row mt-4">
+                        <div class="col-lg-12">
+                            <div class="pagination_wrap">
+                                <ul>
+                                    {% if posts.has_previous %}
+                                    <li><a href="?page={{ posts.previous_page_number }}"><i class="ti-angle-left"></i></a></li>
+                                    {% endif %}
+                                    {% for i in posts.paginator.page_range %}
+                                    <li><a href="?page={{ i }}"><span>{{ i }}</span></a></li>
+                                    {% endfor %}
+                                    {% if posts.has_next %}
+                                    <li><a href="?page={{ posts.next_page_number }}"><i class="ti-angle-right"></i></a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="col-12">
+                        <h3>You haven't created any posts yet.</h3>
+                        <a href="{% url 'blog:add' %}" class="btn btn-primary">Create your first post</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
