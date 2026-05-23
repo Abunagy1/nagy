@@ -7492,3 +7492,18 @@
             font-size: 12px;
         }
         /*# sourceMappingURL=style.css.map */
+
+
+.vote-buttons i.selected {
+    color: #ffc107;
+    /* gold color for upvote */
+}
+
+.vote-buttons i.vote-down.selected {
+    color: #dc3545;
+    /* red for downvote */
+}
+
+.vote-buttons i {
+    transition: color 0.2s ease;
+}

@@ -1,9 +1,13 @@
 {% if posts %}
-<ul>
+    <ul>
     {% for post in posts %}
-    <li>{{ post.title }}</li>
+        <li>
+            <a href="{% url 'blog:details' post.id %}">{{ post.title }}</a><br>
+            <small>Created: {{ post.created_at|date:"d M Y, H:i" }}</small><br>
+            <small>Maintainer: {% if post.maintainer %}{{ post.maintainer }}{% else %}None{% endif %}</small>
+        </li>
     {% endfor %}
-</ul>
+    </ul>
 {% else %}
-<p>No posts found.</p>
+    <p>No posts found.</p>
 {% endif %}

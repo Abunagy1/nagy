@@ -1,5 +1,5 @@
 <section id="" class="about-area bg-dark section-padding">
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+   <nav class="navbar navbar-expand-sm navbar-dark bg-dark secondary-navbar">
         <div class="container">
             {% if request.user.is_authenticated and request.path != '/blog/posts/' %}
             <a href="{% url 'blog:search' %}" class="navbar-brand">Search Our Posts</a>{% endif %}

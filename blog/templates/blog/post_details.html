@@ -1,4 +1,10 @@
-{% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% load crispy_forms_tags %} {% block body %}{% include "components/header.html" %}
+{% extends 'layout.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block body %}
+{% include "components/header.html" %}
+
 <!-- bradcam_area  -->
 <div class="bradcam_area bradcam_dark_bg">
     <div class="container">
@@ -7,321 +13,231 @@
                 <div class="bradcam_text">
                     <h3>{% block head_title %}{{ post.title }}{% endblock %}</h3>
                 </div>
-                <div class="col-md-8 card mb-4 mt-3 left top bg-dark">
-                    <div class="card-body ">
-                        <p class=" text-muted">{{ post.creator.username }} | {{ post.created_at }}</p>
-                        <h5>Created: {{ post.created_at|date:"N j Y" }}, last updated: {{ post.updated_at|timesince }}, by <a class="badge badge-secondary" href="{% url 'accounts:user_profile' post.creator.username %}">
-                            {{ post.creator.username }}
-                        </a></h5>
-                        <div>
-                            {% block sidebar %} {% include 'components/sidebar.html' %} {% endblock sidebar %}
-                        </div>
-                        <div class="vote-buttons">
-                            {% if thisUserUpVote == 0 %}
-                            <img class="vote-up" src="{% static 'img/vote-up-off.jpeg' %}" style="width:50px;height:60px;" title="Vote this thread UP. (click again to undo)" /> {% else %}
-                            <img class="vote-up selected" src="{% static 'img/vote-up-on.jpeg' %}" style="width:50px;height:60px;" title="Vote this thread UP. (click again to undo)" /> {% endif %} {% if thisUserDownVote == 0 %}
-                            <img class="vote-down" src="{% static 'img/vote-down-off.jpeg' %}" style="width:50px;height:60px;" title="Vote this thread DOWN if it is innapropriate or incorrect. (click again to undo)" /> {% else %}
-                            <img class="vote-down selected" src="{% static 'img/vote-down-on.png' %}" style="width:50px;height:60px;" title="Vote this thread DOWN if it is innapropriate or incorrect. (click again to undo)" /> {% endif %}
-                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-                            <!-- <script type="text/javascript">
-                                $(document).ready(function() {
-                                    $('div.vote-buttons img.vote-up').click(function() {
-                                        let id = post.id;
-                                        let vote_type = 'up';
-                                        if ($(this).hasClass('selected')) {
-                                            var vote_action = 'recall-vote'
-                                            $.post('/blog/posts/vote', {
-                                                id: id,
-                                                type: vote_type,
-                                                action: vote_action
-                                            }, function(response) {
-                                                if (isInt(response)) {
-                                                    $('img.vote-up').removeAttr('src')
-                                                        .attr('src', '/static/img/vote-up-off.jpeg')
-                                                        .removeClass('selected');
-                                                    $('div.vote-tally span.num').html(response);
-                                                }
-                                            });
-                                        } else {
-                                            var vote_action = 'vote'
-                                            $.post('/blog/posts/vote', {
-                                                id: id,
-                                                type: vote_type,
-                                                action: vote_action
-                                            }, function(response) {
-                                                if (isInt(response)) {
-                                                    $('img.vote-up').removeAttr('src')
-                                                        .attr('src', '/static/img/vote-up-on.jpeg')
-                                                        .addClass('selected');
-                                                    $('div.vote-tally span.num').html(response);
-                                                }
-                                            });
-                                        }
-                                    });
-                                });
-                            </script> -->
-                            <script>
-                                function getCookie(name) {
-                                let cookieValue = null;
-                                if (document.cookie && document.cookie !== '') {
-                                    const cookies = document.cookie.split(';');
-                                    for (let i = 0; i < cookies.length; i++) {
-                                    const cookie = cookies[i].trim();
-                                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                        break;
-                                    }
-                                    }
-                                }
-                                return cookieValue;
-                                }
-                                const csrftoken = getCookie('csrftoken');
-
-                                $(document).ready(function() {
-                                $('div.vote-buttons img.vote-up, div.vote-buttons img.vote-down').click(function() {
-                                    let id = '{{ post.id }}';
-                                    let vote_type = $(this).hasClass('vote-up') ? 'up' : 'down';
-                                    let action = $(this).hasClass('selected') ? 'recall-vote' : 'vote';
-
-                                    $.ajax({
-                                    url: "{% url 'blog:vote' %}",
-                                    type: "POST",
-                                    headers: {'X-CSRFToken': csrftoken},
-                                    data: { id: id, type: vote_type, action: action },
-                                    success: function(response) {
-                                        let score = parseInt(response);
-                                        if (!isNaN(score)) {
-                                        $('div.vote-tally span.num').text(score);
-                                        }
-                                        if (action === 'vote') {
-                                        $(this).addClass('selected')
-                                            .attr('src', vote_type === 'up' ? '/static/img/vote-up-on.jpeg' : '/static/img/vote-down-on.png');
-                                        } else {
-                                        $(this).removeClass('selected')
-                                            .attr('src', vote_type === 'up' ? '/static/img/vote-up-off.jpeg' : '/static/img/vote-down-off.jpeg');
-                                        }
-                                    }.bind(this)
-                                    });
-                                });
-                                });
-                            </script>
-                        </div>
-                        <div class="vote-tally">Score: <span class="num">{{ post.score }}</span></div>
-                        <div class="voted-post">
-                            <div id="post_595" class="post">
-                                <img src="{% static 'img/vote_up.png' %}" style="width:50px;height:60px;" class="vote up">
-                                <div class="score">{{post.score}}</div>
-                                <img src="{% static 'img/vote_down.png' %}" style="width:50px;height:60px;" class="vote down">
-                            </div>
-                            <script>
-                                $(function() {
-                                    $('div.post img.vote').click(function() {
-                                        var id = $(this).parents('div.post').attr('id').split('_')[1];
-                                        var vote_type = $(this).hasClass('up') ? 'up' : 'down';
-                                        if ($(this).hasClass('selected')) { // selected class must be established in css
-                                            $.post('/blog/posts/vote/', {
-                                                id: id,
-                                                type: vote_type
-                                            }, function(json) {
-                                                if (json.success == 'success') {
-                                                    $('#post_' + id)
-                                                        .find('img.' + vote_type)
-                                                        .attr('src', 'vote_' + vote_type + '_selected.png')
-                                                        .addClass('selected');
-                                                    $('div.score', '#post_' + id).html(json.score);
-                                                }
-                                            });
-                                        } else {
-                                            $.post('/blog/posts/remove-vote/', {
-                                                id: id,
-                                                type: vote_type
-                                            }, function(json) {
-                                                if (json.success == 'success') {
-                                                    $('#post_' + id)
-                                                        .find('img.' + vote_type).attr('src', 'vote_' + vote_type + '.png')
-                                                        .removeClass('selected');
-                                                    $('div.score', '#post_' + id).html(json.score);
-                                                }
-                                            });
-                                        }
-                                    });
-                                });
-                            </script>
-                        </div>
-                        <!-- .votebuttons -->
-                        <div class="like-button">
-                            <ul>
-                                <li>
-                                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-                                </li>
-                                <li>
-                                    <a class="likebutton" id="like{{post.id}}" href="#" data-catid="{{ post.id }}">Like</a>
-                                    <script type="text/javascript">
-                                        $('.likebutton').click(function() {
-                                            var catid;
-                                            catid = $(this).attr("data-catid");
-                                            $.ajax({
-                                                type: "GET",
-                                                url: "/likepost",
-                                                data: {
-                                                    post_id: catid
-                                                },
-                                                success: function(data) {
-                                                    $('#like' + catid).remove();
-                                                    $('#message').text(data);
-                                                }
-                                            })
-                                        });
-                                    </script>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
 <!--/ bradcam_area  -->
+
 <div class="container-fluid my-5">
     <div class="row">
-        <div class="col-lg-6 offset-lg-3">
+        <div class="col-lg-8 offset-lg-2">
+            <!-- Post card -->
             <div class="card bg-dark">
                 {% if post.post_img %}
-                <img class="card-img-top" src="{{ post.post_img.url }}" alt="{{ post.title }}"> {% endif %}
-                <div class="card-text mt-5 p-4">
-                    <p class="blog-post-meta">{{post.timeStamp}} by <a href="{% url 'accounts:user_profile' post.creator.username %}">{{post.creator}}</a> (<span> {{post.views}} views</span>)</p>
-                    <hr>
-                    <p class="card-text ">{{ post.content | safe }}</p>
-                    <hr><br>
-                    <p class="card-text ">{{ post.video | safe }}</p>
+                <img class="card-img-top" src="{{ post.post_img.url }}" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <p class="text-muted">{{ post.creator.username }} | {{ post.created_at }}</p>
+                    <h5>Created: {{ post.created_at|date:"N j Y" }}, last updated: {{ post.updated_at|timesince }}, by 
+                        <a class="badge badge-secondary" href="{% url 'accounts:user_profile' post.creator.username %}">
+                            {{ post.creator.username }}
+                        </a>
+                    </h5>
+
+                    <!-- Sidebar info (Maintainer, Summary, ISBN, Language, Genre) -->
+                    <div class="sidebar-info mt-3 p-3 bg-secondary rounded">
+                        <p><strong>Maintainer:</strong> 
+                            {% if post.maintainer %}
+                                <a href="{{ post.maintainer.get_absolute_url }}">{{ post.maintainer }}</a>
+                            {% else %}
+                                None
+                            {% endif %}
+                        </p>
+                        <p><strong>Summary:</strong> {{ post.summary|default:"None" }}</p>
+                        <p><strong>ISBN:</strong> {{ post.isbn|default:"None" }}</p>
+                        <p><strong>Language:</strong> {{ post.language|default:"None" }}</p>
+                        <p><strong>Genre:</strong> 
+                            {% for genre in post.genre.all %}{{ genre.genre }}{% if not forloop.last %}, {% endif %}{% empty %}None{% endfor %}
+                        </p>
+                    </div>
+
+                    <!-- Post content -->
+                    <div class="card-text mt-4">
+                        <p class="blog-post-meta">{{ post.timeStamp }} by 
+                            <a href="{% url 'accounts:user_profile' post.creator.username %}">{{ post.creator }}</a> 
+                            (<span>{{ post.views }} views</span>)
+                        </p>
+                        <hr>
+                        <p class="card-text">{{ post.content | safe }}</p>
+                        <hr><br>
+                        <p class="card-text">{{ post.video | safe }}</p>
+                        <div>
+                            <p>{{ post.snippet.snippet_title }}</p>
+                            <p>{{ post.snippet.code }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Vote buttons -->
+                    <div class="vote-buttons">
+                        <span class="vote-up {% if thisUserUpVote %}selected{% endif %}" 
+                              style="font-size: 2rem; cursor: pointer;">👍</span>
+                        <span class="vote-down {% if thisUserDownVote %}selected{% endif %}" 
+                              style="font-size: 2rem; cursor: pointer; margin-left: 1rem;">👎</span>
+                        <span class="vote-tally ml-3">Score: <span class="num">{{ post.score }}</span></span>
+                    </div>
+
+                    {% if post.creator == request.user %}
+                    <div class="mt-4">
+                        <a class="btn btn-primary" href="{% url 'blog:post-update' post.id %}">Edit</a>
+                        <a class="btn btn-danger" href="{% url 'blog:post_delete' post.id %}">Delete</a>
+                    </div>
+                    {% endif %}
                 </div>
-                <div>
-                    <p>{{ post.snippet.snippet_title }}</p>
-                    <p>{{ post.snippet.code }}</p>
-                </div>
-                {% if post.creator == request.user %}
-                <div class="mt-4 mx-3">
-                    <a class="btn btn-primary" href="{% url 'blog:post-update' post.id %}">Edit</a>
-                    <a class="btn btn-danger" href="{% url 'blog:post_delete' post.id %}">Delete</a>
-                </div> {% endif %}
             </div>
-            <!-- List of comments -->
-            {% if post.comments %}
-            <div class="row mt-5">
+
+            <!-- Comments Section -->
+            <div class="mt-5">
+                <h2>{{ comments|length }} Comments</h2>
+                <!-- Display existing comments -->
                 {% for comment in comments %}
-                <div class="col-md-8 card mb-4  mt-3 ">
+                <div class="card bg-dark mb-3">
                     <div class="card-body">
-                        <div class="comments" style="padding: 10px;">
-                            <p class="font-weight-bold">
-                                {{ comment.commenter.username }}
-                                <span class=" text-muted font-weight-normal"> {{ comment.created_on }} </span>
-                            </p>
-                            {{ comment.content | linebreaks }}
+                        <div class="d-flex">
+                            <img class="rounded-circle mr-3" src="{% static 'img/avatar.svg' %}" alt="Avatar" width="40" height="40">
+                            <div class="w-100">
+                                <strong>{{ comment.commenter.username }}</strong>
+                                <span class="text-muted ml-2">{{ comment.created_on|date:"M d, Y H:i" }}</span>
+                                <p class="mt-2">{{ comment.content }}</p>
+                                <!-- Reply button -->
+                                <button class="btn btn-sm btn-outline-primary reply-btn" data-comment-id="{{ comment.id }}">Reply</button>
+                                <!-- Hidden reply form -->
+                                <div id="reply-form-{{ comment.id }}" style="display: none;" class="mt-2">
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="postSno" value="{{ post.id }}">
+                                        <input type="hidden" name="parentSno" value="{{ comment.id }}">
+                                        <div class="form-group">
+                                            <textarea name="comment" class="form-control" rows="2" placeholder="Write your reply..."></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-primary">Post Reply</button>
+                                    </form>
+                                </div>
+                                <!-- Display replies -->
+                                {% if replyDict %}
+                                    {% for parent_id, replies_list in replyDict.items %}
+                                        {% if parent_id == comment.id %}
+                                        <div class="replies mt-3 ml-4">
+                                            {% for reply in replies_list %}
+                                            <div class="card bg-secondary mb-2">
+                                                <div class="card-body py-2">
+                                                    <strong>{{ reply.commenter.username }}</strong>
+                                                    <span class="text-muted ml-2">{{ reply.created_on|date:"M d, Y H:i" }}</span>
+                                                    <p class="mt-1 mb-0">{{ reply.content }}</p>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
                         </div>
-                        {% if comnt %}
-                        <div class="alert alert-success" role="alert">
-                            Your comment is awaiting moderation
-                        </div>
-                        {% else %}
-                        <h3>Leave a comment</h3>
-                        <form method="post" style="margin-top: 1.3em;">
-                            {{ comment_form.as_p | crispy }} {% csrf_token %}
-                            <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
-                        </form>
-                        {% endif %}
                     </div>
                 </div>
-
-                <div class="col-lg-6 offset-lg-3 mt-2">
-                    <div class="card p-2">
-                        <div class="row">
-                            <div class="col-12">
-                                <img class="rounded-circle mr-2" src="{% static 'img/avatar.svg' %}" alt="Avatar">
-                                <strong>{{ comment.commenter.first_name }}</strong> said
-                            </div>
-                            <div class="col-12">
-                                <p class="m-1 mt-3">{{ comment.content }}</p>
-                                <p class="text-right text-muted"><small>{{ comment.created_on }}</small></p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                {% empty %}
+                <p>No comments yet. Be the first to comment!</p>
                 {% endfor %}
-            </div>
-            {% endif %}
-            <!-- Form to leave comment -->
-        </div>
-    </div>
-</div>
 
-<div class="container">
-    <h2> ({{comments.count}}) Comments </h2>
-    <div class="my-2">
-        {% if user.is_authenticated %}
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="exampleInputEmail1">Post Comment </label>
-                <input type="text" class="form-control" name="comment" placeholder="Enter comment here">
-            </div>
-            <input type="hidden" name="postSno" value="{{post.id}}">
-            <input type="hidden" name="parentSno" value="">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        {% else %} Please login to post a comment {% endif %}
-    </div>
-    {% for comment in comments %}
-    <div class="row my-3">
-        <div class="col-md-1  ">
-            <img class="rounded mx-auto d-block w-100 border border-dark p-2" src="/static/img/user.png" alt="user">
-        </div>
-        <div class="col-md-11 ">
-            <b> {{comment.commenter.username}} </b> <span class="badge badge-secondary ">{{comment.timestamp}}</span>
-            <div>{{comment.comment}}</div>
-            <div class="reply mx-0">
-                {% if user.is_authenticated %}
-                <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#replyBox{{comment.id_content}}" aria-expanded="false" aria-controls="replyBox{{comment.id}}">
-                    Reply
-                </button>
-                <div class="collapse" id="replyBox{{comment.id}}">
-                    <div class="card card-body my-2">
-                        <form action="/blog/postComment" method="post">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="comment">Post a reply </label>
-                                <input type="text" class="form-control" name="comment" placeholder="Enter comment here">
-                                <input type="hidden" name="parentSno" value="{{comment.id}}">
-                            </div>
-                            <input type="hidden" name="postSno" value="{{post.id}}">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-                {% else %}
-                <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#replyBox{{comment.id}}" aria-expanded="false" aria-controls="replyBox{{comment.id}}">
-                    Login to reply
-                </button> {% endif %}
-                <div class="replies my-2 ">
-                    {% for reply in replyDict %}
-                    <div class="row my-2">
-                        <div class="col-md-1 ">
-                            <img class="rounded mx-auto d-block w-75 my-2 border border-dark p-2" src="/static/img/user.png" alt="user">
-                        </div>
-                        <div class="col-md-11">
-                            <div class="col-md-11 ">
-                                <b> {{reply.comenter.username}} </b> <span class="badge badge-secondary ">{{reply.timestamp}}</span>
-                                <div>{{reply.comment}}</div>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                    {% endfor %}
+                <!-- Main comment form -->
+                <div class="my-3">
+                    {% if user.is_authenticated %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <button type="submit" class="btn btn-primary">Submit Comment</button>
+                    </form>
+                    {% else %}
+                    <p>Please <a href="{% url 'accounts:login' %}">login</a> to post a comment.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    {% endfor %}
 </div>
-{% endblock body %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    $(document).ready(function() {
+        // Helper to send vote request
+        function sendVote(id, voteType, action, onSuccess) {
+            $.ajax({
+                url: "{% url 'blog:vote' %}",
+                type: "POST",
+                headers: { 'X-CSRFToken': csrftoken },
+                data: { id: id, type: voteType, action: action },
+                success: onSuccess,
+                error: function() { alert('Error voting. Please try again.'); }
+            });
+        }
+
+        $('.vote-buttons .vote-up, .vote-buttons .vote-down').click(function() {
+            const $this = $(this);
+            const id = '{{ post.id }}';
+            const clickedType = $this.hasClass('vote-up') ? 'up' : 'down';
+            const oppositeType = clickedType === 'up' ? 'down' : 'up';
+            const $opposite = $('.vote-buttons .vote-' + oppositeType);
+
+            const isClickedSelected = $this.hasClass('selected');
+            const isOppositeSelected = $opposite.hasClass('selected');
+
+            // Case 1: Already selected -> recall (remove vote)
+            if (isClickedSelected) {
+                sendVote(id, clickedType, 'recall-vote', function(response) {
+                    let score = parseInt(response);
+                    if (!isNaN(score)) $('.vote-tally .num').text(score);
+                    $this.removeClass('selected');
+                });
+                return;
+            }
+
+            // Case 2: Opposite is selected -> recall opposite first, then cast this vote
+            if (isOppositeSelected) {
+                // First recall the opposite vote
+                sendVote(id, oppositeType, 'recall-vote', function() {
+                    // Then cast the new vote
+                    sendVote(id, clickedType, 'vote', function(response) {
+                        let score = parseInt(response);
+                        if (!isNaN(score)) $('.vote-tally .num').text(score);
+                        $this.addClass('selected');
+                        $opposite.removeClass('selected');
+                    });
+                });
+                return;
+            }
+
+            // Case 3: No vote selected -> just cast this vote
+            sendVote(id, clickedType, 'vote', function(response) {
+                let score = parseInt(response);
+                if (!isNaN(score)) $('.vote-tally .num').text(score);
+                $this.addClass('selected');
+                // Ensure opposite is not selected (shouldn't be, but just in case)
+                $opposite.removeClass('selected');
+            });
+        });
+
+        // Toggle reply forms
+        $('.reply-btn').click(function() {
+            var commentId = $(this).data('comment-id');
+            $('#reply-form-' + commentId).toggle();
+        });
+    });
+</script>
+{% endblock %}

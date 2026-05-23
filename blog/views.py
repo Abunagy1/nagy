@@ -323,6 +323,7 @@ def post_details(request, pk):
             comnt = form.save(commit=False)
             comnt.post = post # post field in comment model => related_name = comments related to post model
             comnt.commenter = request.user
+            comnt.active = True
             comnt.save()
             # Always return an HttpResponseRedirect after successfully dealing with Post request
             # redirect to a new URL:
@@ -372,7 +373,7 @@ def post_detailview(request, slug):
     post_obj = Post.objects.filter(slug=slug) # post_obj = Post.objects.filter(slug=slug).first()
     comments = Comment.objects.filter(post=post_obj) # to show post with comment
     if request.method == 'POST':
-        form = CommentForm(request.POST or None)
+        form = CommentForm(request.POST or None, request.FILES)
         if form.is_valid():
             # content = request.POST.get('content','post_id')
             # request.POST is a dictionary-like object that lets you access submitted data by key name (template context field var)
