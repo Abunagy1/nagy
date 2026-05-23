@@ -6,5 +6,6 @@ app_name = 'home'
 urlpatterns = [ # you can use the URL name to map the link in template <a href="{% url 'name' %}">URLText</a>
     #path('', views.HomeView.as_view(), name='index'),
     path('', views.index, name='index'), # <a href="/blog/">Home</a>  blog/
+    path('download-cv/', views.download_cv, name='download_cv'), 
 ] # <int/str/slug/uuid/path:pk/...>
 urlpatterns = format_suffix_patterns(urlpatterns)
