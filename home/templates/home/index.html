@@ -1,6 +1,11 @@
 {% extends 'base.html' %} {% load static %} {% block body %}
 <!-- Home Section Start -->
 <header id="home" class="home-area hero-equal-height section-padding" style="background-image: url('/static/a_data/header.JPG');">
+    <style>
+        #cv-download-btn {
+            color: white !important;
+        }
+    </style>
     <div class="container">
         <div class="row d-flex align-items-center">
             <div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2">
@@ -91,7 +96,8 @@
                             <p style="align-content: center; color: rgb(159, 157, 157);"><b>Long time ago, I started to learn about back-end web developing, frameworks like django & Express, but couldn't believe that i'll be among those who have grasp most of required knowledge about web-developing.</b></p>
                             <p style="color: rgb(159, 157, 157);"><b>Anyway here is my web site, that has some features by which I've tried to merge some experiences about the field. Please Explore my site to see all parts </b></p>
                             <!-- <a href="https://www.dropbox.com/s/jxn8geliji5pjxu/M-Nagy.pdf?dl=0" class="after-btn js-scroll"><b>Download my CV</b></a> -->
-                             <a href="{% url 'home:download_cv' %}" class="after-btn js-scroll"><b>Download my CV</b></a>
+                             <!-- <a href="{% url 'home:download_cv' %}" class="after-btn js-scroll" style="color: white !important;"><b>Download my CV</b></a> -->
+                             <a href="{% url 'home:download_cv' %}" class="after-btn js-scroll" id="cv-download-btn"><b>Download my CV</b></a>
                         </div>
                     </div>
                 </div>
@@ -537,4 +543,20 @@
     </div>
 </section>
 <!-- Testimonials Section End -->
+ <style>
+    /* Ultra-specific override for the CV download button */
+    .about-content a.after-btn.js-scroll#cv-download-btn,
+    .about-content a.after-btn.js-scroll#cv-download-btn:link,
+    .about-content a.after-btn.js-scroll#cv-download-btn:visited,
+    .about-content a.after-btn.js-scroll#cv-download-btn:hover,
+    .about-content a.after-btn.js-scroll#cv-download-btn:active {
+        color: white !important;
+    }
+</style>
+<style>
+    .about-content a#cv-download-btn,
+    .about-content a#cv-download-btn * {
+        color: white !important;
+    }
+</style>
 {% endblock body %}

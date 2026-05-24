@@ -1,6 +1,6 @@
 {% extends 'layout.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %}
 <section id="" class="about-area bg-dark section-padding">
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <nav class="navbar navbar-expand-sm navbar-gray bg-light secondary-navbar">
         <div class="container">
             {% if request.user.is_authenticated and request.path != '/blog/posts/' %}
             <a href="{% url 'blog:search' %}" class="navbar-brand">Search Our Posts</a>{% endif %}
@@ -8,9 +8,11 @@
                     <span class="navbar-toggler-icon"></span>
                     </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                {% if user.is_authenticated and request.path != '/contacts/thanks/' %}
                 <div class="navbar-nav">
                     <a href="{% url 'blog:maintainers' %}" class="nav-item nav-link  {% if request.path == '/' %}active{% endif %}">Blog maintainers</a>
                 </div>
+                {% endif %}
                 {% if request.user.is_authenticated and request.path != '/blog/posts/add/' %}
                 <div class="navbar-nav ml-auto">
                     <a href="{% url 'blog:add' %}" class="nav-item nav-link {% if request.path == '/posts/add/' %}active{% endif %}">
