@@ -49,9 +49,9 @@ from django.conf import settings
 
 def download_cv(request):
     # Path to your CV file
-    cv_path = os.path.join(settings.MEDIA_ROOT, 'cv', 'M-Nagy.pdf')
+    cv_path = os.path.join(settings.MEDIA_ROOT, 'cv', 'M.Nagy.pdf')
     if os.path.exists(cv_path):
         response = FileResponse(open(cv_path, 'rb'), content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="M-Nagy.pdf"'
+        response['Content-Disposition'] = 'attachment; filename="M.Nagy.pdf"'
         return response
     raise Http404("CV not found")
