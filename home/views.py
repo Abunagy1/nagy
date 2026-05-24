@@ -47,11 +47,26 @@ import os
 from django.http import FileResponse, Http404
 from django.conf import settings
 
+# def download_cv(request):
+#     # Path to your CV file
+#     cv_path = os.path.join(settings.MEDIA_ROOT, 'cv', 'M.Nagy.pdf')
+#     if os.path.exists(cv_path):
+#         response = FileResponse(open(cv_path, 'rb'), content_type='application/pdf')
+#         response['Content-Disposition'] = 'attachment; filename="M.Nagy.pdf"'
+#         return response
+#     raise Http404("CV not found")
 def download_cv(request):
-    # Path to your CV file
-    cv_path = os.path.join(settings.MEDIA_ROOT, 'cv', 'M.Nagy.pdf')
-    if os.path.exists(cv_path):
-        response = FileResponse(open(cv_path, 'rb'), content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="M.Nagy.pdf"'
-        return response
-    raise Http404("CV not found")
+    # Try multiple possible locations
+    possible_paths = [
+        os.path.join(settings.MEDIA_ROOT, 'cv', 'M.Nagy.pdf'),
+        os.path.join(settings.MEDIA_ROOT, 'M.Nagy.pdf'),
+        os.path.join(settings.BASE_DIR, 'static', 'cv', 'M.Nagy.pdf'),
+        os.path.join(settings.BASE_DIR, 'cv', 'M.Nagy.pdf'),
+    ]
+    for cv_path in possible_paths:
+        if os.path.exists(cv_path):
+            response = FileResponse(open(cv_path, 'rb'), content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="M.Nagy.pdf"'
+            return response
+    # If still not found, raise a clear error
+    raise Http404(f"CV not found. Looked in: {', '.join(possible_paths)}")
