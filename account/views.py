@@ -205,6 +205,7 @@ def sign_up(request):
     # redirect a user to the home page if he is already logged in
     if request.user.is_authenticated:
         return redirect('accounts:profile')
+    next_url = request.GET.get('next', '/accounts/profile')
     if request.method == 'POST':
         # replace UserCreationForm with SignUpForm for user acc. creation
         form = CustomUserCreationForm(request.POST) # instead of form = UserCreationForm(request.POST)
@@ -216,12 +217,13 @@ def sign_up(request):
             login(request, user)
             # display a nice message when a new user is registered
             messages.success(request, _('Your profile was successfully created!')) # messages.info(request,"Successfully Register ...")
-            return redirect('/accounts/profile')
+            return redirect(next_url)
         else:
-            return render(request, 'registration/signup.html', {'form': form})
+            return render(request, 'registration/signup.html', {'form': form, 'next': next_url})
     else:
         form = CustomUserCreationForm()   # replace UserCreationForm with SignUpForm == form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form, 'next': next_url})
+
 def register(request):
     if request.method == 'POST':
         form = MyCustomUserForm(request.POST)
@@ -314,6 +316,11 @@ class CustomUserLoginView(FormView):
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
         return render(request, self.template_name, {'form':form})
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        if next_url:
+            return next_url
+        return reverse('accounts:profile', kwargs={'username': self.request.user.username})
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
@@ -324,13 +331,13 @@ class CustomUserLoginView(FormView):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect(self.success_url)
+                    return HttpResponseRedirect(self.get_success_url())
                 else:
-                    return HttpResponse('User is not active') # TEMP
+                    return render(request, self.template_name, {'form': form, 'error': 'User is not active'}) # TEMP
             else:
-                return HttpResponse('User does not exist') # TEMP
+                return render(request, self.template_name, {'form': form, 'error': 'User does not exist'}) # TEMP
         else:
-            return HttpResponse('Form is not valid') # TEMP
+            return render(request, self.template_name, {'form': form})
 
 # or class based views using built in forms
 # for custom users models use custom authintication forms

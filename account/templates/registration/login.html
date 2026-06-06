@@ -25,6 +25,7 @@
             </form>
             <br>
             <p>Forgot your password? <a href="{% url 'accounts:password_reset' %}">Click here</a></p>
+            <p>Don't have an account? <a href="{% url 'accounts:signup' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Sign up here</a></p>
         </div>
     </div>
 </div>

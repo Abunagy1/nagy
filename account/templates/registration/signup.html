@@ -21,6 +21,9 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <p>{% bootstrap_form form %}</p>
+                {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                {% endif %}
                 <button type="submit" class="btn boxed-btn3">Sign up</button>
             </form>
         </div>
