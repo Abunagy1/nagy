@@ -51,7 +51,8 @@ class Category(models.Model):
 
 class Applicant(models.Model):
     name = models.CharField(max_length=100)
-    applicant = models.OneToOneField(User, related_name='applicant', on_delete=models.CASCADE)
+    applicant = models.ForeignKey(User, related_name='applications', on_delete=models.CASCADE)   # ← changed to ForeignKey
+    #applicant = models.OneToOneField(User, related_name='applicant', on_delete=models.CASCADE)
     job = models.ForeignKey(Job, related_name='apply', on_delete=models.CASCADE)
     email = models.CharField(max_length=100)
     website = models.URLField(blank=True)

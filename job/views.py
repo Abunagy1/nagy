@@ -1,4 +1,5 @@
 import datetime
+from pyexpat.errors import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -21,7 +22,7 @@ def job_list(request):
     page_obj = paginator.get_page(page_number)
     context = {'jobs': page_obj, 'filter': filter, 'jobs_list':jobs_list}  # jobs is the key name to use in template
     return render(request, 'job/jobs.html', context)
-
+@login_required
 def job_details(request, slug):
     job_details = Job.objects.get(slug=slug)
     if request.method == 'POST':
@@ -36,7 +37,9 @@ def job_details(request, slug):
             apply.save()
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect('/contacts/thanks')
+            messages.success(request, _('Your application has been submitted successfully!'))
+            return redirect('contacts:thanks')
+            # return HttpResponseRedirect('/contacts/thanks')
     # if a GET (or any other method) we'll create a blank form
     else:
         form = Apply()
